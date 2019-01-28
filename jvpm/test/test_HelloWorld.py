@@ -9,13 +9,19 @@ class TestHelloWorld(unittest.TestCase):
         jvpm.HelloWorld.HelloWorld()
         sys.stdout.assert_has_calls(
             [
-                call.write('Hello world'), 
+                call.write('Hello world'),
                 call.write('\n'),
-                call.write('Brian Pedersen'), 
+                call.write('Team 5 is:'),
+                call.write('\n'),
+                call.write('Brian Pedersen'),
                 call.write('\n'),
                 call.write('Jake Schnorr'),
                 call.write('\n'),
                 call.write('Megan Stucky'),
-                call.write('\n'),call.write("James Thomas"),call.write("\n")
-            ]    
+                call.write('\n'),
+                call.write("James Thomas"),
+                call.write("\n"),
+                call.write('Nate Roberts'),
+                call.write('\n'),
+            ]
         )
