@@ -11,4 +11,5 @@ class TestHelloWorld(unittest.TestCase):
             [call.write('Hello world'), call.write('\n')],
             [call.write('Brian Pedersen'), call.write('\n')]
             [call.write('Jake Schnorr'), call.write('\n')]
+            [call.write('Megan Stucky'), call.write('\n')]
         )
