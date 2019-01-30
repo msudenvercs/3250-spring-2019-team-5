@@ -24,8 +24,8 @@ class TestHelloWorld(unittest.TestCase):
                 call.write('Nate Roberts'),
                 call.write('\n'),
                 call.write('John Shapiro'),
-                call.write('\n')
-		call.write('Kelly Trujillo'),
+                call.write('\n'),
+		        call.write('Kelly Trujillo'),
                 call.write('\n')
             ]
         )
