@@ -19,13 +19,13 @@ class TestHelloWorld(unittest.TestCase):
                 call.write('\n'),
                 call.write('Megan Stucky'),
                 call.write('\n'),
-                call.write("James Thomas"),
-                call.write("\n"),
+                call.write('James Thomas'),
+                call.write('\n'),
                 call.write('Nate Roberts'),
                 call.write('\n'),
                 call.write('John Shapiro'),
                 call.write('\n'),
-		        call.write('Kelly Trujillo'),
+		call.write('Kelly Trujillo'),
                 call.write('\n'),
             ]
         )
