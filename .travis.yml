@@ -13,4 +13,4 @@ script:
   - coverage run --omit=*test* -m unittest
   
 after_success:
-  -codecov
+  - codecov
