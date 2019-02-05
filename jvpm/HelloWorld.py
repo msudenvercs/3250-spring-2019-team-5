@@ -9,4 +9,4 @@ def HelloWorld():
     print("John Shapiro")
     print("Kelly Trujillo")
 if '__main__' == __name__:
-    HelloWorld()
+    HelloWorld()  # pragma: no cover
