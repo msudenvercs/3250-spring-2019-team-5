@@ -1,3 +1,4 @@
 #Dev
 #Add libraries that must first be installed
 coverage
+codecov
