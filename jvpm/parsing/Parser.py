@@ -16,6 +16,14 @@ class Parser:
         self.jvm.major_version = self.getBytes(2)
     def get_constant_pool_count(self):
         self.jvm.constant_pool_count = self.getBytes(2)
+    def get_access_flags(self):
+        self.jvm.access_flags = self.getBytes(2)
+    def get_this_class(self):
+        self.jvm.this_class = self.getBytes(2)
+    def get_superclass(self):
+        self.jvm.superclass = self.getBytes(2)
+    def get_interfaces_count(self):
+        self.jvm.interfaces_count = self.getBytes(2)
 class Jvm:
     def __init__(self):
         pass
