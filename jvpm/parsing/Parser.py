@@ -24,6 +24,20 @@ class Parser:
         self.jvm.superclass = self.getBytes(2)
     def get_interfaces_count(self):
         self.jvm.interfaces_count = self.getBytes(2)
+#this method gets the interfaces implemented by this class. Each interface is a 2-byte index into the constant pool that refers to an interface.
+    def get_interfaces(self):
+        raw_bytes = self.jvm.interfaces_count
+        num_interfaces = 256*raw_bytes[0]+raw_bytes[1]
+        interfaces = []
+        for i in range(num_interfaces):
+            interfaces.append(self.getBytes(2))
+        self.jvm.interfaces = interfaces
+    def get_fields_count(self):
+        self.jvm.fields_count = self.getBytes(2)
+    def get_methods_count(self):
+        self.jvm.methods_count = self.getBytes(2)
+    def get_attributes_count(self):
+        self.jvm.attributes_count = self.getBytes(2)
 class Jvm:
     def __init__(self):
         pass
