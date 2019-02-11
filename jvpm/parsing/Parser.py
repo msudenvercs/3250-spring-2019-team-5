@@ -59,6 +59,17 @@ class Parser:
 #because I don't want to have a huge if-else statement, I will store the functions to get each type of constant in a lookup table indexed by the tag. Then, I will get the tag, look up the function, and then call it. I am allowed to do this because in python, functions are objects.
         tag = self.getBytes(1)
         return self.constant_table[tag](self)
+#the prior method retrieves a single constant, but now I will retrieve all of the constants from the class file.
+    def get_all_constants(self):
+#The number of constants to retrieve is equal to constant_pool_count-1. The java language specification states that indexes into the constant pool begin at 1. To solve both of these problems, I will initialize the first element of the array to be used as the constant pool with a first element of None.
+        constants = [None]
+#convert the constant_pool_count to a number
+        constant_pool_length = 256*self.jvm.constant_pool_count[0]+self.jvm.constant_pool_count[1]
+#I know I am done retrieving constants when the length of the constant pool array reaches constant_pool_count
+        while len(constants) != constant_pool_length: #I can rely on this field since it always comes before the actual constants in the class file.
+            self.get_constant().add_to_pool(constants)
+#now, store it in the jvm object for later use.
+        self.jvm.constant_pool = constants
 class Jvm:
     def __init__(self):
         pass

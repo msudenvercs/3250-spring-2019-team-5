@@ -3,6 +3,9 @@
 class Constant:
     def __init__(self):
         pass
+#I have discovered that long and double constants take 2 entries in the constant pool. To solve this, I will create a method named add_to_pool. This method will take an array in which the constant pool will be stored. By default, the constant will simply be added to the array. However, for long and double, it will be overridden such that it adds the constant as well as the dummy value None to the constant pool. Technically, I could have chosen any value to go in that second slot since it is never used, but I have chosen None so that if the second slot somehow gets used, an exception will be thrown.
+    def add_to_pool(self,pool):
+        pool.append(self)
 class ConstClass(Constant):
     def __init__(self,name_index):
         self.name_index = name_index
@@ -31,10 +34,17 @@ class ConstLong(Constant):
     def __init__(self,high_bytes,low_bytes):
         self.high_bytes = high_bytes
         self.low_bytes = low_bytes
+    def add_to_pool(self,pool):
+        pool.append(self)
+        pool.append(None)
 class ConstDouble(Constant):
     def __init__(self,high_bytes,low_bytes):
         self.high_bytes = high_bytes
         self.low_bytes = low_bytes
+    def add_to_pool(self,pool):
+        pool.append(self)
+        pool.append(None)
+
 class ConstNameAndType(Constant):
     def __init__(self,name_index,descriptor_index):
         self.name_index = name_index
