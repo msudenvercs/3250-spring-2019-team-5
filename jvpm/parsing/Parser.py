@@ -70,6 +70,25 @@ class Parser:
             self.get_constant().add_to_pool(constants)
 #now, store it in the jvm object for later use.
         self.jvm.constant_pool = constants
+#gets the number of attributes indicated by count. This method will be used later in the parsing of fields and methods
+    def get_attributes(self,count):
+        attributes = []
+        for i in range(count):
+            attribute_name_index = self.getBytes(2)
+            attribute_length = self.getBytes(4)
+            a = (1<<24)*attribute_length[0]
+            b = (1<<16)*attribute_length[1]
+            c = (1<<8)*attribute_length[2]
+            d = attribute_length[3]
+            info = self.getBytes(a+b+c+d)
+            attributes.append(Attribute(attribute_name_index,attribute_length,info))
+        self.jvm.attributes = attributes
+#this class represents a single attribute.
+class Attribute:
+    def __init__(self,attribute_name_index,attribute_length,info):
+        self.attribute_name_index = attribute_name_index
+        self.attribute_length = attribute_length
+        self.info = info
 class Jvm:
     def __init__(self):
         pass
