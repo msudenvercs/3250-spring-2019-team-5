@@ -3,7 +3,7 @@ from jvpm.parsing.Parser import *
 class TestAttributes(TestCase):
     def test_attributes(self):
         p = Parser(b"fu\x00\x00\x00\x05hellonb\x00\x00\x00\x07goodbyell\x00\x00\x00\x20the sun will come out tomorrow  ")
-        attributes = p.get_attributes(3)
+        attributes = p.get_jvm_attributes(3)
         a = p.jvm.attributes[0]
         self.assertEqual(type(a),Attribute)
         self.assertEqual(a.attribute_name_index,b"fu")

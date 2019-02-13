@@ -82,7 +82,31 @@ class Parser:
             d = attribute_length[3]
             info = self.getBytes(a+b+c+d)
             attributes.append(Attribute(attribute_name_index,attribute_length,info))
-        self.jvm.attributes = attributes
+        return attributes
+#this method gets the attributes for the jvm. This is a separate method because get_attributes must be used in several different places (namely in get_fields and get_methods), so it cannot simply store its result in self.jvm.attributes.
+    def get_jvm_attributes(self,count):
+        self.jvm.attributes = self.get_attributes(count)
+
+#this method gets a number of fields indicated by count.
+    def get_fields(self,count):
+        fields = []
+        for i in range(count):
+            access_flags = self.getBytes(2)
+            name_index = self.getBytes(2)
+            descriptor_index = self.getBytes(2)
+            attributes_count = self.getBytes(2)
+            num = 256*attributes_count[0]+attributes_count[1]
+            attributes = self.get_attributes(num)
+            fields.append(Field(access_flags,name_index,descriptor_index,attributes_count,attributes))
+        self.jvm.fields = fields
+#this class represents a single field
+class Field:
+    def __init__(self,access_flags,name_index,descriptor_index,attributes_count,attributes):
+        self.access_flags = access_flags
+        self.name_index = name_index
+        self.descriptor_index = descriptor_index
+        self.attributes_count = attributes_count
+        self.attributes = attributes
 #this class represents a single attribute.
 class Attribute:
     def __init__(self,attribute_name_index,attribute_length,info):
