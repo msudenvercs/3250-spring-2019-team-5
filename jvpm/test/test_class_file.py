@@ -6,9 +6,9 @@ class TestClassFile(unittest.TestCase):
     """this class tests the ClassFileClass"""
     def setUp(self):
         """set up the test"""
-        mock_object = mock_open(read_data=b'\xCA\xFE\xBA\xBE\x00\x00\x004\x00\x1d')
+        mock_object = mock_open(read_data=b'\xCA\xFE\xBA\xBE\x00\x00\x004\x00\x0f')
         with patch(__name__ + '.open', mock_object):
-            self.class_file = ClassFile('Test.class')
+            self.class_file = ClassFile('C:\\Users\\John Shapiro\\3250-spring-2019-team-5\\jvpm\\Test.class')
 
     def test_magic(self):
         """tests the get_magic method"""
@@ -24,4 +24,4 @@ class TestClassFile(unittest.TestCase):
 
     def test_constant_pool_count(self):
         """tests the get_constant_pool_count method"""
-        self.assertEqual(self.class_file.get_constant_pool_count(), b"\x00\x1d")
+        self.assertEqual(self.class_file.get_constant_pool_count(), b"\x00\x0f")
