@@ -1,5 +1,5 @@
 """the main program"""
-from class_file import ClassFile
+from jvpm.class_file import ClassFile
 def main():
     """hack to make pylint shut up"""
     file_name = input("Which file do you wish to parse?")
