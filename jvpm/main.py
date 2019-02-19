@@ -1,6 +1,7 @@
+#https://stackoverflow.com/questions/23417941/import-error-no-module-named-does-exist
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 """the main program"""
 from jvpm.class_file import ClassFile
