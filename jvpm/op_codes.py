@@ -8,8 +8,8 @@ class OpCodes():
         self.table = {0x00: not_implemented}
 
     def parse_codes(self):
-        for i, data in enumerate(self.data):
-        
+        """this method searches the binary for only the opcodes we know are in it"""
+        for i, data in enumerate(self.data):        
             if i > 182:
                 if data == 0x2a:
                     print('aload_0')
