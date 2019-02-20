@@ -1,5 +1,16 @@
-"""the main program"""
+"""
+
+This is a simple program James created so we could have something to demo at the end of sprint 2
+and will not be included in the final product.
+
+"""
+#https://stackoverflow.com/questions/23417941/import-error-no-module-named-does-exist
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 from jvpm.class_file import ClassFile
+#the main program
 def main():
     """hack to make pylint shut up"""
     file_name = input("Which file do you wish to parse?")
