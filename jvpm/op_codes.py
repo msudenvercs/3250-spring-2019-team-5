@@ -3,13 +3,13 @@ class OpCodes():
     """This class is used for the interpretation of opcodes"""
     def __init__(self):
         """this is the constructor"""
-        with open ('jvpm/Test.class', 'rb') as binary_file:
+        with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = binary_file.read()
         self.table = {0x00: not_implemented}
 
     def parse_codes(self):
         """this method searches the binary for only the opcodes we know are in it"""
-        for i, data in enumerate(self.data):        
+        for i, data in enumerate(self.data):
             if i > 182:
                 if data == 0x2a:
                     print('aload_0')

@@ -13,7 +13,7 @@ from jvpm.class_file import ClassFile
 #the main program
 def main():
     """hack to make pylint shut up"""
-    file_name = input("Which file do you wish to parse?")
+    file_name = input("Which file do you wish to parse? ")
     class_file = ClassFile(file_name)
     magic = class_file.get_magic()
     minor = class_file.get_minor()
