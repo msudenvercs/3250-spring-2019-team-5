@@ -8,7 +8,7 @@ class TestOpCodes(unittest.TestCase):
     def test_op_codes(self, mock_patch):
         """this method performs the op code test"""
         op_code = OpCodes()
-        op_code.parse_codes()
+        op_code.parse_codes(183)
         self.assertEqual(mock_patch.mock_calls, [
             call.write('aload_0'),
             call.write('invokespecial'),
@@ -21,9 +21,4 @@ class TestOpCodes(unittest.TestCase):
     def test_not_implmented(self):
         """this method tests the OpCodes class"""
         self.assertEqual(OpCodes().interpret(0), 'not implemented')
-
-    def test_mph1(self):
-        """a"""
-        self.assertEqual(OpCodes().mph1(), OpCodes().table)
-        with self.assertRaises(KeyError):
-            OpCodes().interpret(1)
+        

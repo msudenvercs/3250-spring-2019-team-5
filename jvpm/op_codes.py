@@ -32,7 +32,7 @@ def not_implemented(self):
     return 'not implemented'
 
 def aload_0(self):
-    """this is a dummy method"""
+    """print aload_0 and advance bytes by one"""
     print('aload_0')
     self.byte_count +=1
 
@@ -53,13 +53,10 @@ def iinc(self):
     print('iinc')
 
 def invokespecial(self):
+    """read 2 bytes to perform a task. Note: this is not the actual task"""
     byte_1 = self.data[self.byte_count + 1]
     byte_2 = self.data[self.byte_count + 2]
     self.byte_count += 3
     byte_1 + byte_2
     print('invokespecial')
     
-
-if __name__ == '__main__':
-    op = OpCodes()
-    op.parse_codes(183)
