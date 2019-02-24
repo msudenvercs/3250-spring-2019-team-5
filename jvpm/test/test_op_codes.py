@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch, call
 import numpy
 from jvpm.op_codes import iadd, isub
+from jvpm.op_codes import imul
 from jvpm.op_codes import OpCodes
 numpy.warnings.filterwarnings("ignore")
 
@@ -53,3 +54,12 @@ class TestOpCodes(unittest.TestCase):
         isub(op_code)
         self.assertEqual(op_code.stack.peek(), 7)
         self.assertEqual(op_code.byte_count, 2)
+    def test_multiply(self):
+        """tests the imul opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int32(2000000000))
+        op_code.stack.push_op(numpy.int32(1000000000))
+
+        imul(op_code)
+        self.assertEqual(op_code.stack.peek(), 1321730048)
+        self.assertEqual(op_code.byte_count, 1)

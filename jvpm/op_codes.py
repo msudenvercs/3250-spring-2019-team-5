@@ -19,6 +19,7 @@ class OpCodes():
                       0xb7: invokespecial,
                       0x60: iadd,
                       0x64: isub,
+                      0x68: imul,
                       0x00: not_implemented}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -83,6 +84,12 @@ def isub(self):
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1-val2)
+    self.byte_count += 1
+def imul(self):
+    """implements the imul opcode"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    self.stack.push_op(val1*val2)
     self.byte_count += 1
 if __name__ == '__main__':
     OP = OpCodes()
