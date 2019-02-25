@@ -4,6 +4,7 @@ from unittest.mock import patch, call
 import numpy
 from jvpm.op_codes import iadd, isub
 from jvpm.op_codes import imul
+from jvpm.op_codes import idiv, irem
 from jvpm.op_codes import OpCodes
 numpy.warnings.filterwarnings("ignore")
 
@@ -62,4 +63,22 @@ class TestOpCodes(unittest.TestCase):
 
         imul(op_code)
         self.assertEqual(op_code.stack.peek(), 1321730048)
+        self.assertEqual(op_code.byte_count, 1)
+    def test_divide(self):
+        """tests the idiv opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int32(128))
+        op_code.stack.push_op(numpy.int32(-3))
+
+        idiv(op_code)
+        self.assertEqual(op_code.stack.peek(), -42)
+        self.assertEqual(op_code.byte_count, 1)
+    def test_mod(self):
+        """tests the irem opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int32(128))
+        op_code.stack.push_op(numpy.int32(-3))
+
+        irem(op_code)
+        self.assertEqual(op_code.stack.peek(), 2)
         self.assertEqual(op_code.byte_count, 1)

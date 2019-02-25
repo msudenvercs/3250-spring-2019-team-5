@@ -4,7 +4,7 @@ import numpy #to get the java-like behavior for arithmetic
 from jvpm.jvm_stack import JvmStack
 
 #shuts off the overflow warnings from numpy
-numpy.seterr(all="ignore")
+numpy.seterr(over="ignore", under="ignore")
 class OpCodes():
     """This class is used for the interpretation of opcodes"""
     def __init__(self):
@@ -20,6 +20,8 @@ class OpCodes():
                       0x60: iadd,
                       0x64: isub,
                       0x68: imul,
+                      0x6c: idiv,
+                      0x70: irem,
                       0x00: not_implemented}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -91,6 +93,28 @@ def imul(self):
     val1 = self.stack.pop_op()
     self.stack.push_op(val1*val2)
     self.byte_count += 1
+def idiv(self):
+    """implements the idiv opcode"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    self.stack.push_op(numpy.int32(val1/val2))
+    self.byte_count += 1
+#irem will be implemented in terms of the other operations.
+#a%b = a-(a/b)*b
+def irem(self):
+    """implements the irem opcode"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    self.stack.push_op(val1)
+    self.stack.push_op(val1)
+    self.stack.push_op(val2)
+    idiv(self)
+    self.stack.push_op(val2)
+    imul(self)
+    isub(self)
+#fixes a bug where byte_count is incremented too many times
+    self.byte_count -= 2
+
 if __name__ == '__main__':
     OP = OpCodes()
     OP.parse_codes(183)
