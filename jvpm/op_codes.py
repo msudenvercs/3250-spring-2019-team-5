@@ -6,7 +6,7 @@ from jvpm.jvm_stack import JvmStack
 #shuts off the overflow warnings from numpy
 numpy.seterr(over="ignore", under="ignore")
 class OpCodes():
-    """This class is used for the interpretation of opcodes"""
+    """This class interprets opcodes"""
     def __init__(self):
         """this is the constructor"""
         with open('jvpm/Test.class', 'rb') as binary_file:
