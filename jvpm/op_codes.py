@@ -120,30 +120,30 @@ def irem(self):
     self.byte_count -= 2
 
 def iand(self):
-    # Perform bitwise AND on the top two operands on the stack
-    a = self.stack.pop_op()
-    b = self.stack.pop_op()
-    self.stack.push_op(a&b)
+    """Perform bitwise AND on the top two operands on the stack."""
+    this_val = self.stack.pop_op()
+    that_val = self.stack.pop_op()
+    self.stack.push_op(this_val & that_val)
     self.byte_count += 1
 
 def ineg(self):
-    # Perform bitwise NOT on the top operand on the stack
-    n = self.stack.pop_op()
-    self.stack.push_op(~n)
+    """ Perform bitwise NOT on the top operand on the stack. """
+    not_this = self.stack.pop_op()
+    self.stack.push_op(~not_this)
     self.byte_count += 1
 
 def ior(self):
-    # Perform bitwise OR on the top two operands on the stack
-    a = self.stack.pop_op()
-    b = self.stack.pop_op()
-    self.stack.push_op(a | b)
+    """ Perform bitwise OR on the top two operands on the stack. """
+    this_val = self.stack.pop_op()
+    that_val = self.stack.pop_op()
+    self.stack.push_op(this_val | that_val)
     self.byte_count += 1
 
 def ixor(self):
-    # Perform bitwise XOR on the top two operands on the stack
-    a = self.stack.pop_op()
-    b = self.stack.pop_op()
-    self.stack.push_op(a ^ b)
+    """ Perform bitwise XOR on the top two operands on the stack. """
+    this_val = self.stack.pop_op()
+    that_val = self.stack.pop_op()
+    self.stack.push_op(this_val ^ that_val)
     self.byte_count += 1
 
 if __name__ == '__main__':
