@@ -115,6 +115,33 @@ def irem(self):
 #fixes a bug where byte_count is incremented too many times
     self.byte_count -= 2
 
+def iand(self):
+    # Perform bitwise AND on the top two operands on the stack
+    a = self.stack.pop_op()
+    b = self.stack.pop_op()
+    self.stack.push_op(a&b)
+    self.byte_count += 1
+
+def ineg(self):
+    # Perform bitwise NOT on the top operand on the stack
+    n = self.stack.pop_op()
+    self.stack.push_op(~n)
+    self.byte_count += 1
+
+def ior(self):
+    # Perform bitwise OR on the top two operands on the stack
+    a = self.stack.pop_op()
+    b = self.stack.pop_op()
+    self.stack.push_op(a | b)
+    self.byte_count += 1
+
+def ixor(self):
+    # Perform bitwise XOR on the top two operands on the stack
+    a = self.stack.pop_op()
+    b = self.stack.pop_op()
+    self.stack.push(a ^ b)
+    self.stack.byte_count += 1
+
 if __name__ == '__main__':
     OP = OpCodes()
     OP.parse_codes(183)
