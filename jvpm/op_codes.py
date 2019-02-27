@@ -22,6 +22,10 @@ class OpCodes():
                       0x68: imul,
                       0x6c: idiv,
                       0x70: irem,
+                      0x7e: iand,
+                      0x74: ineg,
+                      0x80: ior,
+                      0x82: ixor,
                       0x00: not_implemented}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -139,8 +143,8 @@ def ixor(self):
     # Perform bitwise XOR on the top two operands on the stack
     a = self.stack.pop_op()
     b = self.stack.pop_op()
-    self.stack.push(a ^ b)
-    self.stack.byte_count += 1
+    self.stack.push_op(a ^ b)
+    self.byte_count += 1
 
 if __name__ == '__main__':
     OP = OpCodes()

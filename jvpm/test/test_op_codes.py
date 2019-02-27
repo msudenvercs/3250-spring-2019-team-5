@@ -6,6 +6,7 @@ from jvpm.op_codes import iadd, isub
 from jvpm.op_codes import imul
 from jvpm.op_codes import idiv, irem
 from jvpm.op_codes import OpCodes
+from jvpm.op_codes import iand, ineg, ior, ixor
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -83,41 +84,41 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(op_code.stack.peek(), 2)
         self.assertEqual(op_code.byte_count, 1)
 
-def test_iand(self):
-    # Test the iand opcode using 240 (1111 0000) and 15 (0000 1111)
-    # Expected result: 0 (0000 0000)
-    ops = OpCodes()
-    ops.stack.push_op(240)
-    ops.stack.push_op(15)
-    iand(ops)
-    self.assertEqual(ops.stack.peek(), 0)
-    self.assertEqual(ops.byte_count, 1)
+    def test_iand(self):
+        # Test the iand opcode using 240 (1111 0000) and 15 (0000 1111)
+        # Expected result: 0 (0000 0000)
+        ops = OpCodes()
+        ops.stack.push_op(240)
+        ops.stack.push_op(15)
+        iand(ops)
+        self.assertEqual(ops.stack.peek(), 0)
+        self.assertEqual(ops.byte_count, 1)
 
-def test_ineg(self):
-    # Test the ineg opcode using 14 (1110)
-    # Expected result: 1 (0001)
-    ops = OpCodes()
-    ops.stack.push_op(240)
-    ineg(ops)
-    self.assertEqual((ops.stack.peek(), 14)
-    self.assertEqual(ops.byte_count, 1)
+    def test_ineg(self):
+        # Test the ineg opcode using 14 (1110)
+        # Expected result: 1 (0001)
+        ops = OpCodes()
+        ops.stack.push_op(254)
+        ineg(ops)
+        self.assertEqual(ops.stack.peek(), -255)
+        self.assertEqual(ops.byte_count, 1)
 
-def test_ior(self):\
-    # Test the ior opcode using 240 (1111 0000) and 15 (0000 1111)
-    # Expected result: 255 (1111 1111)
-    ops = OpCodes()
-    ops.stack.push_op(240)
-    ops.stack.push_op(15)
-    ior(ops)
-    self.assertEqual(ops.stack.peek(), 255)
-    self.assertEqual(ops.byte_count, 1)
+    def test_ior(self):
+        # Test the ior opcode using 240 (1111 0000) and 15 (0000 1111)
+        # Expected result: 255 (1111 1111)
+        ops = OpCodes()
+        ops.stack.push_op(240)
+        ops.stack.push_op(15)
+        ior(ops)
+        self.assertEqual(ops.stack.peek(), 255)
+        self.assertEqual(ops.byte_count, 1)
 
-def test_ixor(self):
-    # Test the ixor opcode using 255 (1111 1111) and 81 (1000 0001)
-    # Expected result: 126 (0111 1110)
-    ops = OpCodes()
-    ops.stack.push_op(255)
-    ops.stack.push_op(81)
-    ixor(ops)
-    self.assertEqual(ops.stack.peek(), 126)
-    self.assertEqual(ops.byte_count, 1)
+    def test_ixor(self):
+        # Test the ixor opcode using 255 (1111 1111) and 129 (1000 0001)
+        # Expected result: 126 (0111 1110)
+        ops = OpCodes()
+        ops.stack.push_op(255)
+        ops.stack.push_op(129)
+        ixor(ops)
+        self.assertEqual(ops.stack.peek(), 126)
+        self.assertEqual(ops.byte_count, 1)
