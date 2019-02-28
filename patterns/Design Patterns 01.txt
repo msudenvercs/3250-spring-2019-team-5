@@ -1,0 +1,343 @@
+Design Patterns 01 
+
+
+
+
+Wikipedia 
+
+
+• 
+A software design pattern is a general reusable 
+solution to a commonly-occurring problem 
+within a given context in software design 
+• 
+It is not a finished design that can be 
+transformed directly into source or machine 
+code 
+• 
+It is a description or template for how to solve a 
+problem that can be used in many different 
+situations 
+
+Wikipedia 
+
+
+• 
+Design patterns are formalized best practices 
+that the programmer can use to solve 
+common problems when designing an 
+application or system 
+• 
+Object-oriented design patterns typically show 
+relationships and interactions between classes 
+or objects, without specifying the final 
+application classes or objects that are involved 
+
+Why Talk About Design Patterns? 
+
+• 
+Creates a shared vocabulary 
+– 
+Developers can interact in richer terms 
+• 
+Keeps thinking/designing at the abstract 
+(pattern) level 
+– 
+Creates better (more flexible, reusable, etc.) 
+designs 
+
+Origin 
+
+
+• 
+Patterns originated as an architectural concept 
+by Christopher Alexander (1977/79) 
+• 
+In 1987, Kent Beck and Ward Cunningham 
+began experimenting with the idea of applying 
+patterns to programming – specifically pattern 
+languages – and presented their results at the 
+OOPSLA conference that year 
+
+Christopher Alexander 
+
+
+• 
+In software, Alexander is regarded as the 
+father of the pattern language movement 
+• 
+The first wiki—the technology behind 
+Wikipedia—led directly from Alexander's 
+work, according to its creator, Ward 
+Cunningham 
+• 
+Alexander's work has also influenced the 
+development of agile software development 
+
+Christopher Alexander 
+
+• 
+A Pattern Language: Towns, Buildings, 
+Construction (1977) described a practical 
+architectural system in a form that a 
+theoretical mathematician or computer 
+scientist might call a generative grammar. 
+• 
+The Timeless Way of Building (1979) 
+
+Christopher Alexander 
+
+
+• 
+Alexander's Notes on the Synthesis of Form 
+was said to be required reading for researchers 
+in computer science throughout the 1960’s 
+• 
+It had an influence in the 1960s and 1970s on 
+programming language design, modular 
+programming, object-oriented programming, 
+software engineering and other design 
+methodologies 
+
+Christopher Alexander 
+
+
+• 
+Alexander's mathematical concepts and 
+orientation were similar to Edsger Dijkstra's 
+influential A Discipline of Programming 
+
+Wide Influence 
+
+
+• 
+Will Wright wrote that Alexander's work was 
+influential in the origin of the SimCity 
+computer games, and in his later game Spore 
+
+Groups and Concepts 
+
+
+• 
+Design patterns were originally grouped into 
+the categories 
+– 
+creational patterns 
+– 
+structural patterns, and 
+– 
+behavioral patterns 
+• 
+and described using the concepts of 
+– 
+delegation, 
+– 
+aggregation, and 
+– 
+consultation 
+
+Doco 
+
+
+• 
+Pattern Name and Classification: A descriptive 
+and unique name that helps in identifying and 
+referring to the pattern 
+• 
+Intent: A description of the goal behind the 
+pattern and the reason for using it. Also 
+Known As: Other names for the pattern 
+
+Doco 
+
+
+• 
+Motivation (Forces): A scenario consisting of a 
+problem and a context in which this pattern 
+can be used 
+• 
+Applicability: Situations in which this pattern is 
+usable; the context for the pattern 
+• 
+Structure: A graphical representation of the 
+pattern 
+
+Doco 
+
+
+• 
+Class diagrams and Interaction diagrams may 
+be used for this purpose 
+• 
+Participants: A listing of the classes and 
+objects used in the pattern and their roles in 
+the design 
+• 
+Collaboration: A description of how classes 
+and objects used in the pattern interact with 
+each other 
+
+Doco 
+
+
+• 
+Consequences: A description of the results, 
+side effects, and trade offs caused by using the 
+pattern 
+• 
+Implementation: the solution part of the 
+pattern 
+• 
+Sample Code: An illustration of how the 
+pattern can be used in a programming 
+language 
+
+Doco 
+
+
+• 
+Known Uses: Examples of real usages of the 
+pattern 
+• 
+Related Patterns: Other patterns that have 
+some relationship with the pattern; discussion 
+of the differences between the pattern and 
+similar patterns 
+
+First Design Principle 
+
+
+• 
+Identify the aspects of your application that 
+vary and separate them from what stays the 
+same 
+• 
+You can alter or extend without affecting other 
+parts 
+• 
+Basis of almost every design pattern 
+
+First Design Principle 
+
+• 
+Also creates more easily reusable objects 
+• 
+Objects delegate behavior to other objects 
+
+Second Design Principle 
+
+
+• 
+Program to an interface, not an 
+implementation 
+– 
+Not necessarily a Java interface 
+– 
+Program to a supertype 
+• 
+private Map<String, Boolean> urls =
+new ConcurrentHashMap<String,
+Boolean>(); 
+– 
+Can then better use polymorphism 
+– 
+Can more easily change implementation 
+
+Third Design Principle 
+
+• 
+Favor composition over inheritance 
+• 
+Favor has-a relationships over is-a 
+relationships 
+• 
+Inheritance limits reusability 
+
+Strategy Pattern 
+
+
+• 
+Defines a family of algorithms, encapsulates 
+each one, and makes them interchangeable 
+• 
+Strategy lets the algorithm vary independently 
+from the clients that use it 
+
+Strategy UML 
+
+
+
+
+Sample code
+The following example is in Java.
+import java.util.ArrayList;
+
+@FunctionalInterface
+interface BillingStrategy {
+    // use a price in cents to avoid floating point round-off error
+    int getActPrice(int rawPrice);
+  
+    //Normal billing strategy (unchanged price)
+    static BillingStrategy normalStrategy() {
+        return rawPrice -> rawPrice;
+    }
+  
+    //Strategy for Happy hour (50% discount)
+    static BillingStrategy happyHourStrategy() {
+        return rawPrice -> rawPrice / 2;
+    }
+}
+
+class Customer {
+    private final ArrayList<Integer> drinks = new ArrayList<>();
+    private BillingStrategy strategy;
+
+    public Customer(BillingStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void add(int price, int quantity) {
+        this.drinks.add(this.strategy.getActPrice(price*quantity));
+    }
+
+    // Payment of bill
+    public void printBill() {
+        int sum = this.drinks.stream().mapToInt(v -> v).sum();
+        System.out.println("Total due: " + sum / 100.0);
+        this.drinks.clear();
+    }
+
+    // Set Strategy
+    public void setStrategy(BillingStrategy strategy) {
+        this.strategy = strategy;
+    }
+}
+
+public class StrategyPattern {
+    public static void main(String[] arguments) {
+        // Prepare strategies
+        BillingStrategy normalStrategy    = BillingStrategy.normalStrategy();
+        BillingStrategy happyHourStrategy = BillingStrategy.happyHourStrategy();
+
+        Customer firstCustomer = new Customer(normalStrategy);
+
+        // Normal billing
+        firstCustomer.add(100, 1);
+
+        // Start Happy Hour
+        firstCustomer.setStrategy(happyHourStrategy);
+        firstCustomer.add(100, 2);
+
+        // New Customer
+        Customer secondCustomer = new Customer(happyHourStrategy);
+        secondCustomer.add(80, 1);
+        // The Customer pays
+        firstCustomer.printBill();
+
+        // End Happy Hour
+        secondCustomer.setStrategy(normalStrategy);
+        secondCustomer.add(130, 2);
+        secondCustomer.add(250, 1);
+        secondCustomer.printBill();
+    }
+}
