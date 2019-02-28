@@ -14,15 +14,11 @@ script:
   
 after_success:
   - codecov
-<<<<<<< HEAD
-=======
   
 addons:
   sonarcloud:
     organization: "sonarcloud_organization_key" # the key of the org you chose at step #3
-    token:
-      secure: ********* # encrypted value of your token
+    token: ${SONAR_TOKEN}
 script:
   # other script steps might be done before running the actual analysis
   - sonar-scanner
->>>>>>> 4304cb110a8f27c21bdc1f404812bb34dd49acef
