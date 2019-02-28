@@ -1,8 +1,4 @@
 #Dev
 #Add libraries that must first be installed
 coverage
-<<<<<<< HEAD
 codecov
-=======
-codecov
->>>>>>> 4304cb110a8f27c21bdc1f404812bb34dd49acef
