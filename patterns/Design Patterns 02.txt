@@ -1,0 +1,122 @@
+The Observer Pattern 
+
+
+
+
+The Observer Pattern 
+
+
+• 
+Defines a one-to-many dependency between 
+objects so that when one object changes 
+state, all of its dependents are notified and 
+update automatically 
+
+More on Observer 
+
+
+• 
+The observer pattern is a software design 
+pattern in which an object, called the subject, 
+maintains a list of its dependents, called 
+observers, and notifies them automatically of 
+any state changes, usually by calling one of 
+their methods 
+• 
+It is mainly used to implement distributed 
+event handling systems, in "event driven" 
+software 
+
+More on Observer 
+
+
+• 
+The observer pattern is also a key part in the 
+familiar model–view–controller (MVC) 
+architectural pattern 
+
+Observer UML 
+
+
+
+
+Languages 
+
+
+• 
+Java has Observer, Observable, etc. 
+• 
+JavaScript has addEventListener etc. 
+
+Design Principle 
+
+
+• 
+Strive for loosely-coupled designs between 
+objects that interact 
+• 
+Objects have very little information about 
+each other 
+• 
+No shared state 
+
+Decoupling 
+
+
+• 
+The observer pattern helps decouple objects 
+• 
+The subject knows only that the observer 
+implements the Observer interface 
+• 
+New observers can be added at any time 
+• 
+New types of observers can be added 
+• 
+Can reuse subjects and observers 
+independently 
+• 
+Changes have no affect on each other 
+
+Warnings 
+
+• 
+Don’t depend on order of evaluation of 
+notifications 
+• 
+Java Observable is a class 
+– 
+Not an interface 
+– 
+Must inherit 
+– 
+setChanged() is protected 
+
+Sample code 
+import java.util.Observable;
+import java.util.Scanner;
+
+class EventSource extends Observable implements Runnable {
+    public void run() {
+        while (true) {
+            String response = new Scanner(System.in).next();
+            setChanged();
+            notifyObservers(response);
+        }
+    }
+}
+import java.util.Observable;
+import java.util.Observer;
+
+public class MyApp {
+    public static void main(String[] args) {
+        System.out.println("Enter Text: ");
+        EventSource eventSource = new EventSource();
+
+        eventSource.addObserver((obj, arg) -> {
+            System.out.println("Received response: " + arg);
+        });
+
+        new Thread(eventSource).start();
+    }
+}
