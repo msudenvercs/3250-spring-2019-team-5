@@ -50,12 +50,10 @@ class TestOpCodes(unittest.TestCase):
 
         iadd(op_code)
         self.assertEqual(op_code.stack.peek(), -1294967296)
-        self.assertEqual(op_code.byte_count, 1)
         op_code.stack.push_op(numpy.int32(10))
         op_code.stack.push_op(numpy.int32(3))
         isub(op_code)
         self.assertEqual(op_code.stack.peek(), 7)
-        self.assertEqual(op_code.byte_count, 2)
     def test_multiply(self):
         """tests the imul opcode"""
         op_code = OpCodes()
@@ -64,7 +62,6 @@ class TestOpCodes(unittest.TestCase):
 
         imul(op_code)
         self.assertEqual(op_code.stack.peek(), 1321730048)
-        self.assertEqual(op_code.byte_count, 1)
     def test_divide(self):
         """tests the idiv opcode"""
         op_code = OpCodes()
@@ -73,7 +70,6 @@ class TestOpCodes(unittest.TestCase):
 
         idiv(op_code)
         self.assertEqual(op_code.stack.peek(), -42)
-        self.assertEqual(op_code.byte_count, 1)
     def test_mod(self):
         """tests the irem opcode"""
         op_code = OpCodes()
@@ -82,7 +78,6 @@ class TestOpCodes(unittest.TestCase):
 
         irem(op_code)
         self.assertEqual(op_code.stack.peek(), 2)
-        self.assertEqual(op_code.byte_count, 1)
 
     def test_iand(self):
         """ Test the iand opcode using 240 (1111 0000) and 15 (0000 1111).
@@ -93,7 +88,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(15)
         iand(ops)
         self.assertEqual(ops.stack.peek(), 0)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ineg(self):
         """ Test the ineg opcode using 254.
@@ -103,7 +97,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(254)
         ineg(ops)
         self.assertEqual(ops.stack.peek(), -255)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ior(self):
         """Test the ior opcode using 240 (1111 0000) and 15 (0000 1111)
@@ -114,7 +107,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(15)
         ior(ops)
         self.assertEqual(ops.stack.peek(), 255)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ixor(self):
         """Test the ixor opcode using 255 (1111 1111) and 129 (1000 0001)
@@ -125,4 +117,3 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(129)
         ixor(ops)
         self.assertEqual(ops.stack.peek(), 126)
-        self.assertEqual(ops.byte_count, 1)

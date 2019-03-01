@@ -11,22 +11,23 @@ class OpCodes():
         """this is the constructor"""
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
-        self.table = {0x2a: aload_0,
-                      0xb1: ret,
-                      0x04: iconst_1,
-                      0x3c: istore_1,
-                      0x84: iinc,
-                      0xb7: invokespecial,
-                      0x60: iadd,
-                      0x64: isub,
-                      0x68: imul,
-                      0x6c: idiv,
-                      0x70: irem,
-                      0x7e: iand,
-                      0x74: ineg,
-                      0x80: ior,
-                      0x82: ixor,
-                      0x00: not_implemented}
+        # 
+        self.table = {0x2a: [aload_0, 1],
+                      0xb1: [ret, 2],
+                      0x04: [iconst_1, 1],
+                      0x3c: [istore_1, 1],
+                      0x84: [iinc, 3],
+                      0xb7: [invokespecial, 3],
+                      0x60: [iadd, 1],
+                      0x64: [isub, 1],
+                      0x68: [imul, 1],
+                      0x6c: [idiv, 1],
+                      0x70: [irem, 1],
+                      0x7e: [iand, 1],
+                      0x74: [ineg, 1],
+                      0x80: [ior, 1],
+                      0x82: [ixor, 1],
+                      0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
     def parse_codes(self, op_start):
@@ -40,69 +41,64 @@ class OpCodes():
 
     def interpret(self, value):
         """this is the method used to interpret a given opcode"""
-        return self.table[value](self)
+        self.byte_count += self.table[value][1]
+        return self.table[value][0](self)
 
 def not_implemented(self):
     """this is a dummy function"""
-    self.byte_count += 1
     return 'not implemented'
 
 def aload_0(self):
     """this is a dummy method"""
     print('aload_0')
-    self.byte_count += 1
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
-    self.byte_count += 1
     print('return')
 
 def iconst_1(self):
     """this function implements the iconst_1 opcode"""
-    self.byte_count += 1
     print('iconst_1')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
-    self.byte_count += 1
     print('istore_1')
 
 def iinc(self):
     """this function implements the iinc opcode"""
-    self.byte_count += 1
     print('iinc')
 
 def invokespecial(self):
     """This function implements the invokespecial opcode"""
     byte_1 = self.data[self.byte_count + 1]
     byte_2 = self.data[self.byte_count + 2]
-    self.byte_count += 3
     print('invokespecial')
     return byte_1+byte_2
+
 def iadd(self):
     """implements the iadd opcode"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1+val2)
-    self.byte_count += 1
+
 def isub(self):
     """implements the isub opcode"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1-val2)
-    self.byte_count += 1
+
 def imul(self):
     """implements the imul opcode"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1*val2)
-    self.byte_count += 1
+
 def idiv(self):
     """implements the idiv opcode"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(numpy.int32(val1/val2))
-    self.byte_count += 1
+
 #irem will be implemented in terms of the other operations.
 #a%b = a-(a/b)*b
 def irem(self):
@@ -116,35 +112,29 @@ def irem(self):
     self.stack.push_op(val2)
     imul(self)
     isub(self)
-#fixes a bug where byte_count is incremented too many times
-    self.byte_count -= 2
 
 def iand(self):
     """Perform bitwise AND on the top two operands on the stack."""
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val & that_val)
-    self.byte_count += 1
 
 def ineg(self):
     """ Perform bitwise NOT on the top operand on the stack. """
     not_this = self.stack.pop_op()
     self.stack.push_op(~not_this)
-    self.byte_count += 1
 
 def ior(self):
     """ Perform bitwise OR on the top two operands on the stack. """
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val | that_val)
-    self.byte_count += 1
 
 def ixor(self):
     """ Perform bitwise XOR on the top two operands on the stack. """
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val ^ that_val)
-    self.byte_count += 1
 
 if __name__ == '__main__':
     OP = OpCodes()
