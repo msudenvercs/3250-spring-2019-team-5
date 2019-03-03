@@ -2,6 +2,8 @@
 import unittest
 from unittest.mock import patch, call
 import numpy
+from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
+from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iadd, isub
 from jvpm.op_codes import imul
 from jvpm.op_codes import idiv, irem
@@ -35,6 +37,48 @@ class TestOpCodes(unittest.TestCase):
     def test_not_implmented(self):
         """this method tests the OpCodes class"""
         self.assertEqual(OpCodes().interpret(0), 'not implemented')
+
+    def test_iconst_m1(self):
+        """tests iconst_m1 method, expected value -1"""
+        test = OpCodes()
+        iconst_m1(test)
+        self.assertEqual(test.stack.peek(), -1)
+
+    def test_iconst_0(self):
+        """tests iconst_0 method, expected value 0"""
+        test = OpCodes()
+        iconst_0(test)
+        self.assertEqual(test.stack.peek(), 0)
+
+    def test_iconst_1(self):
+        """tests iconst_1 method, rexpected value 1"""
+        test = OpCodes()
+        iconst_1(test)
+        self.assertEqual(test.stack.peek(), 1)
+
+    def test_iconst_2(self):
+        """tests iconst_2 method, expected value 2"""
+        test = OpCodes()
+        iconst_2(test)
+        self.assertEqual(test.stack.peek, 2)
+
+    def test_iconst_3(self):
+        """tests iconst_3 method, expected value 3"""
+        test = OpCodes()
+        iconst_3(test)
+        self.assertEqual(test.stack.peek(), 3)
+
+    def test_iconst_4(self):
+        """tests iconst_4 method, expected value 4"""
+        test = OpCodes()
+        iconst_4(test)
+        self.assertEqual(test.stack.peek(), 4)
+
+    def test_iconst_5(self):
+        """tests iconst_5 method, expected value 5"""
+        test = OpCodes()
+        iconst_5(test)
+        self.assertEqual(test.stack.peek(), 5)
 
     def test_mph1(self):
         """a"""

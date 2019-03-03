@@ -11,10 +11,16 @@ class OpCodes():
         """this is the constructor"""
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
-        # 
+        #
         self.table = {0x2a: [aload_0, 1],
                       0xb1: [ret, 2],
+                      0x02: [iconst_m1, 1],
+                      0x03: [iconst_0, 1],
                       0x04: [iconst_1, 1],
+                      0x05: [iconst_2, 1],
+                      0x06: [iconst_3, 1],
+                      0x07: [iconst_4, 1],
+                      0x08: [iconst_5, 1],
                       0x3c: [istore_1, 1],
                       0x84: [iinc, 3],
                       0xb7: [invokespecial, 3],
@@ -56,9 +62,40 @@ def ret(self):
     """this function will eventually implement the ret opcode"""
     print('return')
 
+def iconst_m1(self):
+    """implements iconst_m opcode, loads int -1 onto stack"""
+    self.stack.push_op(-1)
+    print('iconst_m1')
+
+def iconst_0(self):
+    """implements iconst_0 opcode, loads int 0 onto stack"""
+    self.stack.push_op(0)
+    print('iconst_0')
+
 def iconst_1(self):
-    """this function implements the iconst_1 opcode"""
+    """implements iconst_1 opcode, loads int 1 onto stack"""
+    self.stack.push_op(1)
     print('iconst_1')
+
+def iconst_2(self):
+    """implements iconst_2 opcode, loads int 2 onto stack"""
+    self.stack.push_op(2)
+    print('iconst_2')
+
+def iconst_3(self):
+    """"implememts iconst_3 opcode, loads int 3 onto stack"""
+    self.stack.push_op(3)
+    print('iconst_3')
+
+def iconst_4(self):
+    """implements iconst_4 opcode, loads int 4 onto stack"""
+    self.stack.push_op(4)
+    print('iconst_4')
+
+def iconst_5(self):
+    """implements iconst_5 opcode, loads int 5 onto stack"""
+    self.stack.push_op(5)
+    print('iconst_5')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
