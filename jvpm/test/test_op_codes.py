@@ -60,7 +60,7 @@ class TestOpCodes(unittest.TestCase):
         """tests iconst_2 method, expected value 2"""
         test = OpCodes()
         iconst_2(test)
-        self.assertEqual(test.stack.peek, 2)
+        self.assertEqual(test.stack.peek(), 2)
 
     def test_iconst_3(self):
         """tests iconst_3 method, expected value 3"""
