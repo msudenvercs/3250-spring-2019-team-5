@@ -114,34 +114,34 @@ def invokespecial(self):
 
 def iadd(self):
     """implements the iadd opcode"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
+    val2 = numpy.int32(self.stack.pop_op())
+    val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1+val2)
 
 def isub(self):
     """implements the isub opcode"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
+    val2 = numpy.int32(self.stack.pop_op())
+    val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1-val2)
 
 def imul(self):
     """implements the imul opcode"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
+    val2 = numpy.int32(self.stack.pop_op())
+    val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1*val2)
 
 def idiv(self):
     """implements the idiv opcode"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
+    val2 = numpy.int32(self.stack.pop_op())
+    val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(numpy.int32(val1/val2))
 
 #irem will be implemented in terms of the other operations.
 #a%b = a-(a/b)*b
 def irem(self):
     """implements the irem opcode"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
+    val2 = numpy.int32(self.stack.pop_op())
+    val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1)
     self.stack.push_op(val1)
     self.stack.push_op(val2)
@@ -151,7 +151,7 @@ def irem(self):
     isub(self)
 
 def iand(self):
-    """Perform bitwise AND on the top two operands on the stack."""
+    """ Perform bitwise AND on the top two operands on the stack. """
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val & that_val)
@@ -172,7 +172,3 @@ def ixor(self):
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val ^ that_val)
-
-if __name__ == '__main__':
-    OP = OpCodes()
-    OP.parse_codes(183)
