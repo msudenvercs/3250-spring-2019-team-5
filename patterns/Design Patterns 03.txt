@@ -1,0 +1,162 @@
+The Decorator Pattern 
+
+
+
+
+The Open/Close Principle 
+
+• 
+Designs should be open for extension, but 
+closed for modification 
+
+Decorators 
+
+
+• 
+Have the same super type of the objects they 
+decorate 
+• 
+Can have one or more decorators 
+• 
+Can pass wrapped object anywhere original 
+could be passed 
+• 
+Adds behavior before and/or after delegating 
+object 
+• 
+Objects can be decorated at runtime 
+
+The Decorator Pattern 
+
+
+• 
+Attaches additional responsibilities to an 
+object dynamically. 
+• 
+Provide a flexible alternative to sub-classing 
+for extending functionality 
+
+UML 
+
+
+
+
+Inheritance 
+
+
+• 
+Using inheritance to get type matching but not 
+behavior 
+– 
+Java requires this, other languages don’t 
+
+Java I/O 
+
+
+
+
+Sample code
+The following Java example illustrates the use of decorators using the window/scrolling scenario.
+// The Window interface class
+public interface Window {
+    void draw(); // Draws the Window
+    String getDescription(); // Returns a description of the Window
+}
+
+// Implementation of a simple Window without any scrollbars
+class SimpleWindow implements Window {
+    @Override
+    public void draw() {
+        // Draw window
+    }
+    @Override
+    public String getDescription() {
+        return "simple window";
+    }
+}
+The following classes contain the decorators for all Window classes, including the decorator classes themselves.
+// abstract decorator class - note that it implements Window
+abstract class WindowDecorator implements Window {
+    protected Window windowToBeDecorated; // the Window being decorated
+
+    public WindowDecorator (Window windowToBeDecorated) {
+        this.windowToBeDecorated = windowToBeDecorated;
+    }
+    @Override
+    public void draw() {
+        windowToBeDecorated.draw(); //Delegation
+    }
+    @Override
+    public String getDescription() {
+        return windowToBeDecorated.getDescription(); //Delegation
+    }
+}
+
+// The first concrete decorator which adds vertical scrollbar functionality
+class VerticalScrollBarDecorator extends WindowDecorator {
+    public VerticalScrollBarDecorator (Window windowToBeDecorated) {
+        super(windowToBeDecorated);
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        drawVerticalScrollBar();
+    }
+
+    private void drawVerticalScrollBar() {
+        // Draw the vertical scrollbar
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + ", including vertical scrollbars";
+    }
+}
+
+// The second concrete decorator which adds horizontal scrollbar functionality
+class HorizontalScrollBarDecorator extends WindowDecorator {
+    public HorizontalScrollBarDecorator (Window windowToBeDecorated) {
+        super(windowToBeDecorated);
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        drawHorizontalScrollBar();
+    }
+
+    private void drawHorizontalScrollBar() {
+        // Draw the horizontal scrollbar
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + ", including horizontal scrollbars";
+    }
+}
+Here's a test program that creates a Windowinstance which is fully decorated (i.e., with vertical and horizontal scrollbars), and prints its description:
+public class DecoratedWindowTest {
+    public static void main(String[] args) {
+        // Create a decorated Window with horizontal and vertical scrollbars
+        Window decoratedWindow = new HorizontalScrollBarDecorator (
+                new VerticalScrollBarDecorator (new SimpleWindow()));
+
+        // Print the Window's description
+        System.out.println(decoratedWindow.getDescription());
+    }
+}
+Below is the JUnit test class for the Test Driven Development
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+public class WindowDecoratorTest {
+	@Test
+	public void testWindowDecoratorTest() {
+	    Window decoratedWindow = new HorizontalScrollBarDecorator(new VerticalScrollBarDecorator(new SimpleWindow()));
+      	    // assert that the description indeed includes horizontal + vertical scrollbars
+            assertEquals("simple window, including vertical scrollbars, including horizontal scrollbars", decoratedWindow.getDescription())
+	}
+}
+The output of this program is "simple window, including vertical scrollbars, including horizontal scrollbars". Notice how the getDescription method of the two decorators first retrieve the decorated Window's description and decorates it with a suffix.
