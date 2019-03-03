@@ -2,6 +2,8 @@
 import unittest
 from unittest.mock import patch, call
 import numpy
+from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
+from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iadd, isub
 from jvpm.op_codes import imul
 from jvpm.op_codes import idiv, irem
@@ -36,6 +38,48 @@ class TestOpCodes(unittest.TestCase):
         """this method tests the OpCodes class"""
         self.assertEqual(OpCodes().interpret(0), 'not implemented')
 
+    def test_iconst_m1(self):
+        """tests iconst_m1 method, expected value -1"""
+        test = OpCodes()
+        iconst_m1(test)
+        self.assertEqual(test.stack.peek(), -1)
+
+    def test_iconst_0(self):
+        """tests iconst_0 method, expected value 0"""
+        test = OpCodes()
+        iconst_0(test)
+        self.assertEqual(test.stack.peek(), 0)
+
+    def test_iconst_1(self):
+        """tests iconst_1 method, rexpected value 1"""
+        test = OpCodes()
+        iconst_1(test)
+        self.assertEqual(test.stack.peek(), 1)
+
+    def test_iconst_2(self):
+        """tests iconst_2 method, expected value 2"""
+        test = OpCodes()
+        iconst_2(test)
+        self.assertEqual(test.stack.peek(), 2)
+
+    def test_iconst_3(self):
+        """tests iconst_3 method, expected value 3"""
+        test = OpCodes()
+        iconst_3(test)
+        self.assertEqual(test.stack.peek(), 3)
+
+    def test_iconst_4(self):
+        """tests iconst_4 method, expected value 4"""
+        test = OpCodes()
+        iconst_4(test)
+        self.assertEqual(test.stack.peek(), 4)
+
+    def test_iconst_5(self):
+        """tests iconst_5 method, expected value 5"""
+        test = OpCodes()
+        iconst_5(test)
+        self.assertEqual(test.stack.peek(), 5)
+
     def test_mph1(self):
         """a"""
         self.assertEqual(1 + 1, 2)
@@ -50,12 +94,10 @@ class TestOpCodes(unittest.TestCase):
 
         iadd(op_code)
         self.assertEqual(op_code.stack.peek(), -1294967296)
-        self.assertEqual(op_code.byte_count, 1)
         op_code.stack.push_op(numpy.int32(10))
         op_code.stack.push_op(numpy.int32(3))
         isub(op_code)
         self.assertEqual(op_code.stack.peek(), 7)
-        self.assertEqual(op_code.byte_count, 2)
     def test_multiply(self):
         """tests the imul opcode"""
         op_code = OpCodes()
@@ -64,7 +106,6 @@ class TestOpCodes(unittest.TestCase):
 
         imul(op_code)
         self.assertEqual(op_code.stack.peek(), 1321730048)
-        self.assertEqual(op_code.byte_count, 1)
     def test_divide(self):
         """tests the idiv opcode"""
         op_code = OpCodes()
@@ -73,7 +114,6 @@ class TestOpCodes(unittest.TestCase):
 
         idiv(op_code)
         self.assertEqual(op_code.stack.peek(), -42)
-        self.assertEqual(op_code.byte_count, 1)
     def test_mod(self):
         """tests the irem opcode"""
         op_code = OpCodes()
@@ -82,7 +122,6 @@ class TestOpCodes(unittest.TestCase):
 
         irem(op_code)
         self.assertEqual(op_code.stack.peek(), 2)
-        self.assertEqual(op_code.byte_count, 1)
 
     def test_iand(self):
         """ Test the iand opcode using 240 (1111 0000) and 15 (0000 1111).
@@ -93,7 +132,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(15)
         iand(ops)
         self.assertEqual(ops.stack.peek(), 0)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ineg(self):
         """ Test the ineg opcode using 254.
@@ -103,7 +141,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(254)
         ineg(ops)
         self.assertEqual(ops.stack.peek(), -255)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ior(self):
         """Test the ior opcode using 240 (1111 0000) and 15 (0000 1111)
@@ -114,7 +151,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(15)
         ior(ops)
         self.assertEqual(ops.stack.peek(), 255)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ixor(self):
         """Test the ixor opcode using 255 (1111 1111) and 129 (1000 0001)
@@ -125,4 +161,3 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(129)
         ixor(ops)
         self.assertEqual(ops.stack.peek(), 126)
-        self.assertEqual(ops.byte_count, 1)
