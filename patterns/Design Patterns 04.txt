@@ -1,0 +1,285 @@
+Design Patterns 04 
+
+
+The Factory Pattern 
+
+
+
+
+Factories 
+
+
+• 
+Handles the details of object creation 
+– 
+Encapsulates the creation in a subclass 
+– 
+Decouples interface from creation 
+• 
+Can return a variety of types 
+• 
+Client doesn’t care which type 
+• 
+Can add additional types easily 
+• 
+If static, can’t subtype to extend 
+
+Wikipedia 
+
+
+• 
+…the factory method pattern is a creational 
+pattern that uses factory methods to deal with 
+the problem of creating objects without 
+having to specify the exact class of the object 
+that will be created 
+
+UML 
+Sample code
+this Java example is similar to one in the book Design Patterns.
+The MazeGame uses Rooms but it puts the responsibility of creating Rooms to its subclasses which create the concrete classes. The regular game mode could use this template method:
+public abstract class Room {
+   abstract void connect(Room room);
+}
+
+public class MagicRoom extends Room {
+   public void connect(Room room) {}
+}
+
+public class OrdinaryRoom extends Room {
+   public void connect(Room room) {}
+}
+
+public abstract class MazeGame {
+    private final List<Room> rooms = new ArrayList<>();
+
+    public MazeGame() {
+        Room room1 = makeRoom();
+        Room room2 = makeRoom();
+        room1.connect(room2);
+        rooms.add(room1);
+        rooms.add(room2);
+    }
+
+    abstract protected Room makeRoom();
+}
+In the above snippet, the MazeGameconstructor is a template method that makes some common logic. It refers to the makeRoom factory method that encapsulates the creation of rooms such that other rooms can be used in a subclass. To implement the other game mode that has magic rooms, it suffices to override the makeRoom method:
+public class MagicMazeGame extends MazeGame {
+    @Override
+    protected Room makeRoom() {
+        return new MagicRoom(); 
+    }
+}
+
+public class OrdinaryMazeGame extends MazeGame {
+    @Override
+    protected Room makeRoom() {
+        return new OrdinaryRoom(); 
+    }
+}
+
+MazeGame ordinaryGame = new OrdinaryMazeGame();
+MazeGame magicGame = new MagicMazeGame();
+
+
+
+Abstraction 
+
+
+• 
+Factories don’t have to be abstract 
+– 
+Can have default and that can call down if 
+necessary 
+
+The Dependency Inversion Principle 
+
+
+• 
+Depend upon abstractions 
+• 
+Do not depend upon concrete classes 
+
+Wikipedia 
+
+
+• 
+High-level modules should not depend on low-
+level modules 
+– 
+Both should depend on abstractions 
+• 
+Abstractions should not depend on details 
+– 
+Details should depend on abstractions 
+• 
+By dictating that both high-level and low-level 
+objects must depend on the same abstraction 
+this design principle inverts the way some people 
+may think about object-oriented programming 
+
+Traditional View 
+
+
+
+
+Inverted 
+
+
+
+
+Therefore 
+
+
+• 
+No variable should hold a reference to a 
+concrete class 
+• 
+No class should derive from a concrete class 
+• 
+No method should override an implemented 
+method of any of its base classes 
+
+Dependency Injection 
+
+
+• 
+A technique whereby one object (or static method) 
+supplies the dependencies of another object 
+• 
+A dependency is an object that can be used (a service) 
+• 
+An injection is the passing of a dependency to a 
+dependent object (a client) that would use it 
+• 
+The service is made part of the client's state 
+• 
+Passing the service to the client, rather than allowing a 
+client to build or find the service, is the fundamental 
+requirement of the pattern 
+
+Dependency Injection 
+
+
+• 
+This fundamental requirement means that using values 
+(services) produced within the class from new or static 
+methods is prohibited 
+• 
+The client should accept values passed in from outside 
+• 
+This allows the client to make acquiring dependencies 
+someone else's problem 
+• 
+The intent behind dependency injection is to decouple 
+objects to the extent that no client code has to be 
+changed simply because an object it depends on needs 
+to be changed to a different one 
+
+Inversion of Control 
+
+
+• 
+A design principle in which custom-written portions of 
+a computer program receive the flow of control from a 
+generic framework 
+• 
+A software architecture with this design inverts control 
+as compared to traditional procedural programming 
+– 
+In traditional programming, the custom code that expresses 
+the purpose of the program calls into reusable libraries to 
+take care of generic tasks 
+– 
+With inversion of control, it is the framework that calls into 
+the custom, or task-specific, code. 
+
+Abstract Factory Pattern 
+
+
+• 
+Provides an interface for creating families of 
+related or dependent objects without 
+specifying their concrete classes 
+
+UML 
+With the introduction of the method reference syntax in Java 8, there is a specific syntax, Type::new, to convert a call to a constructor to a function (typed as a functional interface).
+import java.util.List;
+import java.util.Random;
+
+// an existing hierarchy
+interface Button {
+    void paint();
+}
+class WinButton implements Button {
+    @Override
+    public void paint() {
+        System.out.println("WinButton");
+    }
+}
+class OSXButton implements Button {
+    @Override
+    public void paint() {
+        System.out.println("OSXButton");
+    }
+}
+
+public class AbstractFactoryExample {
+    // abstract the way to create a button
+    @FunctionalInterface
+    interface GUIFactory {
+        public Button createButton();
+    }
+  
+    private static GUIFactory factory(String appearance) {
+        switch(appearance) {
+            case "osx":
+                return OSXButton::new;
+            case "win":
+                return WinButton::new;
+            default:
+                throw new IllegalArgumentException("unknown " + appearance);
+       }
+    }
+ 
+    public static void main(final String[] arguments) {
+      // This is just for the sake of testing this program,
+      // and doesn't have to do with the Abstract Factory pattern.
+      var randomAppearance = List.of("osx", "win").get(new Random().nextInt(2));
+      
+      // get the button factory for an appearance
+      var factory = factory(randomAppearance);
+      
+      // use the factory to create the button
+      var button = factory.createButton();
+      button.paint();
+    }
+}
+Also note that instead of declaring the functional interface GUIFactory, it's also possible to use the predefined functional interface java.util.function.Supplier<Button>.
+
+
+
+Abstract Versus Non 
+
+
+• 
+Factory 
+– 
+Creation through 
+inheritance 
+– 
+Creates objects of a 
+single type 
+• 
+Abstract Factory 
+– 
+Creation through 
+composition 
+– 
+Instantiated via new and 
+passed 
+– 
+Creates families of 
+related objects via 
+factories 
+
