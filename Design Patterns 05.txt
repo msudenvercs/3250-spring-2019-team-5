@@ -1,0 +1,176 @@
+Design Patterns 05 
+
+
+The Singleton 
+
+
+
+
+Need Only One Of 
+
+• 
+Thread pools, caches, dialog boxes, 
+preferences, logging, device drivers, I/O 
+• 
+But: might not need each time, so lazy 
+initialization 
+
+Classic 
+
+
+// NOTE: This is not thread safe! 
+
+public class Singleton { 
+private static Singleton uniqueInstance; 
+
+private Singleton() {} 
+
+public static Singleton getInstance() { 
+if (uniqueInstance == null) { 
+
+uniqueInstance = new Singleton(); 
+} 
+return uniqueInstance; 
+
+} 
+
+public String getDescription() { 
+return "I'm a classic Singleton!"; 
+} 
+} 
+
+
+
+Pattern 
+
+
+• 
+Ensures a class has only one instance and 
+provides global access to it 
+
+Threading 
+
+
+• 
+Synchronize getInstance 
+• 
+Eagerly create 
+• 
+Double-checked locking 
+
+Double-Checked Locking 
+
+
+// Danger! This implementation of Singleton not 
+// guaranteed to work prior to Java 5 
+
+public class Singleton { 
+private volatile static Singleton uniqueInstance; 
+
+private Singleton() {} 
+
+public static Singleton getInstance() { 
+if (uniqueInstance == null) { 
+synchronized (Singleton.class) { 
+if (uniqueInstance == null) { 
+uniqueInstance = new Singleton(); 
+} 
+
+} 
+} 
+return uniqueInstance; 
+
+
+} 
+} 
+
+
+
+Visibility and Synchronization 
+
+• 
+Visibility assures that all threads read the 
+same value of a variable 
+• 
+Synchronization makes sure that only one 
+thread can write to a variable 
+• 
+These are two different things 
+
+Volatile 
+
+
+• 
+Reads and writes happen to main memory 
+– 
+Not from individual CPU caches 
+• 
+Writes to a volatile also write all the thread-
+visible variables to main memory 
+• 
+Reads from a volatile re-read all thread-visible 
+variables from main memory 
+
+Atomic 
+
+
+• 
+Any write to a volatile variable establishes a 
+happens-before relationship with subsequent 
+reads of that same variable 
+• 
+This means that changes to a volatile variables 
+are always visible to other threads 
+• 
+What's more, it also means that when a thread 
+reads a volatile variable, it sees not just the 
+latest change to the volatile, but also the side 
+effects of the code that led up the change. 
+
+Atomic 
+
+
+• 
+Reads and writes are atomic for reference 
+variables and for most primitive variables 
+(except long and double) 
+• 
+Reads and writes are atomic for all variables 
+declared volatile (including long and double 
+variables) 
+• 
+And there are AtomicInt, AtomicLong, … 
+
+All Written 
+
+
+public class MyClass { 
+private int years; 
+private int months 
+private volatile int days; 
+
+public void update(int years, int months, int days){ 
+this.years = years; 
+this.months = months; 
+this.days = days; 
+
+} 
+} 
+
+
+
+Volatile Not Always Enough 
+
+
+• 
+If there is a read/modify/write such as 
+variable++ 
+• 
+Must use synchronized keyword to remove 
+race conditions 
+
+Get 
+
+
+
+
