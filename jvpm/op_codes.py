@@ -33,6 +33,8 @@ class OpCodes():
                       0x74: [ineg, 1],
                       0x80: [ior, 1],
                       0x82: [ixor, 1],
+                      0X78: [ishl, 1],
+                      0x7a: [ishr, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -172,3 +174,17 @@ def ixor(self):
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val ^ that_val)
+
+def ishl(self):
+    """implements the shl opcode"""
+    val1 = self.stack.pop_op()
+    val2 = self.stack.pop_op()
+    self.stack.push_op(val1 << val2)
+
+# implementing  shlr
+def ishr(self):
+    """implements the shl opcode"""
+    val1 = self.stack.pop_op()
+    val2 = self.stack.pop_op()
+    self.stack.push_op(val1 >> val2)
+

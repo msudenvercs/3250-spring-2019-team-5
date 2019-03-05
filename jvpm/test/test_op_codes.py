@@ -8,7 +8,7 @@ from jvpm.op_codes import iadd, isub
 from jvpm.op_codes import imul
 from jvpm.op_codes import idiv, irem
 from jvpm.op_codes import OpCodes
-from jvpm.op_codes import iand, ineg, ior, ixor
+from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -103,7 +103,6 @@ class TestOpCodes(unittest.TestCase):
         op_code = OpCodes()
         op_code.stack.push_op(numpy.int32(2000000000))
         op_code.stack.push_op(numpy.int32(1000000000))
-
         imul(op_code)
         self.assertEqual(op_code.stack.peek(), 1321730048)
     def test_divide(self):
@@ -161,3 +160,88 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(129)
         ixor(ops)
         self.assertEqual(ops.stack.peek(), 126)
+        self.assertEqual(ops.byte_count, 1)
+
+    def test_ishl(self):
+        ops = OpCodes()
+        ops.stack.push_op(0)
+        ops.stack.push_op(0)
+        ishl(ops)
+
+    def test_ishl2(self):
+        ops = OpCodes()
+        ops.stack.push_op(1)
+        ops.stack.push_op(1)
+        ishl(ops)
+        self.assertEqual(ops.stack.peek(), 2)
+
+    def test_ishl8(self):
+        ops = OpCodes()
+        ops.stack.push_op(3)
+        ops.stack.push_op(1)
+        ishl(ops)
+        self.assertEqual(ops.stack.peek(), 8)
+
+    def test_ishl256(self):
+        ops = OpCodes()
+        ops.stack.push_op(8)
+        ops.stack.push_op(1)
+        ishl(ops)
+        self.assertEqual(ops.stack.peek(), 256)
+
+    def test_ishl2562(self):
+        ops = OpCodes()
+        ops.stack.push_op(4)
+        ops.stack.push_op(8)
+        ishl(ops)
+        self.assertEqual(ops.stack.peek(), 128)
+
+    def test_ishl64(self):
+        ops = OpCodes()
+        ops.stack.push_op(2)
+        ops.stack.push_op(16)
+        ishl(ops)
+        self.assertEqual(ops.stack.peek(), 64)
+
+    def test_ishr(self):
+        ops = OpCodes()
+        ops.stack.push_op(0)
+        ops.stack.push_op(0)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 0)
+
+    def test_ishr1(self):
+        ops = OpCodes()
+        ops.stack.push_op(3)
+        ops.stack.push_op(8)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 1)
+
+    def test_ishr4(self):
+        ops = OpCodes()
+        ops.stack.push_op(6)
+        ops.stack.push_op(256)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 4)
+
+    def test_ishr2(self):
+        ops = OpCodes()
+        ops.stack.push_op(3)
+        ops.stack.push_op(16)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 2)
+
+    def test_ishr8(self):
+        ops = OpCodes()
+        ops.stack.push_op(2)
+        ops.stack.push_op(32)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 8)
+
+    def test_ishr6(self):
+        ops = OpCodes()
+        ops.stack.push_op(2)
+        ops.stack.push_op(16)
+        ishr(ops)
+        self.assertEqual(ops.stack.peek(), 4)
+
