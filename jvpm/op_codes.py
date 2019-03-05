@@ -187,4 +187,3 @@ def ishr(self):
     val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
     self.stack.push_op(val1 >> val2)
-

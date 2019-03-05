@@ -160,88 +160,79 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(129)
         ixor(ops)
         self.assertEqual(ops.stack.peek(), 126)
-        self.assertEqual(ops.byte_count, 1)
 
     def test_ishl(self):
+        """I Am A Docstring"""
         ops = OpCodes()
         ops.stack.push_op(0)
         ops.stack.push_op(0)
         ishl(ops)
+        self.assertEqual(ops.stack.peek(), 0)
+        ops.stack.pop_op()
 
-    def test_ishl2(self):
-        ops = OpCodes()
         ops.stack.push_op(1)
         ops.stack.push_op(1)
         ishl(ops)
         self.assertEqual(ops.stack.peek(), 2)
+        ops.stack.pop_op()
 
-    def test_ishl8(self):
-        ops = OpCodes()
         ops.stack.push_op(3)
         ops.stack.push_op(1)
         ishl(ops)
         self.assertEqual(ops.stack.peek(), 8)
+        ops.stack.pop_op()
 
-    def test_ishl256(self):
-        ops = OpCodes()
         ops.stack.push_op(8)
         ops.stack.push_op(1)
         ishl(ops)
         self.assertEqual(ops.stack.peek(), 256)
+        ops.stack.pop_op()
 
-    def test_ishl2562(self):
-        ops = OpCodes()
         ops.stack.push_op(4)
         ops.stack.push_op(8)
         ishl(ops)
         self.assertEqual(ops.stack.peek(), 128)
+        ops.stack.pop_op()
 
-    def test_ishl64(self):
-        ops = OpCodes()
         ops.stack.push_op(2)
         ops.stack.push_op(16)
         ishl(ops)
         self.assertEqual(ops.stack.peek(), 64)
 
     def test_ishr(self):
+        """I Am A Docstring"""
         ops = OpCodes()
         ops.stack.push_op(0)
         ops.stack.push_op(0)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 0)
+        ops.stack.pop_op()
 
-    def test_ishr1(self):
-        ops = OpCodes()
         ops.stack.push_op(3)
         ops.stack.push_op(8)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 1)
+        ops.stack.pop_op()
 
-    def test_ishr4(self):
-        ops = OpCodes()
         ops.stack.push_op(6)
         ops.stack.push_op(256)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 4)
+        ops.stack.pop_op()
 
-    def test_ishr2(self):
-        ops = OpCodes()
         ops.stack.push_op(3)
         ops.stack.push_op(16)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 2)
+        ops.stack.pop_op()
 
-    def test_ishr8(self):
-        ops = OpCodes()
         ops.stack.push_op(2)
         ops.stack.push_op(32)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 8)
+        ops.stack.pop_op()
 
-    def test_ishr6(self):
-        ops = OpCodes()
         ops.stack.push_op(2)
         ops.stack.push_op(16)
         ishr(ops)
         self.assertEqual(ops.stack.peek(), 4)
-
