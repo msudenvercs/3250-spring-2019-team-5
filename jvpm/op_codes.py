@@ -33,6 +33,9 @@ class OpCodes():
                       0x74: [ineg, 1],
                       0x80: [ior, 1],
                       0x82: [ixor, 1],
+                      0X78: [ishl, 1],
+                      0x7a: [ishr, 1],
+                      0x7c: [iushr, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -55,7 +58,7 @@ def not_implemented(self):
     return 'not implemented'
 
 def aload_0(self):
-    """print aload_0 and advance bytes by one"""
+    """this is a dummy method"""
     print('aload_0')
 
 def ret(self):
@@ -106,17 +109,10 @@ def iinc(self):
     print('iinc')
 
 def invokespecial(self):
-<<<<<<< HEAD
-    """read 2 bytes to perform a task. Note: this is not the actual task"""
-=======
     """This function implements the invokespecial opcode"""
->>>>>>> intopcodes
     byte_1 = self.data[self.byte_count + 1]
     byte_2 = self.data[self.byte_count + 2]
     print('invokespecial')
-<<<<<<< HEAD
-    
-=======
     return byte_1+byte_2
 
 def iadd(self):
@@ -179,4 +175,28 @@ def ixor(self):
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val ^ that_val)
->>>>>>> intopcodes
+
+def ishl(self):
+    """implements the shl opcode"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    self.stack.push_op(val1 << val2)
+
+# implementing  shlr
+def ishr(self):
+    """implements the shl opcode"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    self.stack.push_op(val1 >> val2)
+
+def iushr(self):
+    """ Perform bitwise LOGICAL SHIFT RIGHT on the top two operands on the stack. """
+    this_val = self.stack.pop_op()
+    that_val = self.stack.pop_op()
+    val = 0
+    if that_val >= 0:
+        val = that_val >> this_val 
+    else:
+        val = (that_val & 0xffffffff) >> this_val
+        print(str(val))
+    self.stack.push_op(val)
