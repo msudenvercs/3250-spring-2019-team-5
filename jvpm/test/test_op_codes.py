@@ -6,7 +6,7 @@ from jvpm.op_codes import OpCodes
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
-from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl
+from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -243,3 +243,12 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(2)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
+    
+    def test_iushr(self):
+        """ Test the iushr (Logical Shift Right) opcode """
+        ops = OpCodes()
+        # iushr(255 >>> 129) should produce (63)
+        ops.stack.push_op(2)
+        ops.stack.push_op(255)
+        iushr(ops)
+        self.assertEqual(ops.stack.peek(), 63)

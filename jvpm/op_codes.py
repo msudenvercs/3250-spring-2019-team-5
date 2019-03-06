@@ -35,6 +35,7 @@ class OpCodes():
                       0x82: [ixor, 1],
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
+                      0x7c: [iushr, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -187,3 +188,15 @@ def ishr(self):
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1 >> val2)
+
+def iushr(self):
+    """ Perform bitwise LOGICAL SHIFT RIGHT on the top two operands on the stack. """
+    this_val = self.stack.pop_op()
+    that_val = self.stack.pop_op()
+    val = 0
+    if this_val >= 0:
+        val = this_val>>that_val 
+    else:
+        val = (this_val & 0xffffffff) >> that_val
+        print(str(val))
+    self.stack.push_op(val)
