@@ -2,12 +2,10 @@
 import unittest
 from unittest.mock import patch, call
 import numpy
+from jvpm.op_codes import OpCodes
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
-from jvpm.op_codes import iadd, isub
-from jvpm.op_codes import imul
-from jvpm.op_codes import idiv, irem
-from jvpm.op_codes import OpCodes
+from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl
 numpy.warnings.filterwarnings("ignore")
 
@@ -51,7 +49,7 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(test.stack.peek(), 0)
 
     def test_iconst_1(self):
-        """tests iconst_1 method, rexpected value 1"""
+        """tests iconst_1 method, expected value 1"""
         test = OpCodes()
         iconst_1(test)
         self.assertEqual(test.stack.peek(), 1)
@@ -91,13 +89,13 @@ class TestOpCodes(unittest.TestCase):
         op_code = OpCodes()
         op_code.stack.push_op(numpy.int32(2000000000))
         op_code.stack.push_op(numpy.int32(1000000000))
-
         iadd(op_code)
         self.assertEqual(op_code.stack.peek(), -1294967296)
         op_code.stack.push_op(numpy.int32(10))
         op_code.stack.push_op(numpy.int32(3))
         isub(op_code)
         self.assertEqual(op_code.stack.peek(), 7)
+
     def test_multiply(self):
         """tests the imul opcode"""
         op_code = OpCodes()
@@ -105,134 +103,143 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.int32(1000000000))
         imul(op_code)
         self.assertEqual(op_code.stack.peek(), 1321730048)
+
     def test_divide(self):
         """tests the idiv opcode"""
         op_code = OpCodes()
         op_code.stack.push_op(numpy.int32(128))
         op_code.stack.push_op(numpy.int32(-3))
-
         idiv(op_code)
         self.assertEqual(op_code.stack.peek(), -42)
+
     def test_mod(self):
         """tests the irem opcode"""
         op_code = OpCodes()
         op_code.stack.push_op(numpy.int32(128))
         op_code.stack.push_op(numpy.int32(-3))
-
         irem(op_code)
         self.assertEqual(op_code.stack.peek(), 2)
 
     def test_iand(self):
-        """ Test the iand opcode using 240 (1111 0000) and 15 (0000 1111).
-        Expected result: 0 (0000 0000)
-        """
+        """ Test the iand (Integer And) opcode """
         ops = OpCodes()
+        # iand (240 & 15) should produce (0)
         ops.stack.push_op(240)
         ops.stack.push_op(15)
         iand(ops)
-        self.assertEqual(ops.stack.peek(), 0)
+        self.assertEqual(ops.stack.pop_op(), 0)
+        # iand (43,690 & 50,790) should produce (33314)
+        ops.stack.push_op(43690)
+        ops.stack.push_op(50790)
+        iand(ops)
+        self.assertEqual(ops.stack.pop_op(), 33314)
+        #iand (-2,147,483,647 & -1) should produce (-2,147,483,647)
+        ops.stack.push_op(-2147483647)
+        ops.stack.push_op(-1)
+        iand(ops)
+        self.assertEqual(ops.stack.pop_op(), -2147483647)
 
     def test_ineg(self):
-        """ Test the ineg opcode using 254.
-        Expected result: -255
-        """
+        """ Test the ineg (Integer Negate) opcode """
         ops = OpCodes()
+        # ineg(254) should produce (-255)
         ops.stack.push_op(254)
         ineg(ops)
-        self.assertEqual(ops.stack.peek(), -255)
+        self.assertEqual(ops.stack.pop_op(), -255)
+        # ineg(0) should produce (-1)
+        ops.stack.push_op(0)
+        ineg(ops)
+        self.assertEqual(ops.stack.pop_op(), -1)
+        # ineg(2,147,483,647) sould produce (-2,147,483,648)
+        ops.stack.push_op(2147483647)
+        ineg(ops)
+        self.assertEqual(ops.stack.pop_op(), -2147483648)
 
     def test_ior(self):
-        """Test the ior opcode using 240 (1111 0000) and 15 (0000 1111)
-        Expected result: 255 (1111 1111)
-        """
+        """ Test the ior (Integer Or) opcode """
         ops = OpCodes()
+        # ior(240 | 15) should produce (255)
         ops.stack.push_op(240)
         ops.stack.push_op(15)
         ior(ops)
-        self.assertEqual(ops.stack.peek(), 255)
+        self.assertEqual(ops.stack.pop_op(), 255)
+        # ior(2,147,483,647 | -2,147,483,648) should produce (-1)
+        ops.stack.push_op(2147483647)
+        ops.stack.push_op(-2147483648)
+        ior(ops)
+        self.assertEqual(ops.stack.pop_op(), -1)
 
     def test_ixor(self):
-        """Test the ixor opcode using 255 (1111 1111) and 129 (1000 0001)
-        Expected result: 126 (0111 1110)
-        """
+        """ Test the ixor (Integer Exclusive Or) opcode """
         ops = OpCodes()
+        # ixor(255 ^ 129) should produce (126)
         ops.stack.push_op(255)
         ops.stack.push_op(129)
         ixor(ops)
         self.assertEqual(ops.stack.peek(), 126)
 
     def test_ishl(self):
-        """I Am A Docstring"""
+        """ Test the ishl (Integer Shift Left) opcode """
         ops = OpCodes()
         ops.stack.push_op(0)
         ops.stack.push_op(0)
         ishl(ops)
-        self.assertEqual(ops.stack.peek(), 0)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 0)
 
         ops.stack.push_op(1)
         ops.stack.push_op(1)
         ishl(ops)
-        self.assertEqual(ops.stack.peek(), 2)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 2)
 
+        ops.stack.push_op(1)
         ops.stack.push_op(3)
-        ops.stack.push_op(1)
         ishl(ops)
-        self.assertEqual(ops.stack.peek(), 8)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 8)
+
+        ops.stack.push_op(1)
+        ops.stack.push_op(8)
+        ishl(ops)
+        self.assertEqual(ops.stack.pop_op(), 256)
 
         ops.stack.push_op(8)
-        ops.stack.push_op(1)
-        ishl(ops)
-        self.assertEqual(ops.stack.peek(), 256)
-        ops.stack.pop_op()
-
         ops.stack.push_op(4)
-        ops.stack.push_op(8)
         ishl(ops)
-        self.assertEqual(ops.stack.peek(), 128)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 128)
 
-        ops.stack.push_op(2)
         ops.stack.push_op(16)
+        ops.stack.push_op(2)
         ishl(ops)
-        self.assertEqual(ops.stack.peek(), 64)
+        self.assertEqual(ops.stack.pop_op(), 64)
 
     def test_ishr(self):
-        """I Am A Docstring"""
+        """ Test the ishr (Integer Arithmetic Shift Right) opcode """
         ops = OpCodes()
         ops.stack.push_op(0)
         ops.stack.push_op(0)
         ishr(ops)
-        self.assertEqual(ops.stack.peek(), 0)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 0)
 
-        ops.stack.push_op(3)
         ops.stack.push_op(8)
-        ishr(ops)
-        self.assertEqual(ops.stack.peek(), 1)
-        ops.stack.pop_op()
-
-        ops.stack.push_op(6)
-        ops.stack.push_op(256)
-        ishr(ops)
-        self.assertEqual(ops.stack.peek(), 4)
-        ops.stack.pop_op()
-
         ops.stack.push_op(3)
-        ops.stack.push_op(16)
         ishr(ops)
-        self.assertEqual(ops.stack.peek(), 2)
-        ops.stack.pop_op()
+        self.assertEqual(ops.stack.pop_op(), 1)
 
-        ops.stack.push_op(2)
+        ops.stack.push_op(256)
+        ops.stack.push_op(6)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 4)
+
+        ops.stack.push_op(16)
+        ops.stack.push_op(3)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 2)
+
         ops.stack.push_op(32)
-        ishr(ops)
-        self.assertEqual(ops.stack.peek(), 8)
-        ops.stack.pop_op()
-
         ops.stack.push_op(2)
-        ops.stack.push_op(16)
         ishr(ops)
-        self.assertEqual(ops.stack.peek(), 4)
+        self.assertEqual(ops.stack.pop_op(), 8)
+
+        ops.stack.push_op(16)
+        ops.stack.push_op(2)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 4)

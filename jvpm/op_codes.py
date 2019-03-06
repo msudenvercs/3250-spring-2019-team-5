@@ -177,13 +177,13 @@ def ixor(self):
 
 def ishl(self):
     """implements the shl opcode"""
-    val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
     self.stack.push_op(val1 << val2)
 
 # implementing  shlr
 def ishr(self):
     """implements the shl opcode"""
-    val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
     self.stack.push_op(val1 >> val2)
