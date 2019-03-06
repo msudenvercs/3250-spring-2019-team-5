@@ -247,8 +247,13 @@ class TestOpCodes(unittest.TestCase):
     def test_iushr(self):
         """ Test the iushr (Logical Shift Right) opcode """
         ops = OpCodes()
-        # iushr(255 >>> 129) should produce (63)
-        ops.stack.push_op(2)
+        # iushr(255 >>> 2) should produce (63)
         ops.stack.push_op(255)
+        ops.stack.push_op(2)
         iushr(ops)
-        self.assertEqual(ops.stack.peek(), 63)
+        self.assertEqual(ops.stack.pop_op(), 63)
+        # iushr(-1 >> 4) should produce (268,435,455)
+        ops.stack.push_op(-1)
+        ops.stack.push_op(4)
+        iushr(ops)
+        self.assertEqual(ops.stack.pop_op(), 268435455)

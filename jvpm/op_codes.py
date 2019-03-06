@@ -194,9 +194,9 @@ def iushr(self):
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     val = 0
-    if this_val >= 0:
-        val = this_val>>that_val 
+    if that_val >= 0:
+        val = that_val >> this_val 
     else:
-        val = (this_val & 0xffffffff) >> that_val
+        val = (that_val & 0xffffffff) >> this_val
         print(str(val))
     self.stack.push_op(val)
