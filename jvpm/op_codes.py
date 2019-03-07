@@ -1,4 +1,5 @@
 """this file contains the OpCodes class"""
+#this file utilizes NumPy package to handle integer under/overflow in Java
 import numpy #to get the java-like behavior for arithmetic
 
 from jvpm.jvm_stack import JvmStack
@@ -195,7 +196,7 @@ def iushr(self):
     that_val = self.stack.pop_op()
     val = 0
     if that_val >= 0:
-        val = that_val >> this_val 
+        val = that_val >> this_val
     else:
         val = (that_val & 0xffffffff) >> this_val
         print(str(val))
