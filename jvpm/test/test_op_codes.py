@@ -1,4 +1,5 @@
 """this is a test for op_codes"""
+#utilizes NumPy package to handle 32 bit int over/underflow in Java
 import unittest
 from unittest.mock import patch, call
 import numpy
@@ -243,7 +244,7 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(2)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
-    
+
     def test_iushr(self):
         """ Test the iushr (Logical Shift Right) opcode """
         ops = OpCodes()
