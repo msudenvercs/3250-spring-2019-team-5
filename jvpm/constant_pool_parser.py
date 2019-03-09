@@ -31,6 +31,7 @@ class ConstantPoolParser:
         """gets the appropriate number of bytes for 1 item of the constant pool depending on its
 tag"""
         tag = self.data[self.offset]
+        result = None
 #if this is a utf-8 constant, then get the length and grab that many bytes.
         if tag == 1:
             length_high = self.data[self.offset+1]
@@ -41,10 +42,9 @@ tag"""
             result = self.data[self.offset:self.offset+total_bytes]
 #don't forget to increment offset.
             self.offset += total_bytes
-            return result
 #otherwise, look up the number of bytes to grab as before.
         else:
             length = self.table[tag]
             result = self.data[self.offset:self.offset + length]
             self.offset += length
-            return result
+        return result
