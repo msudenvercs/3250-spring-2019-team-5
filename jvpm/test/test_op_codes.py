@@ -243,7 +243,7 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(2)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
-    
+
     def test_iushr(self):
         """ Test the iushr (Logical Shift Right) opcode """
         ops = OpCodes()

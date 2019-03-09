@@ -55,15 +55,21 @@ class OpCodes():
 
 def not_implemented(self):
     """this is a dummy function"""
+    self.stack.push_op(1)
+    self.stack.pop_op()
     return 'not implemented'
 
 def aload_0(self):
     """this is a dummy method"""
     print('aload_0')
+    self.stack.push_op(1)
+    self.stack.pop_op()
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
     print('return')
+    self.stack.push_op(1)
+    self.stack.pop_op()
 
 def iconst_m1(self):
     """implements iconst_m opcode, loads int -1 onto stack"""
@@ -103,10 +109,14 @@ def iconst_5(self):
 def istore_1(self):
     """this function implements the istore_1 opcode"""
     print('istore_1')
+    self.stack.push_op(1)
+    self.stack.pop_op()
 
 def iinc(self):
     """this function implements the iinc opcode"""
     print('iinc')
+    self.stack.push_op(1)
+    self.stack.pop_op()
 
 def invokespecial(self):
     """This function implements the invokespecial opcode"""
@@ -195,7 +205,7 @@ def iushr(self):
     that_val = self.stack.pop_op()
     val = 0
     if that_val >= 0:
-        val = that_val >> this_val 
+        val = that_val >> this_val
     else:
         val = (that_val & 0xffffffff) >> this_val
         print(str(val))
