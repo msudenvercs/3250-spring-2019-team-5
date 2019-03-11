@@ -1,4 +1,5 @@
 """this file contains the OpCodes class"""
+#utilizes NumPy package to handle 32 bit int over/underflow in Java
 import numpy #to get the java-like behavior for arithmetic
 
 from jvpm.jvm_stack import JvmStack
