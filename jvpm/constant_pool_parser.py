@@ -1,6 +1,9 @@
 """This module will,  given the class file data,  parse out the constant pool"""
 
 
+from jvpm.constant_pool import ConstantPool
+
+
 class ConstantPoolParser:
     """constant pool parser"""
 
@@ -74,3 +77,7 @@ taking into account the fact that long and double take up 2 entries"""
             if tag in [5, 6]:
                 pool.append(None)
         return pool
+
+    def make_constant_pool(self):
+        """makes a constant pool object"""
+        return ConstantPool(self.get_all_constants())
