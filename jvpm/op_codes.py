@@ -40,7 +40,7 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
-                      0x00: [not_implemented, 1]}
+                      0x00: [not_implemented, 1], 0xb2: [getstatic, 3], 0x12: [ldc, 2]}
         self.byte_count = 0
         self.stack = JvmStack()
         self.constant_pool = []
@@ -50,8 +50,7 @@ class OpCodes():
         """this method searches the binary for only the opcodes we know are in it"""
         self.byte_count = op_start
         while self.byte_count < len(self.data):
-            if self.data[self.byte_count] in {
-                    0x2a, 0xb1, 0x04, 0x3c, 0x84, 0xb7}:
+            if self.data[self.byte_count] in self.table.keys():
                 self.interpret(self.data[self.byte_count])
             else:
                 self.interpret(0)
@@ -251,3 +250,17 @@ def iushr(self):
         val = (that_val & 0xffffffff) >> this_val
         print(str(val))
     self.stack.push_op(val)
+
+
+def getstatic(self):
+    """This is a stub implementation of getstatic.
+It will be expanded in the future if we start loading other classes."""
+    index = self.data[self.byte_count - 2:self.byte_count]
+    self.constant_pool.load_constant(index, self.stack)
+
+
+def ldc(self):
+    """implements ldc"""
+# take into account the fact that the index for ldc is a single byte
+    index = b"\x00" + self.data[self.byte_count - 1:self.byte_count]
+    self.constant_pool.load_constant(index, self.stack)

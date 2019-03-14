@@ -34,7 +34,8 @@ class TestCpClass(TestCase):
     def test_load_constant(self):
         """tests the loading of constants"""
         stack = JvmStack()
-        pool = ConstantPool([b"\x03\xff\xff\xff\xfe", b"\x08\x00\x05hello"])
+        pool = ConstantPool(
+            [b"\x03\xff\xff\xff\xfe", b"\x08\x00\x02", b"\x01\x00\x05hello"])
         pool.load_constant(b"\x00\x00", stack)
         pool.load_constant(b"\x00\x01", stack)
         self.assertEqual(stack.pop_op(), "hello")

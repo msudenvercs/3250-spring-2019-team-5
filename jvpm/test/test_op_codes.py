@@ -1,5 +1,5 @@
 """this is a test for op_codes"""
-#utilizes NumPy package to handle 32 bit int over/underflow in Java
+# utilizes NumPy package to handle 32 bit int over/underflow in Java
 import unittest
 from unittest.mock import patch, call
 import numpy
@@ -18,20 +18,41 @@ class TestOpCodes(unittest.TestCase):
         """this method performs the op code test"""
         op_code = OpCodes()
         op_code.parse_codes(0)
-        self.assertEqual(mock_patch.mock_calls,
-                         [call('istore_1'),
-                          call('iconst_1'),
-                          call('iconst_1'),
-                          call('iconst_1'),
-                          call('iconst_1'),
-                          call('iconst_1'),
-                          call('aload_0'),
-                          call('invokespecial'),
-                          call('return'),
-                          call('iconst_1'),
-                          call('istore_1'),
-                          call('iinc'),
-                          call('return')])
+        self.assertEqual(mock_patch.mock_calls, [call('iconst_0'),
+                                                 call('iconst_4'),
+                                                 call('iconst_4'),
+                                                 call('iconst_3'),
+                                                 call('istore_1'),
+                                                 call('iconst_0'),
+                                                 call('iconst_1'),
+                                                 call('iconst_1'),
+                                                 call('iconst_1'),
+                                                 call('iconst_2'),
+                                                 call('iconst_1'),
+                                                 call('iconst_m1'),
+                                                 call('iconst_0'),
+                                                 call('iconst_m1'),
+                                                 call('iconst_1'),
+                                                 call('iconst_2'),
+                                                 call('iconst_3'),
+                                                 call('iconst_2'),
+                                                 call('aload_0'),
+                                                 call('invokespecial'),
+                                                 call('return'),
+                                                 call('iconst_4'),
+                                                 call('iconst_3'),
+                                                 call('iconst_5'),
+                                                 call('iconst_5'),
+                                                 call('iconst_3'),
+                                                 call('iconst_m1'),
+                                                 call('iconst_3'),
+                                                 call('iconst_1'),
+                                                 call('istore_1'),
+                                                 call('iinc'),
+                                                 call('return'),
+                                                 call('iconst_4'),
+                                                 call('iconst_3'),
+                                                 call('iconst_m1')])
 
     def test_not_implmented(self):
         """this method tests the OpCodes class"""
@@ -134,7 +155,7 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(50790)
         iand(ops)
         self.assertEqual(ops.stack.pop_op(), 33314)
-        #iand (-2,147,483,647 & -1) should produce (-2,147,483,647)
+        # iand (-2,147,483,647 & -1) should produce (-2,147,483,647)
         ops.stack.push_op(-2147483647)
         ops.stack.push_op(-1)
         iand(ops)
