@@ -4,6 +4,7 @@ import numpy  # to get the java-like behavior for arithmetic
 
 from jvpm.jvm_stack import JvmStack
 from jvpm.constant_pool_parser import ConstantPoolParser
+from jvpm.method_table import MethodTable
 # shuts off the overflow warnings from numpy
 numpy.seterr(over="ignore", under="ignore")
 
@@ -40,11 +41,13 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
-                      0x00: [not_implemented, 1], 0xb2: [getstatic, 3], 0x12: [ldc, 2]}
+                      0x00: [not_implemented, 1], 0xb2: [getstatic, 3], 0x12: [ldc, 2], 0xb6: [invokevirtual, 3]}
         self.byte_count = 0
         self.stack = JvmStack()
         self.constant_pool = []
         self.set_data(self.data)
+# initialize the method table
+        self.nmt = MethodTable()
 
     def parse_codes(self, op_start):
         """this method searches the binary for only the opcodes we know are in it"""
@@ -264,3 +267,28 @@ def ldc(self):
 # take into account the fact that the index for ldc is a single byte
     index = b"\x00" + self.data[self.byte_count - 1:self.byte_count]
     self.constant_pool.load_constant(index, self.stack)
+
+
+def invokevirtual(self):
+    """implements invokevirtual"""
+# look up the method to be invoked.
+    index = self.data[self.byte_count - 2:self.byte_count]
+    methodref = self.constant_pool.lookup_constant(index)
+# get the name of the class for this method.
+    classref = self.constant_pool.lookup_constant(methodref[1:3])
+    utf8_index = classref[1:]
+    utf8_const = self.constant_pool.lookup_constant(utf8_index)
+    classname = utf8_const[3:].decode("utf-8")
+# after all that pointer chasing, we still have to do it again to get the
+# name and type of the method
+    nat_index = methodref[3:]
+    nat_const = self.constant_pool.lookup_constant(nat_index)
+    methodname_index = nat_const[1:3]
+    methodname_const = self.constant_pool.lookup_constant(methodname_index)
+    methodname = methodname_const[3:].decode("utf-8")
+    methodtype_index = nat_const[3:]
+    methodtype_const = self.constant_pool.lookup_constant(methodtype_index)
+    methodtype = methodtype_const[3:].decode("utf-8")
+# finally, we can invoke the method!
+    official_name = classname + "." + methodname + methodtype
+    self.nmt.call(self, official_name)
