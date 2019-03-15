@@ -36,6 +36,9 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
+                      0x91: [i2b, 1],
+                      0x92: [i2c, 1],
+                      0x87: [i2d, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -200,3 +203,18 @@ def iushr(self):
         val = (that_val & 0xffffffff) >> this_val
         print(str(val))
     self.stack.push_op(val)
+
+def i2b(self):
+    """convert int on top of stack to byte, and push it. Push it real good"""
+    val1 = self.stack.pop_op()
+    self.stack.push_op(numpy.int8(val1))
+
+def i2c(self):
+    """convert int on top of stack to character, and push it. Push it real good"""
+    val1 = self.stack.pop_op()
+    self.stack.push_op(chr(val1))
+
+def i2d(self):
+    """convert int on top of stack to double, and p-p-push it real good"""
+    val1 = self.stack.pop_op()
+    self.stack.push_op(numpy.float32(val1))

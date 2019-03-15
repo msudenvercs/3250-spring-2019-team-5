@@ -7,6 +7,7 @@ from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
+from jvpm.op_codes import i2b, i2c, i2d
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -257,3 +258,25 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(4)
         iushr(ops)
         self.assertEqual(ops.stack.pop_op(), 268435455)
+
+    def test_i2b(self):
+        """Test conversion of integer to byte dawg"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2b(ops)
+        assert isinstance(ops.stack.peek(), numpy.int8)
+
+    def test_i2c(self):
+        """Test conversion of integer to byte"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2c(ops)
+        assert isinstance(ops.stack.peek(), str)
+
+    def test_i2d(self):
+        """Test conversion of integer to double"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2d(ops)
+        assert isinstance(ops.stack.peek(), numpy.float32)
+        
