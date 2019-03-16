@@ -39,6 +39,7 @@ class OpCodes():
                       0x91: [i2b, 1],
                       0x92: [i2c, 1],
                       0x87: [i2d, 1],
+                      0x86: [i2f, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -205,16 +206,31 @@ def iushr(self):
     self.stack.push_op(val)
 
 def i2b(self):
-    """convert int on top of stack to byte, and push it. Push it real good"""
-    val1 = self.stack.pop_op()
-    self.stack.push_op(numpy.int8(val1))
+    """convert int on top of stack to byte, and push it(to the stack)"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int8(convert_this))
 
 def i2c(self):
     """convert int on top of stack to character, and push it. Push it real good"""
-    val1 = self.stack.pop_op()
-    self.stack.push_op(chr(val1))
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(chr(convert_this))
 
 def i2d(self):
     """convert int on top of stack to double, and p-p-push it real good"""
-    val1 = self.stack.pop_op()
-    self.stack.push_op(numpy.float32(val1))
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float64(convert_this))
+
+def i2f(self):
+    """convert int on top of stack to float, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float32(convert_this))
+
+def i2l(self):
+    """convert int on top of stack to long, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int64(convert_this))
+
+def i2s(self):
+    """convert int on top of stack to short, and push. it. to. the. stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int16(convert_this))

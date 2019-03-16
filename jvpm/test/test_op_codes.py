@@ -7,7 +7,7 @@ from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
-from jvpm.op_codes import i2b, i2c, i2d
+from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -269,7 +269,7 @@ class TestOpCodes(unittest.TestCase):
     def test_i2c(self):
         """Test conversion of integer to byte"""
         ops = OpCodes()
-        ops.stack.push_op(42)
+        ops.stack.push_op(33)
         i2c(ops)
         assert isinstance(ops.stack.peek(), str)
 
@@ -278,5 +278,25 @@ class TestOpCodes(unittest.TestCase):
         ops = OpCodes()
         ops.stack.push_op(42)
         i2d(ops)
+        assert isinstance(ops.stack.peek(), numpy.float64)
+
+    def test_i2f(self):
+        """Test conversion of integer to float"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2f(ops)
         assert isinstance(ops.stack.peek(), numpy.float32)
-        
+
+    def test_i2l(self):
+        """Test conversion of integer to long"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2l(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+
+    def test_i2s(self):
+        """Test conversion of integer to short"""
+        ops = OpCodes()
+        ops.stack.push_op(42)
+        i2s(ops)
+        assert isinstance(ops.stack.peek(), numpy.int16)
