@@ -62,8 +62,28 @@ def not_implemented(self):
     return 'not implemented'
 
 def aload_0(self):
-    """this is a dummy method"""
+    """loads a reference from the data array onto stack"""
     print('aload_0')
+
+def iload(self, index):
+    """loads an int from local data array at <index>"""
+    self.stack.push_op(self.data[index])
+
+def iload_0(self):
+    """loads an int from local data array at index 0"""
+    self.stack.push_op(self.data[0])
+
+def iload_1(self):
+    """loads an int from local data array at index 1"""
+    self.stack.push_op(self.data[1])
+
+def iload_2(self):
+    """loads an int from local data array at index 2"""
+    self.stack.push_op(self.data[2])
+
+def iload_3(self):
+    """loads an int from local data array at index 3"""
+    self.stack.push_op(self.data[3])
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
