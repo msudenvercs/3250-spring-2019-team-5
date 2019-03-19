@@ -71,23 +71,23 @@ def aload_0(self):
     print('aload_0')
 
 def iload(self, index):
-    """loads an int from local data array at <index>"""
+    """loads an int from local data array at <index> onto stack"""
     self.stack.push_op(self.data[index])
 
 def iload_0(self):
-    """loads an int from local data array at index 0"""
+    """loads an int from local data array at index 0 onto stack"""
     self.stack.push_op(self.data[0])
 
 def iload_1(self):
-    """loads an int from local data array at index 1"""
+    """loads an int from local data array at index 1 onto stack"""
     self.stack.push_op(self.data[1])
 
 def iload_2(self):
-    """loads an int from local data array at index 2"""
+    """loads an int from local data array at index 2 onto stack"""
     self.stack.push_op(self.data[2])
 
 def iload_3(self):
-    """loads an int from local data array at index 3"""
+    """loads an int from local data array at index 3 onto stack"""
     self.stack.push_op(self.data[3])
 
 def ret(self):
@@ -224,7 +224,7 @@ def iushr(self):
     that_val = self.stack.pop_op()
     val = 0
     if that_val >= 0:
-        val = that_val >> this_val 
+        val = that_val >> this_val
     else:
         val = (that_val & 0xffffffff) >> this_val
         print(str(val))

@@ -5,6 +5,7 @@ import numpy
 from jvpm.op_codes import OpCodes
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
+from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
@@ -78,6 +79,39 @@ class TestOpCodes(unittest.TestCase):
         test = OpCodes()
         iconst_5(test)
         self.assertEqual(test.stack.peek(), 5)
+
+    def test_iload(self):
+        """tests iload method"""
+        test = OpCodes()
+        #tests every load index from 4 to length
+        length = len(test.data)
+        for i in range(4, length):
+            iload(test, i)
+            self.assertEqual(test.stack.peek(), test.data[i])
+
+    def test_iload_0(self):
+        """tests iload_0 opcode"""
+        test = OpCodes()
+        iload_0(test)
+        self.assertEqual(test.stack.peek(), test.data[0])
+
+    def test_iload_1(self):
+        """tests iload_1 opcode"""
+        test = OpCodes()
+        iload_1(test)
+        self.assertEqual(test.stack.peek(), test.data[1])
+
+    def test_iload_2(self):
+        """tests iload_2 opcode"""
+        test = OpCodes()
+        iload_2(test)
+        self.assertEqual(test.stack.peek(), test.data[2])
+
+    def test_iload_3(self):
+        """tests iload_3 opcode"""
+        test = OpCodes()
+        iload_3(test)
+        self.assertEqual(test.stack.peek(), test.data[3])
 
     def test_mph1(self):
         """a"""
@@ -244,7 +278,7 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(2)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
-    
+
     def test_iushr(self):
         """ Test the iushr (Logical Shift Right) opcode """
         ops = OpCodes()
