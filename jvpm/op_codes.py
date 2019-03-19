@@ -16,7 +16,7 @@ class OpCodes():
         """this is the constructor"""
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
-        #
+        #dictionary of op codes and their associated byte advancements
         self.table = {0x2a: [aload_0, 1],
                       0xb1: [ret, 2],
                       0x02: [iconst_m1, 1],
