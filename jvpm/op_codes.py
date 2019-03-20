@@ -88,7 +88,7 @@ def iload_2(self):
 
 def iload_3(self):
     """loads an int from local data array at index 3 onto stack"""
-    self.stack.push_op(self.data[3]
+    self.stack.push_op(self.data[3])
 
 def istore_0(self):
     self.data[0] = self.stack.pop()
