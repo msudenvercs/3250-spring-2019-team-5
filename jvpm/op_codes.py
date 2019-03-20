@@ -9,7 +9,7 @@ class OpCodes():
     """This class interprets opcodes"""
     def __init__(self):
         """this is the constructor"""
-        self.localArray = [0,1,2,3,4]
+        self.localArray = [0, 0, 0, 0]
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
@@ -77,23 +77,23 @@ def aload_0(self):
 
 def iload(self, index):
     """loads an int from local data array at <index> onto stack"""
-    self.stack.push_op(self.data[index])
+    self.stack.push_op(self.localArray[index])
 
 def iload_0(self):
     """loads an int from local data array at index 0 onto stack"""
-    self.stack.push_op(self.data[0])
+    self.stack.push_op(self.localArray[0])
 
 def iload_1(self):
     """loads an int from local data array at index 1 onto stack"""
-    self.stack.push_op(self.data[1])
+    self.stack.push_op(self.localArray[1])
 
 def iload_2(self):
     """loads an int from local data array at index 2 onto stack"""
-    self.stack.push_op(self.data[2])
+    self.stack.push_op(self.localArray[2])
 
 def iload_3(self):
     """loads an int from local data array at index 3 onto stack"""
-    self.stack.push_op(self.data[3])
+    self.stack.push_op(self.localArray[3])
 
 #def istore_0(self):
 #    self.data[0] = self.stack.pop()

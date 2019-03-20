@@ -121,10 +121,10 @@ class TestOpCodes(unittest.TestCase):
         """tests iload method"""
         test = OpCodes()
         #tests every load index from 4 to length
-        length = len(test.data)
-        for i in range(4, length):
+        length = len(test.localArray)
+        for i in range(0, length):
             iload(test, i)
-            self.assertEqual(test.stack.peek(), test.data[i])
+            self.assertEqual(test.stack.peek(), test.localArray[i])
 
     def test_iload_0(self):
         """tests iload_0 opcode"""
@@ -136,19 +136,19 @@ class TestOpCodes(unittest.TestCase):
         """tests iload_1 opcode"""
         test = OpCodes()
         iload_1(test)
-        self.assertEqual(test.stack.peek(), test.data[1])
+        self.assertEqual(test.stack.peek(), test.localArray[1])
 
     def test_iload_2(self):
         """tests iload_2 opcode"""
         test = OpCodes()
         iload_2(test)
-        self.assertEqual(test.stack.peek(), test.data[2])
+        self.assertEqual(test.stack.peek(), test.localArray[2])
 
     def test_iload_3(self):
         """tests iload_3 opcode"""
         test = OpCodes()
         iload_3(test)
-        self.assertEqual(test.stack.peek(), test.data[3])
+        self.assertEqual(test.stack.peek(), test.localArray[3])
 
     def test_mph1(self):
         """a"""
