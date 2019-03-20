@@ -88,7 +88,19 @@ def iload_2(self):
 
 def iload_3(self):
     """loads an int from local data array at index 3 onto stack"""
-    self.stack.push_op(self.data[3])
+    self.stack.push_op(self.data[3]
+
+def istore_0(self):
+    self.data[0] = self.stack.pop()
+
+def istore_1(self):
+    self.data[1] = self.stack.pop()
+
+def istore_2(self):
+    self.data[2] = self.stack.pop()
+
+def istore_3(self):
+    self.data[3] = self.stack.pop()
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
