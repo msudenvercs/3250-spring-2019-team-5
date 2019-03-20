@@ -258,4 +258,4 @@ def i2l(self):
 def i2s(self):
     """convert int on top of stack to short, and push. it. to. the. stack."""
     convert_this = self.stack.pop_op()
-    self.stack.push_op(numpy.int16(convert_this))
+    self.stack.push_op(numpy.int16(convert_this)) 
