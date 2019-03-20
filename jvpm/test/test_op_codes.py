@@ -6,11 +6,8 @@ import numpy
 from jvpm.op_codes import OpCodes
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
-from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
-from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
-from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -102,79 +99,6 @@ class TestOpCodes(unittest.TestCase):
         test = OpCodes()
         iconst_5(test)
         self.assertEqual(test.stack.peek(), 5)
-
-    def test_istore(self):
-        """tests istore method"""
-        test = OpCodes()
-        length = len(test.localArray)
-        test.stack.push_op(3)
-        test.stack.push_op(2)
-        test.stack.push_op(1)
-        test.stack.push_op(0)
-        for i in range(0, length):
-            istore(test, i)
-            self.assertEqual(test.localArray[i], i)
-
-    def test_istore_0(self):
-        """tests istore_0 method"""
-        test = OpCodes()
-        test.stack.push_op(0)
-        istore_0(test)
-        self.assertEqual(test.localArray[0], 0)
-
-    def test_istore_1(self):
-        """tests istore_1 method"""
-        test = OpCodes()
-        test.stack.push_op(1)
-        istore_1(test)
-        self.assertEqual(test.localArray[1], 1)
-
-    def test_istore_2(self):
-        """test istore_2 method"""
-        test = OpCodes()
-        test.stack.push_op(2)
-        istore_2(test)
-        self.assertEqual(test.localArray[2], 2)
-
-    def test_istore_3(self):
-        """tests istore_3 method"""
-        test = OpCodes()
-        test.stack.push_op(3)
-        istore_3(test)
-        self.assertEqual(test.localArray[3], 3)
-
-    def test_iload(self):
-        """tests iload method"""
-        test = OpCodes()
-        #tests every load index from 0 to length
-        length = len(test.localArray)
-        for i in range(0, length):
-            iload(test, i)
-            self.assertEqual(test.stack.peek(), test.localArray[i])
-
-    def test_iload_0(self):
-        """tests iload_0 opcode"""
-        test = OpCodes()
-        iload_0(test)
-        self.assertEqual(test.stack.peek(), test.localArray[0])
-
-    def test_iload_1(self):
-        """tests iload_1 opcode"""
-        test = OpCodes()
-        iload_1(test)
-        self.assertEqual(test.stack.peek(), test.localArray[1])
-
-    def test_iload_2(self):
-        """tests iload_2 opcode"""
-        test = OpCodes()
-        iload_2(test)
-        self.assertEqual(test.stack.peek(), test.localArray[2])
-
-    def test_iload_3(self):
-        """tests iload_3 opcode"""
-        test = OpCodes()
-        iload_3(test)
-        self.assertEqual(test.stack.peek(), test.localArray[3])
 
     def test_mph1(self):
         """a"""
@@ -326,6 +250,7 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(6)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
+
         ops.stack.push_op(16)
         ops.stack.push_op(3)
         ishr(ops)
@@ -354,45 +279,3 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(4)
         iushr(ops)
         self.assertEqual(ops.stack.pop_op(), 268435455)
-
-    def test_i2b(self):
-        """Test conversion of integer to byte dawg"""
-        ops = OpCodes()
-        ops.stack.push_op(42)
-        i2b(ops)
-        assert isinstance(ops.stack.peek(), numpy.int8)
-
-    def test_i2c(self):
-        """Test conversion of integer to byte"""
-        ops = OpCodes()
-        ops.stack.push_op(33)
-        i2c(ops)
-        assert isinstance(ops.stack.peek(), str)
-
-    def test_i2d(self):
-        """Test conversion of integer to double"""
-        ops = OpCodes()
-        ops.stack.push_op(42)
-        i2d(ops)
-        assert isinstance(ops.stack.peek(), numpy.float64)
-
-    def test_i2f(self):
-        """Test conversion of integer to float"""
-        ops = OpCodes()
-        ops.stack.push_op(42)
-        i2f(ops)
-        assert isinstance(ops.stack.peek(), numpy.float32)
-
-    def test_i2l(self):
-        """Test conversion of integer to long"""
-        ops = OpCodes()
-        ops.stack.push_op(42)
-        i2l(ops)
-        assert isinstance(ops.stack.peek(), numpy.int64)
-
-    def test_i2s(self):
-        """Test conversion of integer to short"""
-        ops = OpCodes()
-        ops.stack.push_op(42)
-        i2s(ops)
-        assert isinstance(ops.stack.peek(), numpy.int16)
