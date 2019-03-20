@@ -9,6 +9,7 @@ class OpCodes():
     """This class interprets opcodes"""
     def __init__(self):
         """this is the constructor"""
+        self.localArray = [0,1,2,3,4]
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
@@ -26,7 +27,11 @@ class OpCodes():
                       0x1b: [iload_1, 1],
                       0x1c: [iload_2, 1],
                       0x1d: [iload_3, 1],
+                      0x36: [istore, 1],
+                      0x3b: [istore_0, 1],
                       0x3c: [istore_1, 1],
+                      0x3d: [istore_2, 1],
+                      0x3e: [istore_3, 1],
                       0x84: [iinc, 3],
                       0xb7: [invokespecial, 3],
                       0x60: [iadd, 1],
@@ -90,17 +95,17 @@ def iload_3(self):
     """loads an int from local data array at index 3 onto stack"""
     self.stack.push_op(self.data[3])
 
-def istore_0(self):
-    self.data[0] = self.stack.pop()
+#def istore_0(self):
+#    self.data[0] = self.stack.pop()
 
-def istore_1(self):
-    self.data[1] = self.stack.pop()
+#def istore_1(self):
+#    self.data[1] = self.stack.pop()
 
-def istore_2(self):
-    self.data[2] = self.stack.pop()
+#def istore_2(self):
+#    self.data[2] = self.stack.pop()
 
-def istore_3(self):
-    self.data[3] = self.stack.pop()
+#def istore_3(self):
+#    self.data[3] = self.stack.pop()
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
@@ -141,9 +146,35 @@ def iconst_5(self):
     self.stack.push_op(5)
     print('iconst_5')
 
+def istore(self, index):
+    """loads an int from stack into local array at <index>"""
+    if(len(self.stack.stack) > 0):
+        self.localArray[index] = self.stack.pop_op()
+    print('istore')
+
+def istore_0(self):
+    """this function implements the istore_0 opcode"""
+    if(len(self.stack.stack) > 0):
+        self.localArray[0] = self.stack.pop_op()
+    print('istore_0')
+
 def istore_1(self):
     """this function implements the istore_1 opcode"""
+    if(len(self.stack.stack) > 0):
+        self.localArray[1] = self.stack.pop_op()
     print('istore_1')
+
+def istore_2(self):
+    """this function implements the istore_2 opcode"""
+    if(len(self.stack.stack) > 0):
+        self.localArray[2] = self.stack.pop_op()
+    print('istore_2')
+
+def istore_3(self):
+    """this function implements the istore_3 opcode"""
+    if(len(self.stack.stack) > 0):
+        self.localArray[3] = self.stack.pop_op()
+    print('istore_3')
 
 def iinc(self):
     """this function implements the iinc opcode"""
