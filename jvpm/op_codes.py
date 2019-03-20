@@ -9,7 +9,7 @@ class OpCodes():
     """This class interprets opcodes"""
     def __init__(self):
         """this is the constructor"""
-        self.localArray = [0, 0, 0, 0]
+        self.localArray = [0, 1, 2, 3]
         with open('jvpm/Test.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #

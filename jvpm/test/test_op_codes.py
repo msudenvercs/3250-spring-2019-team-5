@@ -130,7 +130,7 @@ class TestOpCodes(unittest.TestCase):
         """tests iload_0 opcode"""
         test = OpCodes()
         iload_0(test)
-        self.assertEqual(test.stack.peek(), test.data[0])
+        self.assertEqual(test.stack.peek(), test.localArray[0])
 
     def test_iload_1(self):
         """tests iload_1 opcode"""
