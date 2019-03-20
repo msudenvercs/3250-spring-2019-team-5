@@ -94,24 +94,28 @@ class TestOpCodes(unittest.TestCase):
             self.assertEqual(test.localArray[i], i)
 
     def test_istore_0(self):
+        """tests istore_0 method"""
         test = OpCodes()
         test.stack.push_op(0)
         istore_0(test)
         self.assertEqual(test.localArray[0], 0)
-    
+
     def test_istore_1(self):
+        """tests istore_1 method"""
         test = OpCodes()
         test.stack.push_op(1)
         istore_1(test)
         self.assertEqual(test.localArray[1], 1)
-    
+
     def test_istore_2(self):
+        """test istore_2 method"""
         test = OpCodes()
         test.stack.push_op(2)
         istore_2(test)
         self.assertEqual(test.localArray[2], 2)
-    
+
     def test_istore_3(self):
+        """tests istore_3 method"""
         test = OpCodes()
         test.stack.push_op(3)
         istore_3(test)
@@ -120,7 +124,7 @@ class TestOpCodes(unittest.TestCase):
     def test_iload(self):
         """tests iload method"""
         test = OpCodes()
-        #tests every load index from 4 to length
+        #tests every load index from 0 to length
         length = len(test.localArray)
         for i in range(0, length):
             iload(test, i)
@@ -300,7 +304,6 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(6)
         ishr(ops)
         self.assertEqual(ops.stack.pop_op(), 4)
-
         ops.stack.push_op(16)
         ops.stack.push_op(3)
         ishr(ops)
