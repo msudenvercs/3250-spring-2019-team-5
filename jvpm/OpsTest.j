@@ -7,7 +7,7 @@
 
 .method public static main([Ljava/lang/String;)V
     .limit stack 3          ;Max stack depth
-    .limit locals 1         ;Locals + args = 0 + 1 = 1
+    .limit locals 5         ;Locals + args = 4 + 1 = 1
 
     iconst_0        ;Stack: 0
     iconst_1        ;Stack: 0, 1
@@ -33,7 +33,13 @@
     iconst_2        ;Stack: 19, 5, 2
     imul            ;Stack: 19, (5*2=10)
     ixor            ;Stack: (19^10=25)
-    
+    iconst_3        ;Stack: 25, 3
+    ishl            ;Stack: (25<<3=200)
+    iconst_1        ;Stack: 200, 1
+    ishr            ;Stack: (200>>1=100)
+    ineg            ;Stack: (!100=-101)
+    iconst_2        ;Stack: -101, 2
+    iushr           ;Stack: (-101>LOGICAL>2=-26)
 
     return
 .end method 
