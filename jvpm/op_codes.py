@@ -14,7 +14,7 @@ class OpCodes():
 
     def __init__(self):
         """this is the constructor"""
-        with open('jvpm/Test.class', 'rb') as binary_file:
+        with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #dictionary of op codes and their associated byte advancements
         self.table = {0x2a: [aload_0, 1],
@@ -41,7 +41,10 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
-                      0x00: [not_implemented, 1], 0xb2: [getstatic, 3], 0x12: [ldc, 2], 0xb6: [invokevirtual, 3]}
+                      0x00: [not_implemented, 1],
+                      0xb2: [getstatic, 3],
+                      0x12: [ldc, 2],
+                      0xb6: [invokevirtual, 3]}
         self.byte_count = 0
         self.stack = JvmStack()
         self.constant_pool = []
