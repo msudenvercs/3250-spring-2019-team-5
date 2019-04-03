@@ -14,6 +14,7 @@ class OpCodes():
 
     def __init__(self):
         """this is the constructor"""
+        self.localArray = [0, 1, 2, 3]
         with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #dictionary of op codes and their associated byte advancements
@@ -41,10 +42,14 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
-                      0x00: [not_implemented, 1],
                       0xb2: [getstatic, 3],
                       0x12: [ldc, 2],
-                      0xb6: [invokevirtual, 3]}
+                      0xb6: [invokevirtual, 3],
+                      0x91: [i2b, 1],
+                      0x92: [i2c, 1],
+                      0x87: [i2d, 1],
+                      0x86: [i2f, 1],
+                      0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
         self.constant_pool = []
@@ -75,8 +80,8 @@ class OpCodes():
 
 def not_implemented(self):
     """this is a dummy function"""
-    self.stack.push_op(1)
-    self.stack.pop_op()
+    #self.stack.push_op(1)
+    #self.stack.pop_op()
     return 'not implemented'
 
 
@@ -86,6 +91,26 @@ def aload_0(self):
     self.stack.push_op(1)
     self.stack.pop_op()
 
+
+def iload(self, index):
+    """loads an int from local data array at <index> onto stack"""
+    self.stack.push_op(self.localArray[index])
+
+def iload_0(self):
+    """loads an int from local data array at index 0 onto stack"""
+    self.stack.push_op(self.localArray[0])
+
+def iload_1(self):
+    """loads an int from local data array at index 1 onto stack"""
+    self.stack.push_op(self.localArray[1])
+
+def iload_2(self):
+    """loads an int from local data array at index 2 onto stack"""
+    self.stack.push_op(self.localArray[2])
+
+def iload_3(self):
+    """loads an int from local data array at index 3 onto stack"""
+    self.stack.push_op(self.localArray[3])
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
@@ -295,3 +320,33 @@ def invokevirtual(self):
 # finally, we can invoke the method!
     official_name = classname + "." + methodname + methodtype
     self.nmt.call(self, official_name)
+    
+def i2b(self):
+    """convert int on top of stack to byte, and push it(to the stack)"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int8(convert_this))
+
+def i2c(self):
+    """convert int on top of stack to character, and push it. Push it real good"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(chr(convert_this))
+
+def i2d(self):
+    """convert int on top of stack to double, and p-p-push it real good"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float64(convert_this))
+
+def i2f(self):
+    """convert int on top of stack to float, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float32(convert_this))
+
+def i2l(self):
+    """convert int on top of stack to long, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int64(convert_this))
+
+def i2s(self):
+    """convert int on top of stack to short, and push. it. to. the. stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int16(convert_this))

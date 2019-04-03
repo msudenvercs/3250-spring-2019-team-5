@@ -52,7 +52,8 @@ class TestOpCodes(unittest.TestCase):
         #                                          call('return'),
         #                                          call('iconst_4'),
         #                                          call('iconst_3'),
-        #                                          call('iconst_m1')])
+        #                                          call('iconst_m1'),
+        #                                          call('idiv')])
 
     def test_not_implmented(self):
         """this method tests the OpCodes class"""
