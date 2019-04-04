@@ -14,9 +14,10 @@ class OpCodes():
 
     def __init__(self):
         """this is the constructor"""
-        with open('jvpm/Test.class', 'rb') as binary_file:
+        self.localArray = [0, 1, 2, 3]
+        with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
-        #dictionary of op codes and their associated byte advancements
+        #
         self.table = {0x2a: [aload_0, 1],
                       0xb1: [ret, 2],
                       0x02: [iconst_m1, 1],
@@ -26,7 +27,16 @@ class OpCodes():
                       0x06: [iconst_3, 1],
                       0x07: [iconst_4, 1],
                       0x08: [iconst_5, 1],
+                      0x15: [iload, 1],
+                      0x1a: [iload_0, 1],
+                      0x1b: [iload_1, 1],
+                      0x1c: [iload_2, 1],
+                      0x1d: [iload_3, 1],
+                      0x36: [istore, 1],
+                      0x3b: [istore_0, 1],
                       0x3c: [istore_1, 1],
+                      0x3d: [istore_2, 1],
+                      0x3e: [istore_3, 1],
                       0x84: [iinc, 3],
                       0xb7: [invokespecial, 3],
                       0x60: [iadd, 1],
@@ -41,7 +51,14 @@ class OpCodes():
                       0X78: [ishl, 1],
                       0x7a: [ishr, 1],
                       0x7c: [iushr, 1],
-                      0x00: [not_implemented, 1], 0xb2: [getstatic, 3], 0x12: [ldc, 2], 0xb6: [invokevirtual, 3]}
+                      0xb2: [getstatic, 3],
+                      0x12: [ldc, 2],
+                      0xb6: [invokevirtual, 3],
+                      0x91: [i2b, 1],
+                      0x92: [i2c, 1],
+                      0x87: [i2d, 1],
+                      0x86: [i2f, 1],
+                      0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
         self.constant_pool = []
@@ -72,17 +89,37 @@ class OpCodes():
 
 def not_implemented(self):
     """this is a dummy function"""
-    self.stack.push_op(1)
-    self.stack.pop_op()
+    #self.stack.push_op(1)
+    #self.stack.pop_op()
     return 'not implemented'
 
 
 def aload_0(self):
-    """this is a dummy method"""
+    """loads a reference from the data array onto stack"""
     print('aload_0')
     self.stack.push_op(1)
     self.stack.pop_op()
 
+
+def iload(self, index):
+    """loads an int from local data array at <index> onto stack"""
+    self.stack.push_op(self.localArray[index])
+
+def iload_0(self):
+    """loads an int from local data array at index 0 onto stack"""
+    self.stack.push_op(self.localArray[0])
+
+def iload_1(self):
+    """loads an int from local data array at index 1 onto stack"""
+    self.stack.push_op(self.localArray[1])
+
+def iload_2(self):
+    """loads an int from local data array at index 2 onto stack"""
+    self.stack.push_op(self.localArray[2])
+
+def iload_3(self):
+    """loads an int from local data array at index 3 onto stack"""
+    self.stack.push_op(self.localArray[3])
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
@@ -132,13 +169,38 @@ def iconst_5(self):
     self.stack.push_op(5)
     print('iconst_5')
 
+def istore(self, index):
+    """loads an int from stack into local array at <index>"""
+    if len(self.stack.stack) > 0:
+        self.localArray[index] = self.stack.pop_op()
+    print('istore')
+
+def istore_0(self):
+    """this function implements the istore_0 opcode"""
+    if len(self.stack.stack) > 0:
+        self.localArray[0] = self.stack.pop_op()
+    print('istore_0')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
+    if len(self.stack.stack) > 0:
+        self.localArray[1] = self.stack.pop_op()
     print('istore_1')
     self.stack.push_op(1)
     self.stack.pop_op()
 
+
+def istore_2(self):
+    """this function implements the istore_2 opcode"""
+    if len(self.stack.stack) > 0:
+        self.localArray[2] = self.stack.pop_op()
+    print('istore_2')
+
+def istore_3(self):
+    """this function implements the istore_3 opcode"""
+    if len(self.stack.stack) > 0:
+        self.localArray[3] = self.stack.pop_op()
+    print('istore_3')
 
 def iinc(self):
     """this function implements the iinc opcode"""
@@ -292,3 +354,32 @@ def invokevirtual(self):
 # finally, we can invoke the method!
     official_name = classname + "." + methodname + methodtype
     self.nmt.call(self, official_name)
+def i2b(self):
+    """convert int on top of stack to byte, and push it(to the stack)"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int8(convert_this))
+
+def i2c(self):
+    """convert int on top of stack to character, and push it. Push it real good"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(chr(convert_this))
+
+def i2d(self):
+    """convert int on top of stack to double, and p-p-push it real good"""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float64(convert_this))
+
+def i2f(self):
+    """convert int on top of stack to float, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.float32(convert_this))
+
+def i2l(self):
+    """convert int on top of stack to long, and push it to the stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int64(convert_this))
+
+def i2s(self):
+    """convert int on top of stack to short, and push. it. to. the. stack."""
+    convert_this = self.stack.pop_op()
+    self.stack.push_op(numpy.int16(convert_this))
