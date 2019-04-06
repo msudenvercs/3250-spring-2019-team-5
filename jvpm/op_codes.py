@@ -89,8 +89,8 @@ class OpCodes():
 
 def not_implemented(self):
     """this is a dummy function"""
-    #self.stack.push_op(1)
-    #self.stack.pop_op()
+    self.stack.push_op(1)
+    self.stack.pop_op()
     return 'not implemented'
 
 
