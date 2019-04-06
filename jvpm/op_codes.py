@@ -14,7 +14,7 @@ class OpCodes():
 
     def __init__(self):
         """this is the constructor"""
-        self.localArray = [0, 1, 2, 3]
+        self.local_array = [0, 1, 2, 3]
         with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
@@ -103,23 +103,23 @@ def aload_0(self):
 
 def iload(self, index):
     """loads an int from local data array at <index> onto stack"""
-    self.stack.push_op(self.localArray[index])
+    self.stack.push_op(self.local_array[index])
 
 def iload_0(self):
     """loads an int from local data array at index 0 onto stack"""
-    self.stack.push_op(self.localArray[0])
+    self.stack.push_op(self.local_array[0])
 
 def iload_1(self):
     """loads an int from local data array at index 1 onto stack"""
-    self.stack.push_op(self.localArray[1])
+    self.stack.push_op(self.local_array[1])
 
 def iload_2(self):
     """loads an int from local data array at index 2 onto stack"""
-    self.stack.push_op(self.localArray[2])
+    self.stack.push_op(self.local_array[2])
 
 def iload_3(self):
     """loads an int from local data array at index 3 onto stack"""
-    self.stack.push_op(self.localArray[3])
+    self.stack.push_op(self.local_array[3])
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
@@ -172,19 +172,19 @@ def iconst_5(self):
 def istore(self, index):
     """loads an int from stack into local array at <index>"""
     if len(self.stack.stack) > 0:
-        self.localArray[index] = self.stack.pop_op()
+        self.local_array[index] = self.stack.pop_op()
     print('istore')
 
 def istore_0(self):
     """this function implements the istore_0 opcode"""
     if len(self.stack.stack) > 0:
-        self.localArray[0] = self.stack.pop_op()
+        self.local_array[0] = self.stack.pop_op()
     print('istore_0')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
     if len(self.stack.stack) > 0:
-        self.localArray[1] = self.stack.pop_op()
+        self.local_array[1] = self.stack.pop_op()
     print('istore_1')
     self.stack.push_op(1)
     self.stack.pop_op()
@@ -193,13 +193,13 @@ def istore_1(self):
 def istore_2(self):
     """this function implements the istore_2 opcode"""
     if len(self.stack.stack) > 0:
-        self.localArray[2] = self.stack.pop_op()
+        self.local_array[2] = self.stack.pop_op()
     print('istore_2')
 
 def istore_3(self):
     """this function implements the istore_3 opcode"""
     if len(self.stack.stack) > 0:
-        self.localArray[3] = self.stack.pop_op()
+        self.local_array[3] = self.stack.pop_op()
     print('istore_3')
 
 def iinc(self):

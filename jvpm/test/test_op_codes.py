@@ -107,75 +107,75 @@ class TestOpCodes(unittest.TestCase):
     def test_istore(self):
         """tests istore method"""
         test = OpCodes()
-        length = len(test.localArray)
+        length = len(test.local_array)
         test.stack.push_op(3)
         test.stack.push_op(2)
         test.stack.push_op(1)
         test.stack.push_op(0)
         for i in range(0, length):
             istore(test, i)
-            self.assertEqual(test.localArray[i], i)
+            self.assertEqual(test.local_array[i], i)
 
     def test_istore_0(self):
         """tests istore_0 method"""
         test = OpCodes()
         test.stack.push_op(0)
         istore_0(test)
-        self.assertEqual(test.localArray[0], 0)
+        self.assertEqual(test.local_array[0], 0)
 
     def test_istore_1(self):
         """tests istore_1 method"""
         test = OpCodes()
         test.stack.push_op(1)
         istore_1(test)
-        self.assertEqual(test.localArray[1], 1)
+        self.assertEqual(test.local_array[1], 1)
 
     def test_istore_2(self):
         """test istore_2 method"""
         test = OpCodes()
         test.stack.push_op(2)
         istore_2(test)
-        self.assertEqual(test.localArray[2], 2)
+        self.assertEqual(test.local_array[2], 2)
 
     def test_istore_3(self):
         """tests istore_3 method"""
         test = OpCodes()
         test.stack.push_op(3)
         istore_3(test)
-        self.assertEqual(test.localArray[3], 3)
+        self.assertEqual(test.local_array[3], 3)
 
     def test_iload(self):
         """tests iload method"""
         test = OpCodes()
         #tests every load index from 0 to length
-        length = len(test.localArray)
+        length = len(test.local_array)
         for i in range(0, length):
             iload(test, i)
-            self.assertEqual(test.stack.peek(), test.localArray[i])
+            self.assertEqual(test.stack.peek(), test.local_array[i])
 
     def test_iload_0(self):
         """tests iload_0 opcode"""
         test = OpCodes()
         iload_0(test)
-        self.assertEqual(test.stack.peek(), test.localArray[0])
+        self.assertEqual(test.stack.peek(), test.local_array[0])
 
     def test_iload_1(self):
         """tests iload_1 opcode"""
         test = OpCodes()
         iload_1(test)
-        self.assertEqual(test.stack.peek(), test.localArray[1])
+        self.assertEqual(test.stack.peek(), test.local_array[1])
 
     def test_iload_2(self):
         """tests iload_2 opcode"""
         test = OpCodes()
         iload_2(test)
-        self.assertEqual(test.stack.peek(), test.localArray[2])
+        self.assertEqual(test.stack.peek(), test.local_array[2])
 
     def test_iload_3(self):
         """tests iload_3 opcode"""
         test = OpCodes()
         iload_3(test)
-        self.assertEqual(test.stack.peek(), test.localArray[3])
+        self.assertEqual(test.stack.peek(), test.local_array[3])
 
     def test_mph1(self):
         """a"""
