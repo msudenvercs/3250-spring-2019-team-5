@@ -339,7 +339,5 @@ def new(self):
     """Determine the class to be instantiated, then call invokespecial to initialize it"""
     addr1 = self.data[self.byte_count-2]
     addr2 = self.data[self.byte_count-1]
-    newConst = self.constant_pool.lookup_constant(self.data[(addr1 << 8) | addr2])
-    newClass = newConst.decode("utf-8")
-    newClass = newClass[newClass.rfind('/')+1:]
-    self.stack.push_op(newClass)
+    newConst = self.constant_pool.lookup_constant(addr1+addr2)
+    self.stack.push_op(newConst)
