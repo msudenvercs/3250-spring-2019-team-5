@@ -8,7 +8,8 @@ class MethodTable:
         """constructor"""
         self.table = {
             "java/io/PrintStream.println(Ljava/lang/String;)V": println,
-            "java/io/PrintStream.println(I)V": println}
+            "java/io/PrintStream.println(I)V": println,
+            "java/util/Scanner.<init>(Ljava/io/InputStream;)V": scanner}
 
     def call(self, op_codes, official_name):
         """calls a method from the table based on its name.
@@ -25,3 +26,9 @@ def println(op_codes):
     op_codes.stack.pop_op()
 # and finally, the big print!
     print(to_be_printed)
+
+def scanner(stack):
+    """take the top two items off the stack and push a scanner object on the stack"""
+    stack.pop_op()
+    stack.pop_op()
+    stack.push_op('scanner')
