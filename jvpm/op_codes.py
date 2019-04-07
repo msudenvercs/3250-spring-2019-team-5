@@ -171,20 +171,17 @@ def iconst_5(self):
 
 def istore(self, index):
     """loads an int from stack into local array at <index>"""
-    if len(self.stack.stack) > 0:
-        self.local_array[index] = self.stack.pop_op()
+    self.local_array[index] = self.stack.pop_op()
     print('istore')
 
 def istore_0(self):
     """this function implements the istore_0 opcode"""
-    if len(self.stack.stack) > 0:
-        self.local_array[0] = self.stack.pop_op()
+    self.local_array[0] = self.stack.pop_op()
     print('istore_0')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
-    if len(self.stack.stack) > 0:
-        self.local_array[1] = self.stack.pop_op()
+    self.local_array[1] = self.stack.pop_op()
     print('istore_1')
     self.stack.push_op(1)
     self.stack.pop_op()
@@ -192,14 +189,12 @@ def istore_1(self):
 
 def istore_2(self):
     """this function implements the istore_2 opcode"""
-    if len(self.stack.stack) > 0:
-        self.local_array[2] = self.stack.pop_op()
+    self.local_array[2] = self.stack.pop_op()
     print('istore_2')
 
 def istore_3(self):
     """this function implements the istore_3 opcode"""
-    if len(self.stack.stack) > 0:
-        self.local_array[3] = self.stack.pop_op()
+    self.local_array[3] = self.stack.pop_op()
     print('istore_3')
 
 def iinc(self):
