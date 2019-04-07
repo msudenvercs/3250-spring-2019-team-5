@@ -96,7 +96,6 @@ def not_implemented(self):
 
 def aload_0(self):
     """loads a reference from the data array onto stack"""
-    print('aload_0')
     self.stack.push_op(1)
     self.stack.pop_op()
 
@@ -123,7 +122,6 @@ def iload_3(self):
 
 def ret(self):
     """this function will eventually implement the ret opcode"""
-    print('return')
     self.stack.push_op(1)
     self.stack.pop_op()
 
@@ -131,58 +129,48 @@ def ret(self):
 def iconst_m1(self):
     """implements iconst_m opcode, loads int -1 onto stack"""
     self.stack.push_op(-1)
-    print('iconst_m1')
 
 
 def iconst_0(self):
     """implements iconst_0 opcode, loads int 0 onto stack"""
     self.stack.push_op(0)
-    print('iconst_0')
 
 
 def iconst_1(self):
     """implements iconst_1 opcode, loads int 1 onto stack"""
     self.stack.push_op(1)
-    print('iconst_1')
 
 
 def iconst_2(self):
     """implements iconst_2 opcode, loads int 2 onto stack"""
     self.stack.push_op(2)
-    print('iconst_2')
 
 
 def iconst_3(self):
     """"implememts iconst_3 opcode, loads int 3 onto stack"""
     self.stack.push_op(3)
-    print('iconst_3')
 
 
 def iconst_4(self):
     """implements iconst_4 opcode, loads int 4 onto stack"""
     self.stack.push_op(4)
-    print('iconst_4')
 
 
 def iconst_5(self):
     """implements iconst_5 opcode, loads int 5 onto stack"""
     self.stack.push_op(5)
-    print('iconst_5')
 
 def istore(self, index):
     """loads an int from stack into local array at <index>"""
     self.local_array[index] = self.stack.pop_op()
-    print('istore')
 
 def istore_0(self):
     """this function implements the istore_0 opcode"""
     self.local_array[0] = self.stack.pop_op()
-    print('istore_0')
 
 def istore_1(self):
     """this function implements the istore_1 opcode"""
     self.local_array[1] = self.stack.pop_op()
-    print('istore_1')
     self.stack.push_op(1)
     self.stack.pop_op()
 
@@ -190,16 +178,13 @@ def istore_1(self):
 def istore_2(self):
     """this function implements the istore_2 opcode"""
     self.local_array[2] = self.stack.pop_op()
-    print('istore_2')
 
 def istore_3(self):
     """this function implements the istore_3 opcode"""
     self.local_array[3] = self.stack.pop_op()
-    print('istore_3')
 
 def iinc(self):
     """this function implements the iinc opcode"""
-    print('iinc')
     self.stack.push_op(1)
     self.stack.pop_op()
 
@@ -208,7 +193,6 @@ def invokespecial(self):
     """This function implements the invokespecial opcode"""
     byte_1 = self.data[self.byte_count + 1]
     byte_2 = self.data[self.byte_count + 2]
-    print('invokespecial')
     return byte_1 + byte_2
 
 
