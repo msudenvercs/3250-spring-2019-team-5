@@ -8,7 +8,6 @@ from jvpm.method_table import MethodTable
 # shuts off the overflow warnings from numpy
 numpy.seterr(over="ignore", under="ignore")
 
-
 class OpCodes():
     """This class interprets opcodes"""
 
@@ -99,7 +98,6 @@ def aload_0(self):
     self.stack.push_op(1)
     self.stack.pop_op()
 
-
 def iload(self, index):
     """loads an int from local data array at <index> onto stack"""
     self.stack.push_op(self.local_array[index])
@@ -125,41 +123,33 @@ def ret(self):
     self.stack.push_op(1)
     self.stack.pop_op()
 
-
 def iconst_m1(self):
     """implements iconst_m opcode, loads int -1 onto stack"""
     self.stack.push_op(-1)
-
 
 def iconst_0(self):
     """implements iconst_0 opcode, loads int 0 onto stack"""
     self.stack.push_op(0)
 
-
 def iconst_1(self):
     """implements iconst_1 opcode, loads int 1 onto stack"""
     self.stack.push_op(1)
-
 
 def iconst_2(self):
     """implements iconst_2 opcode, loads int 2 onto stack"""
     self.stack.push_op(2)
 
-
 def iconst_3(self):
     """"implememts iconst_3 opcode, loads int 3 onto stack"""
     self.stack.push_op(3)
-
 
 def iconst_4(self):
     """implements iconst_4 opcode, loads int 4 onto stack"""
     self.stack.push_op(4)
 
-
 def iconst_5(self):
     """implements iconst_5 opcode, loads int 5 onto stack"""
     self.stack.push_op(5)
-
 def istore(self, index):
     """loads an int from stack into local array at <index>"""
     self.local_array[index] = self.stack.pop_op()
@@ -174,7 +164,6 @@ def istore_1(self):
     self.stack.push_op(1)
     self.stack.pop_op()
 
-
 def istore_2(self):
     """this function implements the istore_2 opcode"""
     self.local_array[2] = self.stack.pop_op()
@@ -188,20 +177,11 @@ def iinc(self):
     self.stack.push_op(1)
     self.stack.pop_op()
 
-
-def invokespecial(self):
-    """This function implements the invokespecial opcode"""
-    byte_1 = self.data[self.byte_count + 1]
-    byte_2 = self.data[self.byte_count + 2]
-    return byte_1 + byte_2
-
-
 def iadd(self):
     """implements the iadd opcode"""
     val2 = numpy.int32(self.stack.pop_op())
     val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1 + val2)
-
 
 def isub(self):
     """implements the isub opcode"""
@@ -209,13 +189,11 @@ def isub(self):
     val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1 - val2)
 
-
 def imul(self):
     """implements the imul opcode"""
     val2 = numpy.int32(self.stack.pop_op())
     val1 = numpy.int32(self.stack.pop_op())
     self.stack.push_op(val1 * val2)
-
 
 def idiv(self):
     """implements the idiv opcode"""
@@ -225,8 +203,6 @@ def idiv(self):
 
 # irem will be implemented in terms of the other operations.
 # a%b = a-(a/b)*b
-
-
 def irem(self):
     """implements the irem opcode"""
     val2 = numpy.int32(self.stack.pop_op())
@@ -239,19 +215,16 @@ def irem(self):
     imul(self)
     isub(self)
 
-
 def iand(self):
     """ Perform bitwise AND on the top two operands on the stack. """
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val & that_val)
 
-
 def ineg(self):
     """ Perform bitwise NOT on the top operand on the stack. """
     not_this = self.stack.pop_op()
     self.stack.push_op(~not_this)
-
 
 def ior(self):
     """ Perform bitwise OR on the top two operands on the stack. """
@@ -259,13 +232,11 @@ def ior(self):
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val | that_val)
 
-
 def ixor(self):
     """ Perform bitwise XOR on the top two operands on the stack. """
     this_val = self.stack.pop_op()
     that_val = self.stack.pop_op()
     self.stack.push_op(this_val ^ that_val)
-
 
 def ishl(self):
     """implements the shl opcode"""
@@ -273,15 +244,11 @@ def ishl(self):
     val1 = self.stack.pop_op()
     self.stack.push_op(val1 << val2)
 
-# implementing  shlr
-
-
 def ishr(self):
     """implements the shl opcode"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     self.stack.push_op(val1 >> val2)
-
 
 def iushr(self):
     """ Perform bitwise LOGICAL SHIFT RIGHT on the top two operands on the stack. """
@@ -295,44 +262,6 @@ def iushr(self):
         print(str(val))
     self.stack.push_op(val)
 
-
-def getstatic(self):
-    """This is a stub implementation of getstatic.
-It will be expanded in the future if we start loading other classes."""
-    index = self.data[self.byte_count - 2:self.byte_count]
-    self.constant_pool.load_constant(index, self.stack)
-
-
-def ldc(self):
-    """implements ldc"""
-# take into account the fact that the index for ldc is a single byte
-    index = b"\x00" + self.data[self.byte_count - 1:self.byte_count]
-    self.constant_pool.load_constant(index, self.stack)
-
-
-def invokevirtual(self):
-    """implements invokevirtual"""
-# look up the method to be invoked.
-    index = self.data[self.byte_count - 2:self.byte_count]
-    methodref = self.constant_pool.lookup_constant(index)
-# get the name of the class for this method.
-    classref = self.constant_pool.lookup_constant(methodref[1:3])
-    utf8_index = classref[1:]
-    utf8_const = self.constant_pool.lookup_constant(utf8_index)
-    classname = utf8_const[3:].decode("utf-8")
-# after all that pointer chasing, we still have to do it again to get the
-# name and type of the method
-    nat_index = methodref[3:]
-    nat_const = self.constant_pool.lookup_constant(nat_index)
-    methodname_index = nat_const[1:3]
-    methodname_const = self.constant_pool.lookup_constant(methodname_index)
-    methodname = methodname_const[3:].decode("utf-8")
-    methodtype_index = nat_const[3:]
-    methodtype_const = self.constant_pool.lookup_constant(methodtype_index)
-    methodtype = methodtype_const[3:].decode("utf-8")
-# finally, we can invoke the method!
-    official_name = classname + "." + methodname + methodtype
-    self.nmt.call(self, official_name)
 def i2b(self):
     """convert int on top of stack to byte, and push it(to the stack)"""
     convert_this = self.stack.pop_op()
@@ -362,3 +291,55 @@ def i2s(self):
     """convert int on top of stack to short, and push. it. to. the. stack."""
     convert_this = self.stack.pop_op()
     self.stack.push_op(numpy.int16(convert_this))
+
+def getstatic(self):
+    """This is a stub implementation of getstatic.
+It will be expanded in the future if we start loading other classes."""
+    index = self.data[self.byte_count - 2:self.byte_count]
+    self.constant_pool.load_constant(index, self.stack)
+
+def ldc(self):
+    """implements ldc"""
+# take into account the fact that the index for ldc is a single byte
+    index = b"\x00" + self.data[self.byte_count - 1:self.byte_count]
+    self.constant_pool.load_constant(index, self.stack)
+
+def invokevirtual(self):
+    """implements invokevirtual"""
+# look up the method to be invoked.
+    index = self.data[self.byte_count - 2:self.byte_count]
+    methodref = self.constant_pool.lookup_constant(index)
+# get the name of the class for this method.
+    classref = self.constant_pool.lookup_constant(methodref[1:3])
+    utf8_index = classref[1:]
+    utf8_const = self.constant_pool.lookup_constant(utf8_index)
+    classname = utf8_const[3:].decode("utf-8")
+# after all that pointer chasing, we still have to do it again to get the
+# name and type of the method
+    nat_index = methodref[3:]
+    nat_const = self.constant_pool.lookup_constant(nat_index)
+    methodname_index = nat_const[1:3]
+    methodname_const = self.constant_pool.lookup_constant(methodname_index)
+    methodname = methodname_const[3:].decode("utf-8")
+    methodtype_index = nat_const[3:]
+    methodtype_const = self.constant_pool.lookup_constant(methodtype_index)
+    methodtype = methodtype_const[3:].decode("utf-8")
+# finally, we can invoke the method!
+    official_name = classname + "." + methodname + methodtype
+    self.nmt.call(self, official_name)
+
+def invokespecial(self):
+    """This function implements the invokespecial opcode"""
+    # byte_1 = self.data[self.byte_count + 1]
+    # byte_2 = self.data[self.byte_count + 2]
+    # return byte_1 + byte_2
+    invokevirtual(self)
+
+def new(self):
+    """Determine the class to be instantiated, then call invokespecial to initialize it"""
+    addr1 = self.data[self.byte_count-2]
+    addr2 = self.data[self.byte_count-1]
+    newConst = self.constant_pool.lookup_constant(self.data[(addr1 << 8) | addr2])
+    newClass = newConst.decode("utf-8")
+    newClass = newClass[newClass.rfind('/')+1:]
+    self.stack.push_op(newClass)
