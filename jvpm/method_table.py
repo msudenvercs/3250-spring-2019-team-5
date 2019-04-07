@@ -29,6 +29,6 @@ def println(op_codes):
 
 def scanner(stack):
     """take the top two items off the stack and push a scanner object on the stack"""
-    stack.pop_op()
-    stack.pop_op()
-    stack.push_op('scanner')
+    stack.stack.pop_op()
+    stack.stack.pop_op()
+    stack.stack.push_op('scanner')
