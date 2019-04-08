@@ -20,4 +20,3 @@ but it is one of the standard stack operations that might be useful later
         return self.stack[-1]
 class EmptyStackError(Exception):
     """error raised when there is an empty stack"""
-    pass #dummy statement that does nothing; fixes syntax error.
