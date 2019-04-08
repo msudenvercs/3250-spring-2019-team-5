@@ -405,3 +405,4 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(15)
         dup(ops)
         self.assertEqual(ops.stack.pop_op(), 15)
+        self.assertEqual(ops.stack.pop_op(), 15)
