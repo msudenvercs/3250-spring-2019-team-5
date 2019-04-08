@@ -337,7 +337,7 @@ def invokespecial(self):
     invokevirtual(self)
 
 def new(self):
-    """Determine the class to be instantiated, then call invokespecial to initialize it"""
+    """Find the constant representing the class to be instantiated, then STACK IT"""
     addr1 = self.data[self.byte_count-2]
     addr2 = self.data[self.byte_count-1]
     newConst = self.constant_pool.lookup_constant(addr1+addr2)
@@ -349,4 +349,3 @@ def dup(self):
     dup_val = x
     self.stack.push_op(x)
     self.stack.push_op(dup_val)
-
