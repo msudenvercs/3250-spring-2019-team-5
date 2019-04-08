@@ -412,7 +412,6 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(ops.stack.pop_op(), 0)
         self.assertEqual(ops.stack.pop_op(), 0)
 
-        ops = OpCodes()
         ops.stack.push_op('foo')
         dup(ops)
         self.assertEqual(ops.stack.pop_op(), 'foo')
