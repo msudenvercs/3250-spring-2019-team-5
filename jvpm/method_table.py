@@ -40,4 +40,3 @@ read in an int and pushes that int onto the stack"""
     stack.stack.pop_op()
     i = int(input())
     stack.stack.push_op(i)
-
