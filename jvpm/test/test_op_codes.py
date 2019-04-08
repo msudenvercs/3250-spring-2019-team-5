@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch, call
 import numpy
 from jvpm.op_codes import OpCodes
+from jvpm.op_codes import dup
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
@@ -397,3 +398,10 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(42)
         i2s(ops)
         assert isinstance(ops.stack.peek(), numpy.int16)
+
+    def test_dup(self):
+        """Test dup"""
+        ops = OpCodes()
+        ops.stack.push_op(15)
+        dup(ops)
+        self.assertEqual(ops.stack.pop_op(), 15)
