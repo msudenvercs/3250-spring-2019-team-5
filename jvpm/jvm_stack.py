@@ -11,8 +11,7 @@ class JvmStack:
         """Pops one object off of the stack and then returns it"""
         if self.stack:
             return self.stack.pop()
-        else:
-            raise EmptyStackError("Can't pop from an empty stack")
+        raise EmptyStackError("Can't pop from an empty stack")
     def peek(self):
         """returns the top element of the stack without popping it.
 This doesn't seem useful now,
