@@ -35,7 +35,8 @@ def scanner(stack):
     stack.stack.push_op('scanner')
 
 def nextInt(stack):
-    """take the top element of the stack, read in an int and pushes that int onto the stack" on the stack"""
+    """take the top element of the stack,
+read in an int and pushes that int onto the stack"""
     stack.stack.pop_op()
     i = int(input())
     stack.stack.push_op(i)
