@@ -342,3 +342,10 @@ def new(self):
     addr2 = self.data[self.byte_count-1]
     new_constant = self.constant_pool.lookup_constant(addr1|addr2)
     self.stack.push_op(new_constant)
+    
+def dup(self):
+    """"pop first value on the stack, duplicate and push back onto stack"""
+    x = self.stack.pop_op()
+    dup_val = x
+    self.stack.push_op(x)
+    self.stack.push_op(dup_val)
