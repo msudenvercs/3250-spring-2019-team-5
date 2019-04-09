@@ -308,8 +308,7 @@ def ldc(self):
 def invokevirtual(self):
     """implements invokevirtual"""
 # look up the method to be invoked.
-    index = self.data[self.byte_count - 2:self.byte_count]
-    methodref = self.constant_pool.lookup_constant(index)
+    methodref = self.constant_pool.lookup_constant(self.data[self.byte_count - 2:self.byte_count])
 # get the name of the class for this method.
     classref = self.constant_pool.lookup_constant(methodref[1:3])
     utf8_index = classref[1:]
