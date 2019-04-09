@@ -344,7 +344,7 @@ def new(self):
     self.stack.push_op(new_constant)
     
 def dup(self):
-    """"pop first value on the stack, duplicate and push back onto stack"""
+    """pop first value on the stack, duplicate and push back onto stack"""
     x = self.stack.pop_op()
     dup_val = x
     self.stack.push_op(x)
