@@ -10,7 +10,7 @@ class MethodTable:
             "java/io/PrintStream.println(Ljava/lang/String;)V": println,
             "java/io/PrintStream.println(I)V": println,
             "java/util/Scanner.<init>(Ljava/io/InputStream;)V": scanner,
-            "java/util/Scanner.nextInt()V": nextInt}
+            "java/util/Scanner.next_int()V": next_int}
 
     def call(self, op_codes, official_name):
         """calls a method from the table based on its name.
@@ -34,7 +34,7 @@ def scanner(stack):
     stack.stack.pop_op()
     stack.stack.push_op('scanner')
 
-def nextInt(stack):
+def next_int(stack):
     """take the top element of the stack,
 read in an int and pushes that int onto the stack"""
     stack.stack.pop_op()
