@@ -18,6 +18,7 @@ class OpCodes():
             self.data = bytes(binary_file.read())
         #
         self.table = {0x2a: [aload_0, 1],
+                      0x59: [dup, 1],
                       0xb1: [ret, 2],
                       0x02: [iconst_m1, 1],
                       0x03: [iconst_0, 1],
