@@ -18,7 +18,6 @@ class OpCodes():
             self.data = bytes(binary_file.read())
         #
         self.table = {0x2a: [aload_0, 1],
-                      0x59: [dup, 1],
                       0xb1: [ret, 2],
                       0x02: [iconst_m1, 1],
                       0x03: [iconst_0, 1],
@@ -340,12 +339,5 @@ def new(self):
     """Find the constant representing the class to be instantiated, then STACK IT"""
     addr1 = self.data[self.byte_count-2]
     addr2 = self.data[self.byte_count-1]
-    newConst = self.constant_pool.lookup_constant(addr1+addr2)
-    self.stack.push_op(newConst)
-
-def dup(self):
-    """"pop first value on the stack, duplicate and push back onto stack"""
-    x = self.stack.pop_op()
-    dup_val = x
-    self.stack.push_op(x)
-    self.stack.push_op(dup_val)
+    new_constant = self.constant_pool.lookup_constant(addr1|addr2)
+    self.stack.push_op(new_constant)
