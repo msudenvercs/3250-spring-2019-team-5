@@ -2,7 +2,7 @@
 # utilizes NumPy package to handle 32 bit int over/underflow in Java
 import numpy  # to get the java-like behavior for arithmetic
 
-from jvpm.jvm_stack import JvmStack
+from jvpm.jvm_stack import JvmStack, pop_twice, push_twice
 from jvpm.constant_pool_parser import ConstantPoolParser
 from jvpm.method_table import MethodTable
 # shuts off the overflow warnings from numpy
