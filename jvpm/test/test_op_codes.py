@@ -12,7 +12,7 @@ from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
-from jvpm.op_codes import lshl, lshr, land, lcmp
+from jvpm.op_codes import lshl, lshr, land, lcmp, lushr
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -488,3 +488,24 @@ class TestOpCodes(unittest.TestCase):
         i2l(ops)
         lcmp(ops)
         self.assertEqual(ops.stack.pop_op(), 0)
+
+    def test_lushr(self):
+        """test lushr (bitwise logical shift right with zero extension)"""
+        ops = OpCodes()
+        ops.stack.push_op(3)
+        ops.stack.push_op(42)
+        lushr(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(5))
+
+        ops.stack.push_op(66)
+        ops.stack.push_op(2)
+        lushr(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(0))
+
+        ops.stack.push_op(2)
+        ops.stack.push_op(-15)
+        lushr(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(-4))
