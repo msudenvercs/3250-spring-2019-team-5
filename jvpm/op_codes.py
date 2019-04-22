@@ -374,7 +374,7 @@ def land(self):
     """pop 2 longs, AND them and push the result to the stack"""
     val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
-    self.stack.push_op(val1 & val2)
+    self.stack.push_op(numpy.int64(val1 & val2))
 
 def lcmp(self):
     """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2"""
@@ -393,4 +393,4 @@ def lushr(self):
     zero_to_sixty_three_mask = 0x3f
     long_val = self.stack.pop_op()
     int_val = self.stack.pop_op() & zero_to_sixty_three_mask
-    self.stack.push_op((long_val >> int_val) + (numpy.int64(2) << ~int_val))
+    self.stack.push_op(numpy.int64((long_val >> int_val) + (numpy.int64(2) << ~int_val)))
