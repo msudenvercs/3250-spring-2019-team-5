@@ -60,6 +60,7 @@ class OpCodes():
                       0x86: [i2f, 1],
                       0x79: [lshl, 1],
                       0x7b: [lshr, 1],
+                      0x7f: [land, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -366,3 +367,9 @@ def lshr(self):
     long_val = self.stack.pop_op()
     int_val = self.stack.pop_op() & zero_to_sixty_three_mask
     self.stack.push_op(numpy.int64(long_val >> int_val))
+
+def land(self):
+    """pop 2 longs, AND them and push the result to the stack"""
+    val1 = self.stack.pop_op()
+    val2 = self.stack.pop_op()
+    self.stack.push_op(numpy.int64(val1 & val2))

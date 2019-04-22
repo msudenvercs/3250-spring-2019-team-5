@@ -12,7 +12,7 @@ from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
-from jvpm.op_codes import lshl, lshr
+from jvpm.op_codes import lshl, lshr, land
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -453,3 +453,12 @@ class TestOpCodes(unittest.TestCase):
         lshr(ops)
         assert isinstance(ops.stack.peek(), numpy.int64)
         self.assertEqual(ops.stack.pop_op(), numpy.int64(-4))
+
+    def test_land(self):
+        """Test land (logical bitwise long AND)"""
+        ops = OpCodes()
+        ops.stack.push_op(7)
+        ops.stack.push_op(6)
+        land(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(6))
