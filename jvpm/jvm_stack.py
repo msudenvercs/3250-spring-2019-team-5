@@ -4,7 +4,7 @@ class JvmStack:
     def __init__(self):
         """Constructor. Initializes the stack to be empty"""
         self.stack = []
-    def push_op(self, obj, push_strategy = lambda stack, obj: stack.append(obj)):
+    def push_op(self, obj, push_strategy=lambda stack, obj: stack.append(obj)):
         """pushes one operand onto the top of the stack.
 push_strategy is a function that determines how the pushing is done.
 This is necessary because when pushing longs and doubles, two pushes are required.
@@ -17,7 +17,7 @@ If the stack is empty, then this method raises an EmptyStackError
         if self.stack:
             return self.stack.pop()
         raise EmptyStackError("Can't pop from an empty stack")
-    def pop_op(self, pop_strategy = lambda stack: stack.pop_helper()):
+    def pop_op(self, pop_strategy=lambda stack: stack.pop_helper()):
         """This method modifies the original pop_op so that it can use different popping strategies"""
         return pop_strategy(self)
     def peek(self):
@@ -34,9 +34,11 @@ Instead, it will return the actual long or double value.
         return self.stack[index]
 class EmptyStackError(Exception):
     """error raised when there is an empty stack"""
-def push_twice(stack,obj):
+def push_twice(stack, obj):
+    """push method to handle long and fp types"""
     stack.append(obj)
     stack.append(None)
 def pop_twice(stack):
+    """pop method to handle long and fp types"""
     stack.pop_helper()
     return stack.pop_helper()

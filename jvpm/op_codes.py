@@ -349,9 +349,9 @@ def new(self):
 
 def dup(self):
     """pop first value on the stack, duplicate and push back onto stack"""
-    x = self.stack.pop_op()
-    dup_val = x
-    self.stack.push_op(x)
+    value = self.stack.pop_op()
+    dup_val = value
+    self.stack.push_op(value)
     self.stack.push_op(dup_val)
 
 def lshl(self):
