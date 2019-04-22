@@ -457,8 +457,10 @@ class TestOpCodes(unittest.TestCase):
     def test_land(self):
         """Test land (logical bitwise long AND)"""
         ops = OpCodes()
-        ops.stack.push_op(7)
+        ops.stack.push_op(42)
+        i2l(ops)
         ops.stack.push_op(6)
+        i2l(ops)
         land(ops)
         assert isinstance(ops.stack.peek(), numpy.int64)
-        self.assertEqual(ops.stack.pop_op(), numpy.int64(6))
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(2))

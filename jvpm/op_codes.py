@@ -372,4 +372,4 @@ def land(self):
     """pop 2 longs, AND them and push the result to the stack"""
     val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
-    self.stack.push_op(numpy.int64(val1 & val2))
+    self.stack.push_op(val1 & val2)
