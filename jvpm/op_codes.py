@@ -61,6 +61,7 @@ class OpCodes():
                       0x79: [lshl, 1],
                       0x7b: [lshr, 1],
                       0x7f: [land, 1],
+                      0x94: [lcmp, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -373,3 +374,13 @@ def land(self):
     val1 = self.stack.pop_op()
     val2 = self.stack.pop_op()
     self.stack.push_op(val1 & val2)
+
+def lcmp(self):
+    """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2"""
+    val1 = self.stack.pop_op()
+    val2 = self.stack.pop_op()
+    val1 -= val2
+    if val1 == 0:
+        self.stack.push_op(0)
+    else:
+        self.stack.push_op((val1/abs(val1)))
