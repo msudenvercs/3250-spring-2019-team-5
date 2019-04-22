@@ -58,6 +58,7 @@ class OpCodes():
                       0x92: [i2c, 1],
                       0x87: [i2d, 1],
                       0x86: [i2f, 1],
+                      0x79: [lshl, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
