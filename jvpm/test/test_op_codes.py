@@ -423,7 +423,12 @@ class TestOpCodes(unittest.TestCase):
         ops = OpCodes()
         ops.stack.push_op(2)
         ops.stack.push_op(2)
-        ops.stack.push_op(i2l(ops))
+        lshl(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(8))
+
+        ops.stack.push_op(66)
+        ops.stack.push_op(2)
         lshl(ops)
         assert isinstance(ops.stack.peek(), numpy.int64)
         self.assertEqual(ops.stack.pop_op(), numpy.int64(8))

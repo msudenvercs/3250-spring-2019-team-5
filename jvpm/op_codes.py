@@ -353,3 +353,7 @@ def dup(self):
 def lshl(self):
     """pop a long and an int and shift the long bitwise left by the low 6 bits
     of the int (0-63) and push the result back to the stack"""
+    zero_to_sixty_four_mask = 0x3f
+    long_val = self.stack.pop_op()
+    int_val = self.stack.pop_op() & zero_to_sixty_four_mask
+    self.stack.push_op(numpy.int64(long_val << int_val))
