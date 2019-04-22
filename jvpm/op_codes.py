@@ -62,7 +62,6 @@ class OpCodes():
                       0x7b: [lshr, 1],
                       0x7f: [land, 1],
                       0x94: [lcmp, 1],
-                      0x7d: [lushr, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -385,12 +384,3 @@ def lcmp(self):
         self.stack.push_op(0)
     else:
         self.stack.push_op((val1/abs(val1)))
-
-def lushr(self):
-    """pop a long and an int and shift the long bitwise right by the low 6 bits
-    of the int (0-63) with zero extension to the left and push the result back
-    to the stack"""
-    zero_to_sixty_three_mask = 0x3f
-    long_val = self.stack.pop_op()
-    int_val = self.stack.pop_op() & zero_to_sixty_three_mask
-    self.stack.push_op(numpy.int64((long_val >> int_val) + (numpy.int64(2) << ~int_val)))
