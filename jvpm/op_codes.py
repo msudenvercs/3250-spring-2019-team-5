@@ -59,6 +59,7 @@ class OpCodes():
                       0x87: [i2d, 1],
                       0x86: [i2f, 1],
                       0x79: [lshl, 1],
+                      0x7b: [lshr, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -353,7 +354,15 @@ def dup(self):
 def lshl(self):
     """pop a long and an int and shift the long bitwise left by the low 6 bits
     of the int (0-63) and push the result back to the stack"""
-    zero_to_sixty_four_mask = 0x3f
+    zero_to_sixty_three_mask = 0x3f
     long_val = self.stack.pop_op()
-    int_val = self.stack.pop_op() & zero_to_sixty_four_mask
+    int_val = self.stack.pop_op() & zero_to_sixty_three_mask
     self.stack.push_op(numpy.int64(long_val << int_val))
+
+def lshr(self):
+    """pop a long and an int and shift the long bitwise right by the low 6 bits
+    of the int (0-63) and push the result back to the stack"""
+    zero_to_sixty_three_mask = 0x3f
+    long_val = self.stack.pop_op()
+    int_val = self.stack.pop_op() & zero_to_sixty_three_mask
+    self.stack.push_op(numpy.int64(long_val >> int_val))
