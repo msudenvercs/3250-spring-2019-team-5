@@ -348,3 +348,7 @@ def dup(self):
     dup_val = x
     self.stack.push_op(x)
     self.stack.push_op(dup_val)
+
+def lshl(self):
+    """pop a long and an int and shift the long bitwise left by the low 6 bits
+    of the int (0-63) and push the result back to the stack"""

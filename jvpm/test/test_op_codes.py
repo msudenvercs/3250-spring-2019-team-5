@@ -12,6 +12,7 @@ from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
+from jvpm.op_codes import lshl
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -416,3 +417,13 @@ class TestOpCodes(unittest.TestCase):
         dup(ops)
         self.assertEqual(ops.stack.pop_op(), 'foo')
         self.assertEqual(ops.stack.pop_op(), 'foo')
+
+    def test_lshl(self):
+        """Test lshl (long shift left)"""
+        ops = OpCodes()
+        ops.stack.push_op(2)
+        ops.stack.push_op(2)
+        ops.stack.push_op(i2l(ops))
+        lshl(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(ops.stack.pop_op(), numpy.int64(8))
