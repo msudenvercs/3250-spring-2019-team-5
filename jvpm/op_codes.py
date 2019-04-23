@@ -65,6 +65,7 @@ class OpCodes():
                       0x83: [lxor, 1],
                       0x96: [fcmpg, 1],
                       0x95: [fcmpl, 1],
+                      0x76: [fneg, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -421,3 +422,7 @@ def fcmpl(self):
             self.stack.push_op(0)
         else:
             self.stack.push_op((val1/abs(val1)))
+
+def fneg(self):
+    """pop a float and push the negation to the stack"""
+    self.stack.push_op(numpy.negative(self.stack.pop_op()))
