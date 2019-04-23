@@ -395,13 +395,13 @@ def lxor(self):
     val1 = self.stack.pop_op(pop_twice)
     self.stack.push_op(numpy.int64(val1 ^ val2), push_twice)
 
-def fcmpg(self):
-    """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2,
-    1 if val1 or val2 is NaN"""
+def fcmph(self, nan_spec):
+    """helper function to reduce duplication.
+nan_spec is the value to push if at least one of the values is not a number"""
     val2 = self.stack.pop_op()
     val1 = self.stack.pop_op()
     if numpy.isnan(val1) or numpy.isnan(val2):
-        self.stack.push_op(1)
+        self.stack.push_op(nan_spec)
     else:
         val1 -= val2
         if val1 == 0:
@@ -409,19 +409,15 @@ def fcmpg(self):
         else:
             self.stack.push_op((val1/abs(val1)))
 
+def fcmpg(self):
+    """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2,
+    1 if val1 or val2 is NaN"""
+    fcmph(self, 1)
+
 def fcmpl(self):
     """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2,
     -1 if val1 or val2 is NaN"""
-    val2 = self.stack.pop_op()
-    val1 = self.stack.pop_op()
-    if numpy.isnan(val1) or numpy.isnan(val2):
-        self.stack.push_op(-1)
-    else:
-        val1 -= val2
-        if val1 == 0:
-            self.stack.push_op(0)
-        else:
-            self.stack.push_op((val1/abs(val1)))
+    fcmph(self, -1)
 
 def fneg(self):
     """pop a float and push the negation to the stack"""
