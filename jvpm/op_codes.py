@@ -290,7 +290,7 @@ def i2f(self):
 def i2l(self):
     """convert int on top of stack to long, and push it to the stack."""
     convert_this = self.stack.pop_op()
-    self.stack.push_op(numpy.int64(convert_this))
+    self.stack.push_op(numpy.int64(convert_this), push_twice)
 
 def i2s(self):
     """convert int on top of stack to short, and push. it. to. the. stack."""
@@ -357,28 +357,28 @@ def lshl(self):
     """pop a long and an int and shift the long bitwise left by the low 6 bits
     of the int (0-63) and push the result back to the stack"""
     zero_to_sixty_three_mask = 0x3f
-    long_val = self.stack.pop_op()
     int_val = self.stack.pop_op() & zero_to_sixty_three_mask
-    self.stack.push_op(numpy.int64(long_val << int_val))
+    long_val = self.stack.pop_op(pop_twice)
+    self.stack.push_op(numpy.int64(long_val) << int_val, push_twice)
 
 def lshr(self):
     """pop a long and an int and shift the long bitwise right by the low 6 bits
     of the int (0-63) and push the result back to the stack"""
     zero_to_sixty_three_mask = 0x3f
-    long_val = self.stack.pop_op()
     int_val = self.stack.pop_op() & zero_to_sixty_three_mask
-    self.stack.push_op(numpy.int64(long_val >> int_val))
+    long_val = self.stack.pop_op(pop_twice)
+    self.stack.push_op(numpy.int64(long_val) >> int_val, push_twice)
 
 def land(self):
     """pop 2 longs, AND them and push the result to the stack"""
-    val1 = self.stack.pop_op()
-    val2 = self.stack.pop_op()
-    self.stack.push_op(numpy.int64(val1 & val2))
+    val2 = self.stack.pop_op(pop_twice)
+    val1 = self.stack.pop_op(pop_twice)
+    self.stack.push_op(numpy.int64(val1 & val2), push_twice)
 
 def lcmp(self):
     """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2"""
-    val1 = self.stack.pop_op()
-    val2 = self.stack.pop_op()
+    val2 = self.stack.pop_op(pop_twice)
+    val1 = self.stack.pop_op(pop_twice)
     val1 -= val2
     if val1 == 0:
         self.stack.push_op(0)
