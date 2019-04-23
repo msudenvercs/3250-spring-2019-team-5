@@ -13,7 +13,7 @@ from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 from jvpm.jvm_stack import pop_twice, push_twice
-from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg
+from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -554,3 +554,39 @@ class TestOpCodes(unittest.TestCase):
         i2f(ops)
         fcmpg(ops)
         self.assertEqual(ops.stack.pop_op(), 1)
+    
+    def test_fcmpl(self):
+        """Test fcmpl (compare 2 floats)"""
+        ops = OpCodes()
+        ops.stack.push_op(1/7)
+        i2f(ops)
+        ops.stack.push_op(1/3)
+        i2f(ops)
+        fcmpl(ops)
+        self.assertEqual(ops.stack.pop_op(), -1)
+
+        ops.stack.push_op(1/3)
+        i2f(ops)
+        ops.stack.push_op(1/7)
+        i2f(ops)
+        fcmpl(ops)
+        self.assertEqual(ops.stack.pop_op(), 1)
+
+        ops.stack.push_op(1/7)
+        i2f(ops)
+        ops.stack.push_op(1/7)
+        i2f(ops)
+        fcmpl(ops)
+        self.assertEqual(ops.stack.pop_op(), 0)
+
+        ops.stack.push_op(numpy.nan)
+        ops.stack.push_op(1/7)
+        i2f(ops)
+        fcmpl(ops)
+        self.assertEqual(ops.stack.pop_op(), -1)
+
+        ops.stack.push_op(1/7)
+        ops.stack.push_op(numpy.nan)
+        i2f(ops)
+        fcmpl(ops)
+        self.assertEqual(ops.stack.pop_op(), -1)

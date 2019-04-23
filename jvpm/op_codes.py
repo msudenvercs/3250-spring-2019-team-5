@@ -64,6 +64,7 @@ class OpCodes():
                       0x94: [lcmp, 1],
                       0x83: [lxor, 1],
                       0x96: [fcmpg, 1],
+                      0x95: [fcmpl, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -400,6 +401,20 @@ def fcmpg(self):
     val1 = self.stack.pop_op()
     if numpy.isnan(val1) or numpy.isnan(val2):
         self.stack.push_op(1)
+    else:
+        val1 -= val2
+        if val1 == 0:
+            self.stack.push_op(0)
+        else:
+            self.stack.push_op((val1/abs(val1)))
+
+def fcmpl(self):
+    """pop 2 values and push 1 if val1>val2, 0 if val1=val2, -1 if val1<val2,
+    -1 if val1 or val2 is NaN"""
+    val2 = self.stack.pop_op()
+    val1 = self.stack.pop_op()
+    if numpy.isnan(val1) or numpy.isnan(val2):
+        self.stack.push_op(-1)
     else:
         val1 -= val2
         if val1 == 0:
