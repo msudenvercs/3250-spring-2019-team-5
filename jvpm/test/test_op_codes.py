@@ -20,7 +20,7 @@ from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
 from jvpm.op_codes import fadd, fsub, fmul, fdiv, frem
-from jvpm.op_codes import ladd
+from jvpm.op_codes import ladd, lsub, lmul, ldiv, lrem
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -868,3 +868,71 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.float32(5.0))
         frem(op_code)
         self.assertEqual(op_code.stack.peek(), 0.0)
+
+    def test_ladd(self):
+        """tests the ladd opcodes"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        ladd(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 0)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
+        op_code.stack.push_op(numpy.int64(1), push_twice)
+        ladd(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 3)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
+        op_code.stack.push_op(numpy.int64(4), push_twice)
+        ladd(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice),6)
+
+    def test_lsub(self):
+        """tests the lsub opcodes"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        lsub(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 0)
+        op_code.stack.push_op(numpy.int64(5), push_twice)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
+        lsub(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 3)
+
+    def test_lmul(self):
+        """tests the lmul opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int64(2),push_twice)
+        op_code.stack.push_op(numpy.int64(3), push_twice)
+        lmul(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 6)
+        op_code.stack.push_op(numpy.int64(-2), push_twice)
+        op_code.stack.push_op(numpy.int64(-3), push_twice)
+        lmul(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 6)
+
+    def test_ldiv(self):
+        """tests the ldiv opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int64(4), push_twice)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
+        ldiv(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 2)
+        op_code.stack.push_op(numpy.int64(-4), push_twice)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
+        ldiv(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), -2)
+
+    def test_lrem(self):
+        """tests the lrem opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        op_code.stack.push_op(numpy.int64(0), push_twice)
+        lrem(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 0)
+        op_code.stack.push_op(numpy.int64(5), push_twice)
+        op_code.stack.push_op(numpy.int64(5), push_twice)
+        lrem(op_code)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 0)
+
+
+    
+

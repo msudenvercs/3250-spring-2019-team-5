@@ -91,7 +91,17 @@ class OpCodes():
                       0x88: [l2i, 1],
                       0x8d: [f2d, 1],
                       0x8b: [f2i, 1],
-                      0x8c: [f2l, 1],
+                      0x8c: [f2l, 1],   
+                      0x62: [fadd, 1],
+                      0x66: [fsub, 1],
+                      0x6a: [fmul, 1],
+                      0x6e: [fdiv,1],
+                      0x72: [frem, 1],
+                      0x61: [ladd,1],
+                      0x65: [lsub,1],
+                      0x69: [lmul,1],
+                      0x6d: [ldiv,1],
+                      0x71: [lrem,1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -570,17 +580,35 @@ def fsub(self):
     val1 = numpy.float32(self.stack.pop_op())
     self.stack.push_op(val1 - val2)
 
+def lsub(self):
+    """implements the fsub opcode"""
+    val2 = numpy.int64(self.stack.pop_op(pop_twice))
+    val1 = numpy.int64(self.stack.pop_op(pop_twice))
+    self.stack.push_op(val1 - val2, push_twice)
+
 def fmul(self):
     """implements the fmul opcode"""
     val2 = numpy.float32(self.stack.pop_op())
     val1 = numpy.float32(self.stack.pop_op())
     self.stack.push_op(val1 * val2)
 
+def lmul(self):
+    """implements the fsub opcode"""
+    val2 = numpy.int64(self.stack.pop_op(pop_twice))
+    val1 = numpy.int64(self.stack.pop_op(pop_twice))
+    self.stack.push_op(val1 * val2, push_twice)
+
 def fdiv(self):
     """implements the fdiv opcode"""
     val2 = numpy.float32(self.stack.pop_op())
     val1 = numpy.float32(self.stack.pop_op())
     self.stack.push_op(numpy.float32(val1 / val2))
+
+def ldiv(self):
+    """implements the fsub opcode"""
+    val2 = numpy.int64(self.stack.pop_op(pop_twice))
+    val1 = numpy.int64(self.stack.pop_op(pop_twice))
+    self.stack.push_op(numpy.int64(val1 / val2), push_twice)
 
 # frem will be implemented in terms of the other operations.
 # a%b = a-(a/b)*b
@@ -598,3 +626,18 @@ def frem(self):
         self.stack.push_op(val2)
         fmul(self)
         fsub(self)
+
+def lrem(self):
+    """implements the frem opcode"""
+    val2 = numpy.int64(self.stack.pop_op(pop_twice))
+    val1 = numpy.int64(self.stack.pop_op(pop_twice))
+    if val2 == 0:
+        self.stack.push_op(val2, push_twice)
+    else:
+        self.stack.push_op(val1, push_twice)
+        self.stack.push_op(val1, push_twice)
+        self.stack.push_op(val2, push_twice)
+        ldiv(self)
+        self.stack.push_op(val2, push_twice)
+        lmul(self)
+        lsub(self)
