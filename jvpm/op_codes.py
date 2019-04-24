@@ -478,3 +478,49 @@ def f2l(self):
     """convert float to long"""
     self.stack.push_op(numpy.int64(self.stack.pop_op()), push_twice)
 
+def fadd(self):
+    """implements the fadd opcode"""
+    val2 = numpy.float32(self.stack.pop_op())
+    val1 = numpy.float32(self.stack.pop_op())
+    self.stack.push_op(val1 + val2)
+
+def ladd(self):
+    """implements the ladd opcode"""
+    val2 = numpy.int64(self.stack.pop_op())
+    val1 = numpy.int64(self.stack.pop_op())
+    self.stack.push_op(val1 + val2)
+
+def fsub(self):
+    """implements the fsub opcode"""
+    val2 = numpy.float32(self.stack.pop_op())
+    val1 = numpy.float32(self.stack.pop_op())
+    self.stack.push_op(val1 - val2)
+
+def fmul(self):
+    """implements the fmul opcode"""
+    val2 = numpy.float32(self.stack.pop_op())
+    val1 = numpy.float32(self.stack.pop_op())
+    self.stack.push_op(val1 * val2)
+
+def fdiv(self):
+    """implements the fdiv opcode"""
+    val2 = numpy.float32(self.stack.pop_op())
+    val1 = numpy.float32(self.stack.pop_op())
+    self.stack.push_op(numpy.float32(val1 / val2))
+
+# frem will be implemented in terms of the other operations.
+# a%b = a-(a/b)*b
+def frem(self):
+    """implements the frem opcode"""
+    val2 = numpy.float32(self.stack.pop_op())
+    val1 = numpy.float32(self.stack.pop_op())
+    if val2 == 0:
+        self.stack.push_op(val2)
+    else:
+        self.stack.push_op(val1)
+        self.stack.push_op(val1)
+        self.stack.push_op(val2)
+        fdiv(self)
+        self.stack.push_op(val2)
+        fmul(self)
+        fsub(self)

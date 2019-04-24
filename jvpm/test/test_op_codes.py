@@ -16,6 +16,8 @@ from jvpm.jvm_stack import pop_twice, push_twice
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
+from jvpm.op_codes import fadd,fsub,fmul,fdiv,frem
+from jvpm.op_codes import ladd
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -697,3 +699,63 @@ class TestOpCodes(unittest.TestCase):
         f2l(ops)
         assert isinstance(ops.stack.peek(), numpy.int64)
         self.assertEqual(numpy.int64(1), ops.stack.pop_op(pop_twice))
+
+    def test_fadd(self):
+        """tests the fadd opcodes"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.float32(0.0))
+        op_code.stack.push_op(numpy.float32(0.0))
+        fadd(op_code)
+        self.assertEqual(op_code.stack.peek(), 0.0)
+        op_code.stack.push_op(numpy.float32(2.0))
+        op_code.stack.push_op(numpy.float32(1.0))
+        fadd(op_code)
+        self.assertEqual(op_code.stack.peek(), 3.0)
+        op_code.stack.push_op(numpy.float32(2.15))
+        op_code.stack.push_op(numpy.float32(1.40))
+        fadd(op_code)
+        self.assertAlmostEqual(op_code.stack.peek(), 3.55,places=2)
+
+    def test_fsub(self):
+        """tests the fsub opcodes"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.float32(0.0))
+        op_code.stack.push_op(numpy.float32(0.0))
+        fsub(op_code)
+        self.assertEqual(op_code.stack.peek(), 0.0)
+        op_code.stack.push_op(numpy.float32(5.0))
+        op_code.stack.push_op(numpy.float32(2.0))
+        fsub(op_code)
+        self.assertEqual(op_code.stack.peek(), 3.0)
+
+    def test_fmul(self):
+        """tests the fmul opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.float32(2.0))
+        op_code.stack.push_op(numpy.float32(3.0))
+        fmul(op_code)
+        self.assertEqual(op_code.stack.peek(), 6.0)
+        op_code.stack.push_op(numpy.float32(2.0))
+        op_code.stack.push_op(numpy.float32(3.0))
+        fmul(op_code)
+        self.assertEqual(op_code.stack.peek(), 6.0)
+
+    def test_fdiv(self):
+        """tests the fdiv opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.float32(4.0))
+        op_code.stack.push_op(numpy.float32(2.0))
+        fdiv(op_code)
+        self.assertEqual(op_code.stack.peek(), 2.0)
+    
+    def test_frem(self):
+        """tests the irem opcode"""
+        op_code = OpCodes()
+        op_code.stack.push_op(numpy.float32(0.0))
+        op_code.stack.push_op(numpy.float32(0.0))
+        frem(op_code)
+        self.assertEqual(op_code.stack.peek(), 0.0)
+        op_code.stack.push_op(numpy.float32(5.0))
+        op_code.stack.push_op(numpy.float32(5.0))
+        frem(op_code)
+        self.assertEqual(op_code.stack.peek(), 0.0)
