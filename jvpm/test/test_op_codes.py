@@ -470,34 +470,34 @@ class TestOpCodes(unittest.TestCase):
         """tests lload method"""
         test = OpCodes()
         #tests every load index from 0 to length
-        length = len(test.local_long_array)
+        length = len(test.local_array)
         for i in range(0, length):
             lload(test, i)
-            self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[i])
+            self.assertEqual(test.stack.pop_op(pop_twice), test.local_array[i])
 
     def test_lload_0(self):
         """tests iload_0 opcode"""
         test = OpCodes()
         lload_0(test)
-        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[0])
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_array[0])
 
     def test_lload_1(self):
         """tests iload_1 opcode"""
         test = OpCodes()
         lload_1(test)
-        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[1])
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_array[1])
 
     def test_lload_2(self):
         """tests iload_2 opcode"""
         test = OpCodes()
         lload_2(test)
-        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[2])
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_array[2])
 
     def test_lload_3(self):
         """tests iload_3 opcode"""
         test = OpCodes()
         lload_3(test)
-        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[3])
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_array[3])
 
     def test_lshl(self):
         """Test lshl (long shift left)"""
@@ -702,34 +702,34 @@ class TestOpCodes(unittest.TestCase):
         """tests fload method"""
         test = OpCodes()
         #tests every load index from 0 to length
-        length = len(test.local_float_array)
+        length = len(test.local_array)
         for i in range(0, length):
             fload(test, i)
-            self.assertEqual(test.stack.pop_op(), test.local_float_array[i])
+            self.assertEqual(test.stack.pop_op(), test.local_array[i])
 
     def test_fload_0(self):
         """tests iload_0 opcode"""
         test = OpCodes()
         fload_0(test)
-        self.assertEqual(test.stack.pop_op(), test.local_float_array[0])
+        self.assertEqual(test.stack.pop_op(), test.local_array[0])
 
     def test_fload_1(self):
         """tests fload_1 opcode"""
         test = OpCodes()
         fload_1(test)
-        self.assertEqual(test.stack.pop_op(), test.local_float_array[1])
+        self.assertEqual(test.stack.pop_op(), test.local_array[1])
 
     def test_fload_2(self):
         """tests fload_2 opcode"""
         test = OpCodes()
         fload_2(test)
-        self.assertEqual(test.stack.pop_op(), test.local_float_array[2])
+        self.assertEqual(test.stack.pop_op(), test.local_array[2])
 
     def test_fload_3(self):
         """tests fload_3 opcode"""
         test = OpCodes()
         fload_3(test)
-        self.assertEqual(test.stack.pop_op(), test.local_float_array[3])
+        self.assertEqual(test.stack.pop_op(), test.local_array[3])
 
     def test_lconst_0(self):
         """test lconst_0 (pushes 0L to the stack)"""
