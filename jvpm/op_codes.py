@@ -460,7 +460,7 @@ def l2d(self):
 
 def l2i(self):
     """convert long to int"""
-    self.stack.push_op(numpy.int(self.stack.pop_op(pop_twice)))
+    self.stack.push_op(numpy.int32(self.stack.pop_op(pop_twice)))
 
 def l2f(self):
     """convert long to int"""
@@ -472,7 +472,7 @@ def f2d(self):
 
 def f2i(self):
     """convert float to int"""
-    self.stack.push_op(numpy.int(self.stack.pop_op()))
+    self.stack.push_op(numpy.int32(self.stack.pop_op()))
 
 def f2l(self):
     """convert float to long"""
@@ -486,9 +486,9 @@ def fadd(self):
 
 def ladd(self):
     """implements the ladd opcode"""
-    val2 = numpy.int64(self.stack.pop_op())
-    val1 = numpy.int64(self.stack.pop_op())
-    self.stack.push_op(val1 + val2)
+    val2 = numpy.int64(self.stack.pop_op(pop_twice))
+    val1 = numpy.int64(self.stack.pop_op(pop_twice))
+    self.stack.push_op(val1 + val2, push_twice)
 
 def fsub(self):
     """implements the fsub opcode"""

@@ -673,7 +673,7 @@ class TestOpCodes(unittest.TestCase):
         ops = OpCodes()
         lconst_1(ops)
         l2i(ops)
-        assert isinstance(ops.stack.peek(), numpy.int)
+        assert isinstance(ops.stack.peek(), numpy.int32)
         self.assertEqual(numpy.int(1), ops.stack.pop_op())
 
     def test_f2d(self):
@@ -689,7 +689,7 @@ class TestOpCodes(unittest.TestCase):
         ops = OpCodes()
         fconst_1(ops)
         f2i(ops)
-        assert isinstance(ops.stack.peek(), numpy.int)
+        assert isinstance(ops.stack.peek(), numpy.int32)
         self.assertEqual(numpy.int(1), ops.stack.pop_op())
 
     def test_f2l(self):
