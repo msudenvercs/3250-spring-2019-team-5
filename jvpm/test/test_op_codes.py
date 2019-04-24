@@ -176,7 +176,7 @@ class TestOpCodes(unittest.TestCase):
         test.stack.push_op(numpy.float32(1), push_twice)
         test.stack.push_op(numpy.float32(0), push_twice)
         for i in range(0, length):
-            lstore(test, i)
+            fstore(test, i)
             self.assertEqual(test.local_array[i], numpy.float32(i))
 
     def test_lstore_0(self):
@@ -211,7 +211,7 @@ class TestOpCodes(unittest.TestCase):
         """tests the fstore_0 opcode for 32 bit floats"""
         test = OpCodes()
         test.stack.push_op(numpy.int64(0), push_twice)
-        lstore_0(test)
+        fstore_0(test)
         self.assertEqual(test.local_array[0], 0)
 
     def test_fstore_1(self):
@@ -924,7 +924,7 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.int64(2), push_twice)
         op_code.stack.push_op(numpy.int64(4), push_twice)
         ladd(op_code)
-        self.assertEqual(op_code.stack.pop_op(pop_twice),6)
+        self.assertEqual(op_code.stack.pop_op(pop_twice), 6)
 
     def test_lsub(self):
         """tests the lsub opcodes"""
@@ -941,7 +941,7 @@ class TestOpCodes(unittest.TestCase):
     def test_lmul(self):
         """tests the lmul opcode"""
         op_code = OpCodes()
-        op_code.stack.push_op(numpy.int64(2),push_twice)
+        op_code.stack.push_op(numpy.int64(2), push_twice)
         op_code.stack.push_op(numpy.int64(3), push_twice)
         lmul(op_code)
         self.assertEqual(op_code.stack.pop_op(pop_twice), 6)
@@ -973,7 +973,3 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.int64(5), push_twice)
         lrem(op_code)
         self.assertEqual(op_code.stack.pop_op(pop_twice), 0)
-
-
-    
-
