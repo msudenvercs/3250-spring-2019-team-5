@@ -15,6 +15,7 @@ class OpCodes():
         """this is the constructor"""
         self.local_array = [0, 1, 2, 3]
         self.local_long_array = [numpy.int64(2500000000), numpy.int64(2500000001), numpy.int64(2500000002), numpy.int64(2500000003)]
+        self.local_float_array = [numpy.float32(1.01), numpy.float32(2.02), numpy.float32(3.03), numpy.float32(4.04)]
         with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
@@ -72,6 +73,11 @@ class OpCodes():
                       0x96: [fcmpg, 1],
                       0x95: [fcmpl, 1],
                       0x76: [fneg, 1],
+                      0x17: [fload, 1],
+                      0x22: [fload_0, 1],
+                      0x23: [fload_1, 1],
+                      0x24: [fload_2, 1],
+                      0x25: [fload_3, 1],
                       0x09: [lconst_0, 1],
                       0x0a: [lconst_1, 1],
                       0x0b: [fconst_0, 1],
@@ -375,23 +381,23 @@ def dup(self):
     self.stack.push_op(dup_val)
 
 def lload(self, index):
-    """loads a long from local data array at <index> onto stack"""
+    """loads a long from local long data array at <index> onto stack"""
     self.stack.push_op(numpy.int64(self.local_long_array[index]), push_twice)
 
 def lload_0(self):
-    """loads a long from local data array at index 0 onto stack"""
+    """loads a long from local long data array at index 0 onto stack"""
     self.stack.push_op(numpy.int64(self.local_long_array[0]), push_twice)
 
 def lload_1(self):
-    """loads a long from local data array at index 1 onto stack"""
+    """loads a long from local long data array at index 1 onto stack"""
     self.stack.push_op(numpy.int64(self.local_long_array[1]), push_twice)
 
 def lload_2(self):
-    """loads a long from local data array at index 2 onto stack"""
+    """loads a long from local long data array at index 2 onto stack"""
     self.stack.push_op(numpy.int64(self.local_long_array[2]), push_twice)
 
 def lload_3(self):
-    """loads a long from local data array at index 3 onto stack"""
+    """loads a long from local long data array at index 3 onto stack"""
     self.stack.push_op(numpy.int64(self.local_long_array[3]), push_twice)
 
 def lshl(self):
@@ -479,6 +485,26 @@ def fconst_1(self):
 def fconst_2(self):
     """push 2F to the stack"""
     self.stack.push_op(numpy.float32(2))
+
+def fload(self, index):
+    """loads a float from local float data array at <index> onto stack"""
+    self.stack.push_op(numpy.float32(self.local_float_array[index]))
+
+def fload_0(self):
+    """loads a float from local float data array at index 0 onto stack"""
+    self.stack.push_op(numpy.float32(self.local_float_array[0]))
+
+def fload_1(self):
+    """loads a float from local float data array at index 1 onto stack"""
+    self.stack.push_op(numpy.float32(self.local_float_array[1]))
+
+def fload_2(self):
+    """loads a float from local float data array at index 2 onto stack"""
+    self.stack.push_op(numpy.float32(self.local_float_array[2]))
+
+def fload_3(self):
+    """loads a float from local float data array at index 3 onto stack"""
+    self.stack.push_op(numpy.float32(self.local_float_array[3]))
 
 def l2d(self):
     """convert long to double"""

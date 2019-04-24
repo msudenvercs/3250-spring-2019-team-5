@@ -14,6 +14,7 @@ from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 from jvpm.jvm_stack import pop_twice, push_twice
 from jvpm.op_codes import lload, lload_0, lload_1, lload_2, lload_3
+from jvpm.op_codes import fload, fload_0, fload_1, fload_2, fload_3
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
@@ -655,6 +656,39 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(numpy.nan)
         fneg(ops)
         numpy.isnan(ops.stack.pop_op())
+
+    def test_fload(self):
+        """tests fload method"""
+        test = OpCodes()
+        #tests every load index from 0 to length
+        length = len(test.local_float_array)
+        for i in range(0, length):
+            fload(test, i)
+            self.assertEqual(test.stack.pop_op(), test.local_float_array[i])
+
+    def test_fload_0(self):
+        """tests iload_0 opcode"""
+        test = OpCodes()
+        fload_0(test)
+        self.assertEqual(test.stack.pop_op(), test.local_float_array[0])
+
+    def test_fload_1(self):
+        """tests fload_1 opcode"""
+        test = OpCodes()
+        fload_1(test)
+        self.assertEqual(test.stack.pop_op(), test.local_float_array[1])
+
+    def test_fload_2(self):
+        """tests fload_2 opcode"""
+        test = OpCodes()
+        fload_2(test)
+        self.assertEqual(test.stack.pop_op(), test.local_float_array[2])
+
+    def test_fload_3(self):
+        """tests fload_3 opcode"""
+        test = OpCodes()
+        fload_3(test)
+        self.assertEqual(test.stack.pop_op(), test.local_float_array[3])
 
     def test_lconst_0(self):
         """test lconst_0 (pushes 0L to the stack)"""
