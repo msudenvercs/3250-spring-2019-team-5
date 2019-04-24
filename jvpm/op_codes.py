@@ -66,6 +66,17 @@ class OpCodes():
                       0x96: [fcmpg, 1],
                       0x95: [fcmpl, 1],
                       0x76: [fneg, 1],
+                      0x09: [lconst_0, 1],
+                      0x0a: [lconst_1, 1],
+                      0x0b: [fconst_0, 1],
+                      0x0c: [fconst_1, 1],
+                      0x0d: [fconst_2, 1],
+                      0x8a: [l2d, 1],
+                      0x89: [l2f, 1],
+                      0x88: [l2i, 1],
+                      0x8d: [f2d, 1],
+                      0x8b: [f2i, 1],
+                      0x8c: [f2l, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -422,3 +433,48 @@ def fcmpl(self):
 def fneg(self):
     """pop a float and push the negation to the stack"""
     self.stack.push_op(numpy.negative(self.stack.pop_op()))
+
+def lconst_0(self):
+    """push 0L to the stack"""
+    self.stack.push_op(numpy.int64(0), push_twice)
+
+def lconst_1(self):
+    """push 1L to the stack"""
+    self.stack.push_op(numpy.int64(1), push_twice)
+
+def fconst_0(self):
+    """push 0F to the stack"""
+    self.stack.push_op(numpy.float32(0))
+
+def fconst_1(self):
+    """push 1F to the stack"""
+    self.stack.push_op(numpy.float32(1))
+
+def fconst_2(self):
+    """push 2F to the stack"""
+    self.stack.push_op(numpy.float32(2))
+
+def l2d(self):
+    """convert long to double"""
+    self.stack.push_op(numpy.float64(self.stack.pop_op(pop_twice)), push_twice)
+
+def l2i(self):
+    """convert long to int"""
+    self.stack.push_op(numpy.int(self.stack.pop_op(pop_twice)))
+
+def l2f(self):
+    """convert long to int"""
+    self.stack.push_op(numpy.float32(self.stack.pop_op(pop_twice)))
+
+def f2d(self):
+    """convert float to double"""
+    self.stack.push_op(numpy.float64(self.stack.pop_op()), push_twice)
+
+def f2i(self):
+    """convert float to int"""
+    self.stack.push_op(numpy.int(self.stack.pop_op()))
+
+def f2l(self):
+    """convert float to long"""
+    self.stack.push_op(numpy.int64(self.stack.pop_op()), push_twice)
+
