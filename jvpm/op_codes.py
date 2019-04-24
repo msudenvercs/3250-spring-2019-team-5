@@ -66,6 +66,11 @@ class OpCodes():
                       0x96: [fcmpg, 1],
                       0x95: [fcmpl, 1],
                       0x76: [fneg, 1],
+                      0x09: [lconst_0, 1],
+                      0x0a: [lconst_1, 1],
+                      0x0a: [fconst_0, 1],
+                      0x0a: [fconst_1, 1],
+                      0x0a: [fconst_2, 1],
                       0x00: [not_implemented, 1]}
         self.byte_count = 0
         self.stack = JvmStack()
@@ -426,3 +431,23 @@ def fcmpl(self):
 def fneg(self):
     """pop a float and push the negation to the stack"""
     self.stack.push_op(numpy.negative(self.stack.pop_op()))
+
+def lconst_0(self):
+    """push 0L to the stack"""
+    self.stack.push_op(numpy.int64(0), push_twice)
+
+def lconst_1(self):
+    """push 1L to the stack"""
+    self.stack.push_op(numpy.int64(1), push_twice)
+
+def fconst_0(self):
+    """push 0F to the stack"""
+    self.stack.push_op(numpy.float32(0))
+
+def fconst_1(self):
+    """push 1F to the stack"""
+    self.stack.push_op(numpy.float32(1))
+
+def fconst_2(self):
+    """push 2F to the stack"""
+    self.stack.push_op(numpy.float32(2))

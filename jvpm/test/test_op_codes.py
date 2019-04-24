@@ -14,6 +14,7 @@ from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 from jvpm.jvm_stack import pop_twice, push_twice
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
+from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -617,3 +618,33 @@ class TestOpCodes(unittest.TestCase):
         ops.stack.push_op(numpy.nan)
         fneg(ops)
         numpy.isnan(ops.stack.pop_op())
+
+    def test_lconst_0(self):
+        """test lconst_0 (pushes 0L to the stack)"""
+        ops = OpCodes()
+        lconst_0(ops)
+        self.assertEqual(numpy.int64(0), ops.stack.pop_op(pop_twice))
+
+    def test_lconst_1(self):
+        """test lconst_1 (pushes 1L to the stack)"""
+        ops = OpCodes()
+        lconst_1(ops)
+        self.assertEqual(numpy.int64(1), ops.stack.pop_op(pop_twice))
+
+    def test_fconst_0(self):
+        """test fconst_0 (pushes 0F to the stack)"""
+        ops = OpCodes()
+        fconst_0(ops)
+        self.assertEqual(numpy.float32(0), ops.stack.pop_op())
+
+    def test_fconst_1(self):
+        """test fconst_1 (pushes 1F to the stack)"""
+        ops = OpCodes()
+        fconst_1(ops)
+        self.assertEqual(numpy.float32(1), ops.stack.pop_op())
+
+    def test_fconst_2(self):
+        """test fconst_2 (pushes 2F to the stack)"""
+        ops = OpCodes()
+        fconst_2(ops)
+        self.assertEqual(numpy.float32(2), ops.stack.pop_op())
