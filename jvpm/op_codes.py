@@ -214,7 +214,7 @@ def lstore(self, index):
 
 def lstore_0(self):
     """implements lstore_0 opcode, loads 64 bit long 0 into local array"""
-    self.local_array[0] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_long_array[0] = self.stack.pop_op(numpy.int64(pop_twice))
 
 def lstore_1(self):
     """implements lstore_1 opcode, loads 64 bit long 1 into local array"""

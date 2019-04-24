@@ -9,6 +9,7 @@ from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
 from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
+from jvpm.op_codes import lstore, lstore_0, lstore_1, lstore_2, lstore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
@@ -18,7 +19,7 @@ from jvpm.op_codes import fload, fload_0, fload_1, fload_2, fload_3
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
-from jvpm.op_codes import fadd,fsub,fmul,fdiv,frem
+from jvpm.op_codes import fadd, fsub, fmul, fdiv, frem
 from jvpm.op_codes import ladd
 numpy.warnings.filterwarnings("ignore")
 
@@ -557,7 +558,7 @@ class TestOpCodes(unittest.TestCase):
         lxor(ops)
         assert isinstance(ops.stack.peek(), numpy.int64)
         self.assertEqual(ops.stack.pop_op(pop_twice), numpy.int64(-1))
-    
+
     def test_fcmpg(self):
         """Test fcmpg (compare 2 floats)"""
         ops = OpCodes()
@@ -593,7 +594,7 @@ class TestOpCodes(unittest.TestCase):
         i2f(ops)
         fcmpg(ops)
         self.assertEqual(ops.stack.pop_op(), 1)
-    
+
     def test_fcmpl(self):
         """Test fcmpl (compare 2 floats)"""
         ops = OpCodes()
@@ -735,7 +736,7 @@ class TestOpCodes(unittest.TestCase):
         l2f(ops)
         assert isinstance(ops.stack.peek(), numpy.float32)
         self.assertEqual(numpy.float32(1), ops.stack.pop_op())
-        
+
     def test_l2i(self):
         """test l2i (long to int)"""
         ops = OpCodes()
@@ -782,7 +783,7 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.float32(2.15))
         op_code.stack.push_op(numpy.float32(1.40))
         fadd(op_code)
-        self.assertAlmostEqual(op_code.stack.peek(), 3.55,places=2)
+        self.assertAlmostEqual(op_code.stack.peek(), 3.55, places=2)
 
     def test_fsub(self):
         """tests the fsub opcodes"""
@@ -815,7 +816,7 @@ class TestOpCodes(unittest.TestCase):
         op_code.stack.push_op(numpy.float32(2.0))
         fdiv(op_code)
         self.assertEqual(op_code.stack.peek(), 2.0)
-    
+
     def test_frem(self):
         """tests the irem opcode"""
         op_code = OpCodes()
