@@ -39,6 +39,11 @@ class OpCodes():
                       0x3c: [istore_1, 1],
                       0x3d: [istore_2, 1],
                       0x3e: [istore_3, 1],
+                      0x37: [lstore, 1],
+                      0x3f: [lstore_0, 1],
+                      0x40: [lstore_1, 1],
+                      0x41: [lstore_2, 1],
+                      0x42: [lstore_3, 1],
                       0x84: [iinc, 3],
                       0xb7: [invokespecial, 3],
                       0x60: [iadd, 1],
@@ -124,7 +129,6 @@ def not_implemented(self):
     self.stack.pop_op()
     return 'not implemented'
 
-
 def aload_0(self):
     """loads a reference from the data array onto stack"""
     self.stack.push_op(1)
@@ -203,6 +207,26 @@ def istore_2(self):
 def istore_3(self):
     """this function implements the istore_3 opcode"""
     self.local_array[3] = self.stack.pop_op()
+
+def lstore(self, index):
+    """implements the lstore opcode for 64 bit longs"""
+    self.local_array[index] = self.stack.pop_op(numpy.int64(pop_twice))
+
+def lstore_0(self):
+    """implements lstore_0 opcode, loads 64 bit long 0 into local array"""
+    self.local_array[0] = self.stack.pop_op(numpy.int64(pop_twice))
+
+def lstore_1(self):
+    """implements lstore_1 opcode, loads 64 bit long 1 into local array"""
+    self.local_array[1] = self.stack.pop_op(numpy.int64(pop_twice))
+
+def lstore_2(self):
+    """implements lstore_2 opcode, loads 64 bit long 2 into local array"""
+    self.local_array[2] = self.stack.pop_op(numpy.int64(pop_twice))
+
+def lstore_3(self):
+    """implements lstore_3 opcode, loads 64 bit long 3 into local array"""
+    self.local_array[3] = self.stack.pop_op(numpy.int64(pop_twice))
 
 def iinc(self):
     """this function implements the iinc opcode"""
