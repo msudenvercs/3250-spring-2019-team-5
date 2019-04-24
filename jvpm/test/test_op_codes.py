@@ -15,6 +15,7 @@ from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 from jvpm.jvm_stack import pop_twice, push_twice
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
+from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
 numpy.warnings.filterwarnings("ignore")
 
 
@@ -648,3 +649,51 @@ class TestOpCodes(unittest.TestCase):
         ops = OpCodes()
         fconst_2(ops)
         self.assertEqual(numpy.float32(2), ops.stack.pop_op())
+
+    def test_l2d(self):
+        """test l2d (long to double)"""
+        ops = OpCodes()
+        lconst_1(ops)
+        l2d(ops)
+        assert isinstance(ops.stack.peek(), numpy.float64)
+        self.assertEqual(numpy.float64(1), ops.stack.pop_op(pop_twice))
+
+    def test_l2f(self):
+        """test l2d (long to float)"""
+        ops = OpCodes()
+        lconst_1(ops)
+        l2f(ops)
+        assert isinstance(ops.stack.peek(), numpy.float32)
+        self.assertEqual(numpy.float32(1), ops.stack.pop_op())
+        
+    def test_l2i(self):
+        """test l2i (long to int)"""
+        ops = OpCodes()
+        lconst_1(ops)
+        l2i(ops)
+        assert isinstance(ops.stack.peek(), numpy.int)
+        self.assertEqual(numpy.int(1), ops.stack.pop_op())
+
+    def test_f2d(self):
+        """test f2d (float to double)"""
+        ops = OpCodes()
+        fconst_1(ops)
+        f2d(ops)
+        assert isinstance(ops.stack.peek(), numpy.float64)
+        self.assertEqual(numpy.float64(1), ops.stack.pop_op(pop_twice))
+
+    def test_f2i(self):
+        """test f2i (float to integer)"""
+        ops = OpCodes()
+        fconst_1(ops)
+        f2i(ops)
+        assert isinstance(ops.stack.peek(), numpy.int)
+        self.assertEqual(numpy.int(1), ops.stack.pop_op())
+
+    def test_f2l(self):
+        """test f2l (float to long)"""
+        ops = OpCodes()
+        fconst_1(ops)
+        f2l(ops)
+        assert isinstance(ops.stack.peek(), numpy.int64)
+        self.assertEqual(numpy.int64(1), ops.stack.pop_op(pop_twice))
