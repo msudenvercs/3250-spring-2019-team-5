@@ -210,23 +210,23 @@ def istore_3(self):
 
 def lstore(self, index):
     """implements the lstore opcode for 64 bit longs"""
-    self.local_array[index] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_array[index] = self.stack.pop_op(pop_twice)
 
 def lstore_0(self):
     """implements lstore_0 opcode, loads 64 bit long 0 into local array"""
-    self.local_long_array[0] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_array[0] = self.stack.pop_op(pop_twice)
 
 def lstore_1(self):
     """implements lstore_1 opcode, loads 64 bit long 1 into local array"""
-    self.local_array[1] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_array[1] = self.stack.pop_op(pop_twice)
 
 def lstore_2(self):
     """implements lstore_2 opcode, loads 64 bit long 2 into local array"""
-    self.local_array[2] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_array[2] = self.stack.pop_op(pop_twice)
 
 def lstore_3(self):
     """implements lstore_3 opcode, loads 64 bit long 3 into local array"""
-    self.local_array[3] = self.stack.pop_op(numpy.int64(pop_twice))
+    self.local_array[3] = self.stack.pop_op(pop_twice)
 
 def iinc(self):
     """this function implements the iinc opcode"""
