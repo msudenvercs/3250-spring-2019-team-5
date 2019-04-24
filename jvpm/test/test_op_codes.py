@@ -10,6 +10,7 @@ from jvpm.op_codes import iconst_3, iconst_4, iconst_5
 from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
 from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import lstore, lstore_0, lstore_1, lstore_2, lstore_3
+from jvpm.op_codes import fstore, fstore_0, fstore_1, fstore_2, fstore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
@@ -166,6 +167,18 @@ class TestOpCodes(unittest.TestCase):
             lstore(test, i)
             self.assertEqual(test.local_array[i], numpy.int64(i))
 
+    def test_fstore(self):
+        """tests the fstore method for 32 bit floats"""
+        test = OpCodes()
+        length = len(test.local_array)
+        test.stack.push_op(numpy.float32(3), push_twice)
+        test.stack.push_op(numpy.float32(2), push_twice)
+        test.stack.push_op(numpy.float32(1), push_twice)
+        test.stack.push_op(numpy.float32(0), push_twice)
+        for i in range(0, length):
+            lstore(test, i)
+            self.assertEqual(test.local_array[i], numpy.float32(i))
+
     def test_lstore_0(self):
         """tests the lstore_0 opcode for 64 bit longs"""
         test = OpCodes()
@@ -192,6 +205,34 @@ class TestOpCodes(unittest.TestCase):
         test = OpCodes()
         test.stack.push_op(numpy.int64(3), push_twice)
         lstore_3(test)
+        self.assertEqual(test.local_array[3], 3)
+
+    def test_fstore_0(self):
+        """tests the fstore_0 opcode for 32 bit floats"""
+        test = OpCodes()
+        test.stack.push_op(numpy.int64(0), push_twice)
+        lstore_0(test)
+        self.assertEqual(test.local_array[0], 0)
+
+    def test_fstore_1(self):
+        """tests the lstore_1 opcode for 32 bit floats"""
+        test = OpCodes()
+        test.stack.push_op(numpy.float32(1), push_twice)
+        fstore_1(test)
+        self.assertEqual(test.local_array[1], 1)
+
+    def test_fstore_2(self):
+        """tests the fstore_2 opcode for 32 bit floats"""
+        test = OpCodes()
+        test.stack.push_op(numpy.float32(2), push_twice)
+        fstore_2(test)
+        self.assertEqual(test.local_array[2], 2)
+
+    def test_fstore_3(self):
+        """tests the fstore_3 opcode for 32 bit floats"""
+        test = OpCodes()
+        test.stack.push_op(numpy.float32(3), push_twice)
+        fstore_3(test)
         self.assertEqual(test.local_array[3], 3)
 
     def test_iload(self):

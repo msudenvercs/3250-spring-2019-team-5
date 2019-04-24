@@ -38,10 +38,15 @@ class OpCodes():
                       0x3d: [istore_2, 1],
                       0x3e: [istore_3, 1],
                       0x37: [lstore, 1],
+                      0x38: [fstore, 1],
                       0x3f: [lstore_0, 1],
                       0x40: [lstore_1, 1],
                       0x41: [lstore_2, 1],
                       0x42: [lstore_3, 1],
+                      0x43: [fstore_0, 1],
+                      0x44: [fstore_1, 1],
+                      0x45: [fstore_2, 1],
+                      0x46: [fstore_3, 1],
                       0x84: [iinc, 3],
                       0xb7: [invokespecial, 3],
                       0x60: [iadd, 1],
@@ -220,6 +225,10 @@ def lstore(self, index):
     """implements the lstore opcode for 64 bit longs"""
     self.local_array[index] = self.stack.pop_op(pop_twice)
 
+def fstore(self, index):
+    """implements the fstore opcode for 32 bit floats"""
+    self.local_array[index] = numpy.int64(self.stack.pop_op(pop_twice))
+
 def lstore_0(self):
     """implements lstore_0 opcode, loads 64 bit long 0 into local array"""
     self.local_array[0] = self.stack.pop_op(pop_twice)
@@ -235,6 +244,22 @@ def lstore_2(self):
 def lstore_3(self):
     """implements lstore_3 opcode, loads 64 bit long 3 into local array"""
     self.local_array[3] = self.stack.pop_op(pop_twice)
+
+def fstore_0(self):
+    """implements the fstore_0 opcode for 32 bit floats"""
+    self.local_array[0] = numpy.float32(self.stack.pop_op(pop_twice))
+
+def fstore_1(self):
+    """implements the fstore_1 opcode for 32 bit floats"""
+    self.local_array[1] = numpy.float32(self.stack.pop_op(pop_twice))
+
+def fstore_2(self):
+    """implements the fstore_2 opcode for 32 bit floats"""
+    self.local_array[2] = numpy.float32(self.stack.pop_op(pop_twice))
+
+def fstore_3(self):
+    """implements the fstore_3 opcode for 32 bit floats"""
+    self.local_array[3] = numpy.float32(self.stack.pop_op(pop_twice))
 
 def iinc(self):
     """this function implements the iinc opcode"""
