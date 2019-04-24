@@ -481,3 +481,4 @@ def f2i(self):
 def f2l(self):
     """convert float to long"""
     self.stack.push_op(numpy.int64(self.stack.pop_op()), push_twice)
+
