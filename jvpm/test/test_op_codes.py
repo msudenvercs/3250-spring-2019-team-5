@@ -154,6 +154,18 @@ class TestOpCodes(unittest.TestCase):
         istore_3(test)
         self.assertEqual(test.local_array[3], 3)
 
+    def test_lstore(self):
+        """tests the lstore method for 64 bit longs"""
+        test = OpCodes()
+        length = len(test.local_array)
+        test.stack.push_op(numpy.int64(3), push_twice)
+        test.stack.push_op(numpy.int64(2), push_twice)
+        test.stack.push_op(numpy.int64(1), push_twice)
+        test.stack.push_op(numpy.int64(0), push_twice)
+        for i in range(0, length):
+            lstore(test, i)
+            self.assertEqual(test.local_array[i], numpy.int64(i))
+
     def test_lstore_0(self):
         """tests the lstore_0 opcode for 64 bit longs"""
         test = OpCodes()
