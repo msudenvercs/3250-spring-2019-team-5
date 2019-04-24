@@ -13,6 +13,7 @@ from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
 from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
 from jvpm.jvm_stack import pop_twice, push_twice
+from jvpm.op_codes import lload, lload_0, lload_1, lload_2, lload_3
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
@@ -422,6 +423,39 @@ class TestOpCodes(unittest.TestCase):
         dup(ops)
         self.assertEqual(ops.stack.pop_op(), 'foo')
         self.assertEqual(ops.stack.pop_op(), 'foo')
+
+    def test_lload(self):
+        """tests lload method"""
+        test = OpCodes()
+        #tests every load index from 0 to length
+        length = len(test.local_long_array)
+        for i in range(0, length):
+            lload(test, i)
+            self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[i])
+
+    def test_lload_0(self):
+        """tests iload_0 opcode"""
+        test = OpCodes()
+        lload_0(test)
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[0])
+
+    def test_lload_1(self):
+        """tests iload_1 opcode"""
+        test = OpCodes()
+        lload_1(test)
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[1])
+
+    def test_lload_2(self):
+        """tests iload_2 opcode"""
+        test = OpCodes()
+        lload_2(test)
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[2])
+
+    def test_lload_3(self):
+        """tests iload_3 opcode"""
+        test = OpCodes()
+        lload_3(test)
+        self.assertEqual(test.stack.pop_op(pop_twice), test.local_long_array[3])
 
     def test_lshl(self):
         """Test lshl (long shift left)"""

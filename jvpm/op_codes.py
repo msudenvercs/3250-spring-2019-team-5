@@ -14,6 +14,7 @@ class OpCodes():
     def __init__(self):
         """this is the constructor"""
         self.local_array = [0, 1, 2, 3]
+        self.local_long_array = [numpy.int64(2500000000), numpy.int64(2500000001), numpy.int64(2500000002), numpy.int64(2500000003)]
         with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
@@ -58,6 +59,11 @@ class OpCodes():
                       0x92: [i2c, 1],
                       0x87: [i2d, 1],
                       0x86: [i2f, 1],
+                      0x16: [lload, 1],
+                      0x1e: [lload_0, 1],
+                      0x1f: [lload_1, 1],
+                      0x20: [lload_2, 1],
+                      0x21: [lload_3, 1],
                       0x79: [lshl, 1],
                       0x7b: [lshr, 1],
                       0x7f: [land, 1],
@@ -367,6 +373,26 @@ def dup(self):
     dup_val = value
     self.stack.push_op(value)
     self.stack.push_op(dup_val)
+
+def lload(self, index):
+    """loads a long from local data array at <index> onto stack"""
+    self.stack.push_op(numpy.int64(self.local_long_array[index]), push_twice)
+
+def lload_0(self):
+    """loads a long from local data array at index 0 onto stack"""
+    self.stack.push_op(numpy.int64(self.local_long_array[0]), push_twice)
+
+def lload_1(self):
+    """loads a long from local data array at index 1 onto stack"""
+    self.stack.push_op(numpy.int64(self.local_long_array[1]), push_twice)
+
+def lload_2(self):
+    """loads a long from local data array at index 2 onto stack"""
+    self.stack.push_op(numpy.int64(self.local_long_array[2]), push_twice)
+
+def lload_3(self):
+    """loads a long from local data array at index 3 onto stack"""
+    self.stack.push_op(numpy.int64(self.local_long_array[3]), push_twice)
 
 def lshl(self):
     """pop a long and an int and shift the long bitwise left by the low 6 bits
