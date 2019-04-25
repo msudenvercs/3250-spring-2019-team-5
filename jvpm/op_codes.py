@@ -260,10 +260,9 @@ def fstore_3(self):
     """implements the fstore_3 opcode for 32 bit floats"""
     self.local_array[3] = numpy.float32(self.stack.pop_op(pop_twice))
 
-def iinc(self):
-    """this function implements the iinc opcode"""
-    self.stack.push_op(1)
-    self.stack.pop_op()
+def iinc(self, index, constant):
+    """implements iinc opcode, increments local variable at <index> by constant"""
+    self.local_array[index] += constant
 
 def iadd(self):
     """implements the iadd opcode"""

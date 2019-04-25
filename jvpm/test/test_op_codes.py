@@ -13,7 +13,7 @@ from jvpm.op_codes import lstore, lstore_0, lstore_1, lstore_2, lstore_3
 from jvpm.op_codes import fstore, fstore_0, fstore_1, fstore_2, fstore_3
 from jvpm.op_codes import iadd, isub, imul, idiv, irem
 from jvpm.op_codes import iand, ineg, ior, ixor, ishr, ishl, iushr
-from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s
+from jvpm.op_codes import i2b, i2c, i2d, i2f, i2l, i2s, iinc
 from jvpm.jvm_stack import pop_twice, push_twice
 from jvpm.op_codes import lload, lload_0, lload_1, lload_2, lload_3
 from jvpm.op_codes import fload, fload_0, fload_1, fload_2, fload_3
@@ -68,7 +68,7 @@ class TestOpCodes(unittest.TestCase):
         #                                          call('iconst_3'),
         #                                          call('iconst_m1'),
         #                                          call('idiv')])
-        
+
     def test_aload(self):
         """tests the aload opcode method"""
         test = OpCodes()
@@ -122,6 +122,27 @@ class TestOpCodes(unittest.TestCase):
         test = OpCodes()
         iconst_5(test)
         self.assertEqual(test.stack.peek(), 5)
+
+        """ def test_istore(self):
+            tests istore method
+        test = OpCodes()
+        length = len(test.local_array)
+        test.stack.push_op(3)
+        test.stack.push_op(2)
+        test.stack.push_op(1)
+        test.stack.push_op(0)
+        for i in range(0, length):
+            istore(test, i)
+            self.assertEqual(test.local_array[i], i)"""
+
+    def test_iinc(self):
+        """tests iinc method"""
+        test = OpCodes()
+        length = len(test.local_array)
+        for i in range(0, length):
+            iinc(test, i, i)
+            test.local_array[i] = i
+            self.assertEqual(test.local_array[i], i)
 
     def test_istore(self):
         """tests istore method"""
