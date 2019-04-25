@@ -44,6 +44,7 @@ class OpCodes():
                       0x46: [fstore_3, 1],
                       0x66: [fsub, 1],
                       0xb2: [getstatic, 3],
+                      0xbb: [new, 1],
                       0x91: [i2b, 1],
                       0x92: [i2c, 1],
                       0x87: [i2d, 1],

@@ -20,7 +20,7 @@ from jvpm.op_codes import fload, fload_0, fload_1, fload_2, fload_3
 from jvpm.op_codes import lshl, lshr, land, lcmp, lxor, fcmpg, fcmpl, fneg
 from jvpm.op_codes import lconst_0, lconst_1, fconst_0, fconst_1, fconst_2
 from jvpm.op_codes import l2d, l2f, l2i, f2d, f2i, f2l
-from jvpm.op_codes import fadd, fsub, fmul, fdiv, frem
+from jvpm.op_codes import fadd, fsub, fmul, fdiv, frem, new
 from jvpm.op_codes import ladd, lsub, lmul, ldiv, lrem
 numpy.warnings.filterwarnings("ignore")
 
@@ -122,18 +122,6 @@ class TestOpCodes(unittest.TestCase):
         test = OpCodes()
         iconst_5(test)
         self.assertEqual(test.stack.peek(), 5)
-
-        """ def test_istore(self):
-            tests istore method
-        test = OpCodes()
-        length = len(test.local_array)
-        test.stack.push_op(3)
-        test.stack.push_op(2)
-        test.stack.push_op(1)
-        test.stack.push_op(0)
-        for i in range(0, length):
-            istore(test, i)
-            self.assertEqual(test.local_array[i], i)"""
 
     def test_iinc(self):
         """tests iinc method"""
@@ -298,10 +286,15 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(test.stack.peek(), test.local_array[3])
 
     def test_mph1(self):
-        """a"""
+        """tests mph1 method"""
         self.assertEqual(1 + 1, 2)
         with self.assertRaises(KeyError):
             OpCodes().interpret(1)
+
+    def test_new(self):
+        """tests new method"""
+        test = OpCodes()
+        #new(test)
 
     def test_add_subtract(self):
         """tests the iadd and isub opcodes"""
