@@ -17,7 +17,7 @@ class OpCodes():
         with open('jvpm/OpsTest.class', 'rb') as binary_file:
             self.data = bytes(binary_file.read())
         #
-        self.table = {0x2a: [aload_0, 1],
+        self.table = {0x2a: [aload, 1],
                       0x59: [dup, 1],
                       0x8d: [f2d, 1],
                       0x8b: [f2i, 1],
@@ -142,10 +142,9 @@ def not_implemented(self):
     self.stack.pop_op()
     return 'not implemented'
 
-def aload_0(self):
-    """loads a reference from the data array onto stack"""
-    self.stack.push_op(1)
-    self.stack.pop_op()
+def aload(self, index):
+    """loads a reference onto stack from local variable array at <index>"""
+    self.stack.push_op(numpy.int32(self.local_array[index]))
 
 def iload(self, index):
     """loads an int from local data array at <index> onto stack"""

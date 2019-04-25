@@ -7,7 +7,7 @@ from jvpm.op_codes import OpCodes
 from jvpm.op_codes import dup
 from jvpm.op_codes import iconst_m1, iconst_0, iconst_1, iconst_2
 from jvpm.op_codes import iconst_3, iconst_4, iconst_5
-from jvpm.op_codes import iload, iload_0, iload_1, iload_2, iload_3
+from jvpm.op_codes import aload, iload, iload_0, iload_1, iload_2, iload_3
 from jvpm.op_codes import istore, istore_0, istore_1, istore_2, istore_3
 from jvpm.op_codes import lstore, lstore_0, lstore_1, lstore_2, lstore_3
 from jvpm.op_codes import fstore, fstore_0, fstore_1, fstore_2, fstore_3
@@ -68,6 +68,14 @@ class TestOpCodes(unittest.TestCase):
         #                                          call('iconst_3'),
         #                                          call('iconst_m1'),
         #                                          call('idiv')])
+        
+    def test_aload(self):
+        """tests the aload opcode method"""
+        test = OpCodes()
+        length = len(test.local_array)
+        for i in range(0, length):
+            aload(test, i)
+            self.assertEqual(test.stack.peek(), test.local_array[i])
 
     def test_not_implmented(self):
         """this method tests the OpCodes class"""
