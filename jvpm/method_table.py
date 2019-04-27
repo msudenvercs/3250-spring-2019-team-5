@@ -10,7 +10,7 @@ class MethodTable:
             "java/io/PrintStream.println(Ljava/lang/String;)V": println,
             "java/io/PrintStream.println(I)V": println,
             "java/util/Scanner.<init>(Ljava/io/InputStream;)V": scanner,
-            "java/util/Scanner.next_int()V": next_int}
+            "java/util/Scanner.nextInt()I": next_int}
 
     def call(self, op_codes, official_name):
         """calls a method from the table based on its name.

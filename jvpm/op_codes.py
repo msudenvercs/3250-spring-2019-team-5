@@ -44,7 +44,7 @@ class OpCodes():
                       0x46: [fstore_3, 1],
                       0x66: [fsub, 1],
                       0xb2: [getstatic, 3],
-                      0xbb: [new, 1],
+                      0xbb: [new, 3],
                       0x91: [i2b, 1],
                       0x92: [i2c, 1],
                       0x87: [i2d, 1],
@@ -424,9 +424,7 @@ def invokespecial(self):
 
 def new(self):
     """Find the constant representing the class to be instantiated, then STACK IT"""
-    addr1 = self.data[self.byte_count-2]
-    addr2 = self.data[self.byte_count-1]
-    new_constant = self.constant_pool.lookup_constant(addr1|addr2)
+    new_constant = self.constant_pool.lookup_constant(self.data[self.byte_count-2:self.byte_count])
     self.stack.push_op(new_constant)
 
 def dup(self):
