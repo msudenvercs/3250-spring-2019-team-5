@@ -270,7 +270,7 @@ class TestOpCodes(unittest.TestCase):
     def test_new(self):
         """tests new method"""
         test = ops.OpCodes()
-        #new(test)
+        #ops.new(test)
 
     def test_add_subtract(self):
         """tests the iadd and isub opcodes"""
@@ -446,7 +446,7 @@ class TestOpCodes(unittest.TestCase):
         self.assertEqual(test_op_codes.stack.pop_op(), 268435455)
 
     def test_i2b(self):
-        """Test conversion of integer to byte dawg"""
+        """Test conversion of integer to byte"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2b(test_op_codes)
