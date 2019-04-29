@@ -4,6 +4,7 @@ from unittest.mock import patch
 from jvpm.op_codes import OpCodes
 from jvpm.method_table import scanner, next_int
 
+
 class TestScanner(unittest.TestCase):
     """class to test the scanner"""
     def test_scanner(self):

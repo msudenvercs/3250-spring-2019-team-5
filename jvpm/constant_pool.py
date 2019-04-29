@@ -15,10 +15,10 @@ class ConstantPool:
             8: ConstantPool.load_string}
 
     def lookup_constant(self, index):
-        """Looks up a constant in the constant pool.
-Index is a string of two bytes that determines which entry in the constant pool will be returned.
-Let b1 and b2 be the bytes of index.
-Then, this method shall return the constant at index (b1<<8)+b2"""
+        """Looks up a constant in the constant pool. Index is a string of two
+        bytes that determines which entry in the constant pool will be returned
+        Let b1 and b2 be the bytes of index. Then, this method shall return the
+        constant at index (b1<<8)+b2"""
 # the index is an unsigned short in big-endian byte order
         numeric_index = struct.unpack(">H", index)[0]
         return self.constants[numeric_index]
@@ -37,19 +37,19 @@ the constant shall always be loaded on top of the stack"""
 
     def load_int(self, constant, stack):
         """loads an int onto the stack"""
-# integer constants are signed and big-endian.
+        # integer constants are signed and big-endian.
         decoded = struct.unpack(">i", constant[1:])[0]
         stack.push_op(decoded)
-#use self to make pylint happy
+        # use self to make pylint happy
         self.constants.append(1)
         self.constants.pop()
 
     def load_string(self, constant, stack):
         """loads a string onto the stack"""
-# first get the index of the actual utf-8 contents
+        # first get the index of the actual utf-8 contents
         string_index = constant[1:]
-# now get the actual contents at that index
+        # now get the actual contents at that index
         real_utf8 = self.lookup_constant(string_index)
-# now retrieve the actual string as before
+        # now retrieve the actual string as before
         decoded = real_utf8[3:].decode("utf-8")
         stack.push_op(decoded)

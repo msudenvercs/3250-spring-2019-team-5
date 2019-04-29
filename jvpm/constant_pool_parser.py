@@ -1,4 +1,4 @@
-"""This module will,  given the class file data,  parse out the constant pool"""
+"""This module will, given the class file data, parse out the constant pool"""
 
 
 from jvpm.constant_pool import ConstantPool
@@ -33,8 +33,8 @@ class ConstantPoolParser:
             18: 5}
 
     def get_single_constant(self):
-        """gets the appropriate number of bytes for 1 item of the constant pool depending on its
-tag"""
+        """gets the appropriate number of bytes for 1 item
+        of the constant pool depending on its tag"""
         tag = self.data[self.offset]
         result = None
 # if this is a utf-8 constant, then get the length and grab that many bytes.

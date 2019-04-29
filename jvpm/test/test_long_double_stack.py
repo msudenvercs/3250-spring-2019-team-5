@@ -1,6 +1,8 @@
 """test"""
 from unittest import TestCase
 from jvpm.jvm_stack import JvmStack, push_twice, pop_twice
+
+
 class TestDoublePushPop(TestCase):
     """test"""
     def test_double_stack_ops(self):

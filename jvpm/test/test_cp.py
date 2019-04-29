@@ -9,8 +9,9 @@ class TestCp(TestCase):
     def test_cp(self):
         """test constaant pool"""
         constant_pool = ConstantPoolParser(
-            b"abcdefgh\x00\x11\x03abcd\x04abcd\x05abcdefgh\x06abcdefgh\x07ab\x08ab" +
-            b"\x09abcd\x0aabcd\x0babcd\x0cabcd\x0fabc\x10ab\x12abcd\x01\x00\x0aabcdefghij")
+            b"abcdefgh\x00\x11\x03abcd\x04abcd\x05abcdefgh" +
+            b"\x06abcdefgh\x07ab\x08ab\x09abcd\x0aabcd\x0babcd" +
+            b"\x0cabcd\x0fabc\x10ab\x12abcd\x01\x00\x0aabcdefghij")
         self.assertEqual(constant_pool.get_single_constant(), b"\x03abcd")
         self.assertEqual(constant_pool.offset, 15)
         self.assertEqual(constant_pool.get_single_constant(), b"\x04abcd")

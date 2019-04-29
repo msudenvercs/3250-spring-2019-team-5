@@ -1,6 +1,8 @@
 """tests the filler method"""
 from unittest import TestCase
 from jvpm.method_table import MethodTable
+
+
 class TestMph3(TestCase):
     """tests the filler method"""
     def test_filler(self):

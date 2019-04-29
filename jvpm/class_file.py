@@ -1,4 +1,6 @@
 """this class reads in a class file and does some basic parsing"""
+
+
 class ClassFile():
     """this class reads in a class file and does some basic parsing"""
     def __init__(self, name):

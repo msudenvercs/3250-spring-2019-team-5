@@ -6,6 +6,7 @@ import numpy
 import jvpm.op_codes as ops
 numpy.warnings.filterwarnings("ignore")
 
+
 class TestOpCodes(unittest.TestCase):
     """this class tests the op_codes class"""
     @patch('builtins.print')
