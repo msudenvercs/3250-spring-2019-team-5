@@ -18,7 +18,7 @@ If the stack is empty, then this method raises an EmptyStackError
             return self.stack.pop()
         raise EmptyStackError("Can't pop from an empty stack")
     def pop_op(self, pop_strategy=lambda stack: stack.pop_helper()):
-        """This method modifies the original pop_op so that it can use different popping strategies"""
+        """Modifies the original pop_op so that it can use different popping strategies"""
         return pop_strategy(self)
     def peek(self):
         """returns the top element of the stack without popping it.
