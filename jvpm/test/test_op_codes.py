@@ -3,8 +3,8 @@
 import unittest
 from unittest.mock import patch, call
 import numpy
-numpy.warnings.filterwarnings("ignore")
 import jvpm.op_codes as ops
+numpy.warnings.filterwarnings("ignore")
 
 class TestOpCodes(unittest.TestCase):
     """this class tests the op_codes class"""
