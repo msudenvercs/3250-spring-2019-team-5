@@ -232,7 +232,7 @@ class TestOpCodes(unittest.TestCase):
     def test_iload(self):
         """tests iload method"""
         test = ops.OpCodes()
-        #tests every load index from 0 to length
+        # tests every load index from 0 to length
         for i in range(0, len(test.local_array)):
             ops.iload(test, i)
             self.assertEqual(test.stack.peek(), test.local_array[i])
@@ -270,7 +270,7 @@ class TestOpCodes(unittest.TestCase):
     def test_new(self):
         """tests new method"""
         test = ops.OpCodes()
-        #ops.new(test)
+        # ops.new(test)
 
     def test_add_subtract(self):
         """tests the iadd and isub opcodes"""
@@ -508,7 +508,7 @@ class TestOpCodes(unittest.TestCase):
     def test_lload(self):
         """tests lload method"""
         test = ops.OpCodes()
-        #tests every load index from 0 to length
+        # tests every load index from 0 to length
         for i in range(0, len(test.local_array)):
             ops.lload(test, i)
             self.assertEqual(test.stack.pop_op(ops.pop_twice), test.local_array[i])
@@ -739,7 +739,6 @@ class TestOpCodes(unittest.TestCase):
     def test_fload(self):
         """tests fload method"""
         test = ops.OpCodes()
-        #tests every load index from 0 to length
         for i in range(0, len(test.local_array)):
             ops.fload(test, i)
             self.assertEqual(test.stack.pop_op(), test.local_array[i])
