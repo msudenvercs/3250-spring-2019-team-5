@@ -1,14 +1,14 @@
-"""This module will, given the class file data, parse out the constant pool"""
+"""Parse out the constant pool, given the class file data."""
 
 
 from jvpm.constant_pool import ConstantPool
 
 
 class ConstantPoolParser:
-    """constant pool parser"""
+    """Constant pool parser."""
 
     def __init__(self, data):
-        """Constructor"""
+        """Construct a new instance of ConstantPoolParser"""
         self.data = data
 # compute the constant pool count since it is used later.
         self.count = (self.data[8] << 8) + self.data[9]
@@ -33,8 +33,8 @@ class ConstantPoolParser:
             18: 5}
 
     def get_single_constant(self):
-        """gets the appropriate number of bytes for 1 item
-        of the constant pool depending on its tag"""
+        """Get the appropriate number of bytes for 1 item
+        of the constant pool depending on its tag."""
         tag = self.data[self.offset]
         result = None
 # if this is a utf-8 constant, then get the length and grab that many bytes.
@@ -56,20 +56,20 @@ class ConstantPoolParser:
         return result
 
     def get_all_constants(self):
-        """gets count-1 constants from the constant pool,
-taking into account the fact that long and double take up 2 entries"""
-# constant pool entries start at index 1, so index 0 is filled with a
-# dummy value.
+        """Get count-1 constants from the constant pool,
+        taking into account the fact that long and double take up 2 entries."""
+        # constant pool entries start at index 1, so index 0 is filled with a
+        # dummy value.
         pool = [None]
-# We don't know how many constants there actually are,
-# so the pool shall be filled via the following algorithm:
-# 1. Does pool contain count entries?
-# 2. If so, exit
-# 3. If not, go to step 4.
-# 4. let tag = the first byte of the constant.
-# 5. append constant to pool.
-# 6. if tag is 5 or 6, then append a dummy value of none to the pool
-# 7. Go back to step 1.
+        # We don't know how many constants there actually are,
+        # so the pool shall be filled via the following algorithm:
+        # 1. Does pool contain count entries?
+        # 2. If so, exit
+        # 3. If not, go to step 4.
+        # 4. let tag = the first byte of the constant.
+        # 5. append constant to pool.
+        # 6. if tag is 5 or 6, then append a dummy value of none to the pool
+        # 7. Go back to step 1.
         while len(pool) != self.count:
             constant = self.get_single_constant()
             pool.append(constant)
@@ -79,5 +79,5 @@ taking into account the fact that long and double take up 2 entries"""
         return pool
 
     def make_constant_pool(self):
-        """makes a constant pool object"""
+        """Make a constant pool object."""
         return ConstantPool(self.get_all_constants())
