@@ -1,10 +1,13 @@
 """this is a test for op_codes"""
 # utilizes NumPy package to handle 32 bit int over/underflow in Java
+# Ignore too many public methods, unused mock patch, unused unittest call.
+# pylint: disable=R0904, W0613, W0611
 import unittest
 from unittest.mock import patch, call
 import numpy
 import jvpm.op_codes as ops
 numpy.warnings.filterwarnings("ignore")
+
 
 
 class TestOpCodes(unittest.TestCase):
@@ -270,7 +273,7 @@ class TestOpCodes(unittest.TestCase):
     def test_new(self):
         """tests new method"""
         test = ops.OpCodes()
-        # ops.new(test)
+        #ops.new(test)
 
     def test_add_subtract(self):
         """tests the iadd and isub opcodes"""
@@ -450,42 +453,42 @@ class TestOpCodes(unittest.TestCase):
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2b(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), numpy.int8)
+        self.assertIsInstance(test_op_codes.stack.peek(), numpy.int8)
 
     def test_i2c(self):
         """Test conversion of integer to byte"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(33)
         ops.i2c(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), str)
+        self.assertIsInstance(test_op_codes.stack.peek(), str)
 
     def test_i2d(self):
         """Test conversion of integer to double"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2d(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), numpy.float64)
+        self.assertIsInstance(test_op_codes.stack.peek(), numpy.float64)
 
     def test_i2f(self):
         """Test conversion of integer to float"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2f(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), numpy.float32)
+        self.assertIsInstance(test_op_codes.stack.peek(), numpy.float32)
 
     def test_i2l(self):
         """Test conversion of integer to long"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2l(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), numpy.int64)
+        self.assertIsInstance(test_op_codes.stack.peek(), numpy.int64)
 
     def test_i2s(self):
         """Test conversion of integer to short"""
         test_op_codes = ops.OpCodes()
         test_op_codes.stack.push_op(42)
         ops.i2s(test_op_codes)
-        assert isinstance(test_op_codes.stack.peek(), numpy.int16)
+        self.assertIsInstance(test_op_codes.stack.peek(), numpy.int16)
 
     def test_dup(self):
         """Test dup"""
@@ -511,7 +514,8 @@ class TestOpCodes(unittest.TestCase):
         # tests every load index from 0 to length
         for i in range(0, len(test.local_array)):
             ops.lload(test, i)
-            self.assertEqual(test.stack.pop_op(ops.pop_twice), test.local_array[i])
+            self.assertEqual(test.stack.pop_op
+                             (ops.pop_twice), test.local_array[i])
 
     def test_lload_0(self):
         """tests iload_0 opcode"""
@@ -544,13 +548,15 @@ class TestOpCodes(unittest.TestCase):
         test_op_codes.stack.push_op(2)
         ops.lshl(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(8))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(8))
 
         test_op_codes.stack.push_op(2, ops.push_twice)
         test_op_codes.stack.push_op(66)
         ops.lshl(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(8))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(8))
 
     def test_lshr(self):
         """Test lshr (long shift right)"""
@@ -559,20 +565,23 @@ class TestOpCodes(unittest.TestCase):
         test_op_codes.stack.push_op(3)
         ops.lshr(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(5))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(5))
 
         test_op_codes.stack.push_op(2, ops.push_twice)
         test_op_codes.stack.push_op(66)
         ops.lshr(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(0))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(0))
 
         test_op_codes.stack.push_op(-15, ops.push_twice)
         test_op_codes.stack.push_op(2)
 
         ops.lshr(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(-4))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(-4))
 
     def test_land(self):
         """Test land (logical bitwise long AND)"""
@@ -583,7 +592,8 @@ class TestOpCodes(unittest.TestCase):
         ops.i2l(test_op_codes)
         ops.land(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(2))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(2))
 
     def test_lcmp(self):
         """Test lcmp (compare 2 longs)"""
@@ -619,7 +629,8 @@ class TestOpCodes(unittest.TestCase):
         ops.i2l(test_op_codes)
         ops.lxor(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(1))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(1))
 
         test_op_codes.stack.push_op(-7)
         ops.i2l(test_op_codes)
@@ -627,7 +638,8 @@ class TestOpCodes(unittest.TestCase):
         ops.i2l(test_op_codes)
         ops.lxor(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(3))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(3))
 
         test_op_codes.stack.push_op(-7)
         ops.i2l(test_op_codes)
@@ -635,7 +647,8 @@ class TestOpCodes(unittest.TestCase):
         ops.i2l(test_op_codes)
         ops.lxor(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(test_op_codes.stack.pop_op(ops.pop_twice), numpy.int64(-1))
+        self.assertEqual(test_op_codes.stack.pop_op
+                         (ops.pop_twice), numpy.int64(-1))
 
     def test_fcmpg(self):
         """Test fcmpg (compare 2 floats)"""
@@ -715,7 +728,8 @@ class TestOpCodes(unittest.TestCase):
         test_op_codes.stack.push_op(1/7)
         ops.i2f(test_op_codes)
         ops.fneg(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), numpy.float32(-1/7))
+        self.assertEqual(test_op_codes.stack.pop_op(),
+                         numpy.float32(-1/7))
 
         test_op_codes.stack.push_op(float("inf"))
         ops.i2f(test_op_codes)
@@ -771,13 +785,15 @@ class TestOpCodes(unittest.TestCase):
         """test lconst_0 (pushes 0L to the stack)"""
         test_op_codes = ops.OpCodes()
         ops.lconst_0(test_op_codes)
-        self.assertEqual(numpy.int64(0), test_op_codes.stack.pop_op(ops.pop_twice))
+        self.assertEqual(numpy.int64(0),
+                         test_op_codes.stack.pop_op(ops.pop_twice))
 
     def test_lconst_1(self):
         """test lconst_1 (pushes 1L to the stack)"""
         test_op_codes = ops.OpCodes()
         ops.lconst_1(test_op_codes)
-        self.assertEqual(numpy.int64(1), test_op_codes.stack.pop_op(ops.pop_twice))
+        self.assertEqual(numpy.int64(1),
+                         test_op_codes.stack.pop_op(ops.pop_twice))
 
     def test_fconst_0(self):
         """test fconst_0 (pushes 0F to the stack)"""
@@ -803,7 +819,8 @@ class TestOpCodes(unittest.TestCase):
         ops.lconst_1(test_op_codes)
         ops.l2d(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.float64)
-        self.assertEqual(numpy.float64(1), test_op_codes.stack.pop_op(ops.pop_twice))
+        self.assertEqual(numpy.float64(1),
+                         test_op_codes.stack.pop_op(ops.pop_twice))
 
     def test_l2f(self):
         """test l2d (long to float)"""
@@ -827,7 +844,8 @@ class TestOpCodes(unittest.TestCase):
         ops.fconst_1(test_op_codes)
         ops.f2d(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.float64)
-        self.assertEqual(numpy.float64(1), test_op_codes.stack.pop_op(ops.pop_twice))
+        self.assertEqual(numpy.float64(1),
+                         test_op_codes.stack.pop_op(ops.pop_twice))
 
     def test_f2i(self):
         """test f2i (float to integer)"""
@@ -843,7 +861,8 @@ class TestOpCodes(unittest.TestCase):
         ops.fconst_1(test_op_codes)
         ops.f2l(test_op_codes)
         assert isinstance(test_op_codes.stack.peek(), numpy.int64)
-        self.assertEqual(numpy.int64(1), test_op_codes.stack.pop_op(ops.pop_twice))
+        self.assertEqual(numpy.int64(1),
+                         test_op_codes.stack.pop_op(ops.pop_twice))
 
     def test_fadd(self):
         """tests the fadd opcodes"""

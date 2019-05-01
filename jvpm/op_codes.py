@@ -114,11 +114,11 @@ class OpCodes():
         self.stack = JvmStack()
         self.constant_pool = []
         self.set_data(self.data)
-# initialize the method table
+        # initialize the method table
         self.nmt = MethodTable()
 
     def parse_codes(self, op_start):
-        """Searches the binary for only the opcodes we know are in it"""
+        """Search the binary for only the opcodes we know are in it."""
         self.byte_count = op_start
         while self.byte_count < len(self.data):
             if self.data[self.byte_count] in self.table.keys():
@@ -452,7 +452,8 @@ def ldc(self):
 def invokevirtual(self):
     """implements invokevirtual"""
     # look up the method to be invoked.
-    methodref = self.constant_pool.lookup_constant(self.data[self.byte_count - 2:self.byte_count])
+    methodref = self.constant_pool.lookup_constant(
+        self.data[self.byte_count - 2:self.byte_count])
     # get the name of the class for this method.
     classref = self.constant_pool.lookup_constant(methodref[1:3])
     utf8_index = classref[1:]
@@ -484,7 +485,8 @@ def invokespecial(self):
 def new(self):
     """Find the constant representing the
     class to be instantiated, then STACK IT"""
-    new_constant = self.constant_pool.lookup_constant(self.data[self.byte_count-2:self.byte_count])
+    new_constant = self.constant_pool.lookup_constant(
+        self.data[self.byte_count-2:self.byte_count])
     self.stack.push_op(new_constant)
 
 
