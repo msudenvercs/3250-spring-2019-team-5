@@ -11,6 +11,13 @@ install:
 
 script:
   - coverage run --omit=*test* -m unittest
-  
+  - coverage xml -i
+  - sonar-scanner
 after_success:
   - codecov
+  
+addons:
+  sonarcloud:
+    organization: "johnhshapiro-github" # the key of the org you chose at step #3
+    token:
+      secure: ${SONAR_TOKEN} # encrypted value of your token
