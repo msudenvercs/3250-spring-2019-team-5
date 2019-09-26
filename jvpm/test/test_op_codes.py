@@ -2,6 +2,7 @@
 # utilizes NumPy package to handle 32 bit int over/underflow in Java
 # Ignore too many public methods, unused mock patch, unused unittest call.
 # pylint: disable=R0904, W0613, W0611
+
 import unittest
 from unittest.mock import patch, call
 import numpy
@@ -403,36 +404,39 @@ class TestOpCodes(unittest.TestCase):
 
     def test_ishr(self):
         """ Test the ishr (Integer Arithmetic Shift Right) opcode """
-        test_op_codes = ops.OpCodes()
-        test_op_codes.stack.push_op(0)
-        test_op_codes.stack.push_op(0)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 0)
 
-        test_op_codes.stack.push_op(8)
-        test_op_codes.stack.push_op(3)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 1)
+        ops = OpCodes()
+        ops.stack.push_op(0)
+        ops.stack.push_op(0)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 0)
 
-        test_op_codes.stack.push_op(256)
-        test_op_codes.stack.push_op(6)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 4)
-        test_op_codes.stack.push_op(16)
-        test_op_codes.stack.push_op(3)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 2)
+        ops.stack.push_op(8)
+        ops.stack.push_op(3)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 1)
 
-        test_op_codes.stack.push_op(32)
-        test_op_codes.stack.push_op(2)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 8)
+        ops.stack.push_op(256)
+        ops.stack.push_op(6)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 4)
 
-        test_op_codes.stack.push_op(16)
-        test_op_codes.stack.push_op(2)
-        ops.ishr(test_op_codes)
-        self.assertEqual(test_op_codes.stack.pop_op(), 4)
+        ops.stack.push_op(16)
+        ops.stack.push_op(3)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 2)
 
+        ops.stack.push_op(32)
+        ops.stack.push_op(2)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 8)
+
+        ops.stack.push_op(16)
+        ops.stack.push_op(2)
+        ishr(ops)
+        self.assertEqual(ops.stack.pop_op(), 4)
+
+        
     def test_iushr(self):
         """ Test the iushr (Logical Shift Right) opcode """
         test_op_codes = ops.OpCodes()
